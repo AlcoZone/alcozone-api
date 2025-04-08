@@ -4,10 +4,10 @@ import com.alcozone.domain.classes.Revision;
 
 public class RevisionMapper {
     public static Revision toDomain(RevisionEntity revisionEntity) {
-        return new Revision(revisionEntity.getUuid(), revisionEntity.getName(), revisionEntity.getStatus());
+        return new Revision(revisionEntity.getUuid(), revisionEntity.getName());
     }
 
     public static RevisionEntity toEntity(Revision revision) {
-        return new RevisionEntity(revision.getUuid(), revision.getName(), revision.getStatus());
+        return new RevisionEntity(revision.getUuid(), revision.getName());
     }
 }

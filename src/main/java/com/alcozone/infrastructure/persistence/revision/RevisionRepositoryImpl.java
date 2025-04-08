@@ -11,9 +11,9 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
 
     @Override
     @Transactional
-    public Revision saveRevision(Revision revision) {
+    public RevisionEntity saveRevision(Revision revision) {
         RevisionEntity revisionEntity = RevisionMapper.toEntity(revision);
         persist(revisionEntity);
-        return revision;
+        return revisionEntity;
     }
 }

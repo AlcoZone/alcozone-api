@@ -1,6 +1,7 @@
 package com.alcozone.application.usecase.accident;
 
 import com.alcozone.application.service.AccidentService;
+import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.commons.csv.CSVFormat;
@@ -17,7 +18,7 @@ public class SaveAccidentsUseCase {
     @Inject
     AccidentService accidentService;
 
-    public void execute(InputStream csvFile) throws IOException {
+    public void execute(RevisionEntity revisionEntity, InputStream csvFile) throws IOException {
         String[] HEADERS = {"Fecha", "Hora", "Tipo", "SubTipo", "Reportado Por", "Alcaldia", "Colonia", "Latitud", "Longitud"};
         Reader reader = new InputStreamReader(csvFile);
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
@@ -29,6 +30,7 @@ public class SaveAccidentsUseCase {
 
         for (CSVRecord record : records) {
             accidentService.saveAccident(
+                    revisionEntity,
                     record.get("Fecha"),
                     record.get("Hora"),
                     record.get("Tipo"),

@@ -18,9 +18,8 @@ public class RevisionEntity {
     private int id;
     private String uuid;
     private String name;
-    private String status;
 
-    @OneToMany
+    @OneToMany(mappedBy = "revisionEntity")
     private List<AccidentEntity> accidents;
 
     @CreationTimestamp
@@ -30,9 +29,8 @@ public class RevisionEntity {
 
     public RevisionEntity() {}
 
-    public RevisionEntity(String uuid, String name, String status) {
+    public RevisionEntity(String uuid, String name) {
         this.uuid = uuid;
         this.name = name;
-        this.status = status;
     }
 }

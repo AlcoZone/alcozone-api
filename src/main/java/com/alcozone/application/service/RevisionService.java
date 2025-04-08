@@ -2,6 +2,7 @@ package com.alcozone.application.service;
 
 import com.alcozone.domain.classes.Revision;
 import com.alcozone.domain.repository.RevisionRepository;
+import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import jakarta.inject.Inject;
@@ -14,13 +15,11 @@ public class RevisionService {
     @Inject
     RevisionRepository revisionRepository;
 
-    public Revision saveRevision(String name){
+    public RevisionEntity saveRevision(String name){
         Revision revision = new Revision();
         revision.setUuid(UUID.randomUUID().toString());
         revision.setName(name);
-        revision.setStatus("PENDING");
 
-        revisionRepository.saveRevision(revision);
-        return revision;
+        return revisionRepository.saveRevision(revision);
     }
 }

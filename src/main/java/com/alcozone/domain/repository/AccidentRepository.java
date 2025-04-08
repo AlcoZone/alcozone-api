@@ -1,7 +1,11 @@
 package com.alcozone.domain.repository;
 
 import com.alcozone.domain.classes.Accident;
+import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
+
+import java.util.List;
 
 public interface AccidentRepository {
-    void saveAccident(Accident accident);
+    void saveAccident(Accident accident, RevisionEntity revisionEntity);
+    List<Accident> findByRevisionUuid(String revisionUuid);
 }

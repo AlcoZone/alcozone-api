@@ -1,7 +1,8 @@
 package com.alcozone.domain.repository;
 
 import com.alcozone.domain.classes.Revision;
+import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
 public interface RevisionRepository {
-    Revision saveRevision(Revision revision);
+    RevisionEntity saveRevision(Revision revision);
 }

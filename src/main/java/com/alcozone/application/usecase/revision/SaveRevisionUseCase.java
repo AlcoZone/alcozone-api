@@ -1,9 +1,9 @@
 package com.alcozone.application.usecase.revision;
 
 import com.alcozone.application.service.RevisionService;
+import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import com.alcozone.domain.classes.Revision;
 
 @ApplicationScoped
 public class SaveRevisionUseCase {
@@ -11,7 +11,7 @@ public class SaveRevisionUseCase {
     @Inject
     RevisionService revisionService;
 
-    public Revision execute(String name){
+    public RevisionEntity execute(String name){
         return revisionService.saveRevision(name);
     }
 }

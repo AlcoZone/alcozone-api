@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class Revision {
     private String uuid;
     private String name;
-    private String status;
 }

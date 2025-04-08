@@ -1,6 +1,5 @@
 package com.alcozone.infrastructure.persistence.accident;
 
-import com.alcozone.domain.classes.Revision;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -32,8 +31,8 @@ public class AccidentEntity {
     private Double longitude;
 
     @ManyToOne
-    @JoinColumn(name = "revision_id")
-    private RevisionEntity entity;
+    @JoinColumn(name = "revision_id", nullable = false)
+    private RevisionEntity revisionEntity;
 
     @CreationTimestamp
     private LocalDateTime created_at;
