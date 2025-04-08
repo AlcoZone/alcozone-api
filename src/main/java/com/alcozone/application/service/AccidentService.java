@@ -8,6 +8,7 @@ import java.util.UUID;
 @ApplicationScoped
 public class AccidentService {
 
+
     public Accident createAccident(String date, String hour, String town, String neighbourhood, String type, String subType, String reportedBy, Double latitude, Double longitude) {
         UUID uuid = UUID.randomUUID();
         return new Accident(
