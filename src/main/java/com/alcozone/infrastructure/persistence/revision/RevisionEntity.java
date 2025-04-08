@@ -1,11 +1,13 @@
 package com.alcozone.infrastructure.persistence.revision;
 
+import com.alcozone.infrastructure.persistence.accident.AccidentEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,6 +19,10 @@ public class RevisionEntity {
     private String uuid;
     private String name;
     private String status;
+
+    @OneToMany
+    private List<AccidentEntity> accidents;
+
     @CreationTimestamp
     private LocalDateTime created_at;
     @UpdateTimestamp

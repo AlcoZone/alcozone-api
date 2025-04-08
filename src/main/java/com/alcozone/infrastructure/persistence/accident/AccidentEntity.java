@@ -1,15 +1,21 @@
 package com.alcozone.infrastructure.persistence.accident;
 
+import com.alcozone.domain.classes.Revision;
+import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@Data
 @Entity
 @Table(name = "Accidents")
+@Data
+@Getter
+@Setter
 public class AccidentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +30,10 @@ public class AccidentEntity {
     private String neighbourhood;
     private Double latitude;
     private Double longitude;
+
+    @ManyToOne
+    @JoinColumn(name = "revision_id")
+    private RevisionEntity entity;
 
     @CreationTimestamp
     private LocalDateTime created_at;
