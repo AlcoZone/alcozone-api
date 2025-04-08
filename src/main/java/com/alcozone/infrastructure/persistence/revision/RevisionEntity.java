@@ -22,8 +22,7 @@ public class RevisionEntity {
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
-    public RevisionEntity() {
-    }
+    public RevisionEntity() {}
 
     public RevisionEntity(String uuid, String name, String status) {
         this.uuid = uuid;

@@ -1,7 +1,7 @@
 package com.alcozone.infrastructure.rest;
 
+import com.alcozone.application.usecase.accident.SaveAccidentsUseCase;
 import com.alcozone.application.usecase.revision.SaveRevisionUseCase;
-import com.alcozone.domain.Revision;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -20,9 +20,13 @@ public class RevisionController {
     @Inject
     SaveRevisionUseCase saveRevisionUseCase;
 
+    @Inject
+    SaveAccidentsUseCase saveAccidentsUseCase;
+
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public void saveRevision(@RestForm("name") String revisionName, @RestForm("file") InputStream csvFile) throws IOException {
-        Revision revision = saveRevisionUseCase.execute(revisionName);
+        //Revision revision = saveRevisionUseCase.execute(revisionName);
+        saveAccidentsUseCase.execute(csvFile);
     }
 }

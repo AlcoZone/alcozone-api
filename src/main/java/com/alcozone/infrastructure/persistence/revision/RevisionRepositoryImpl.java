@@ -1,6 +1,6 @@
 package com.alcozone.infrastructure.persistence.revision;
 
-import com.alcozone.domain.Revision;
+import com.alcozone.domain.classes.Revision;
 import com.alcozone.domain.repository.RevisionRepository;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;

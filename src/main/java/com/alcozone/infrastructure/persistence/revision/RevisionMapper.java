@@ -1,9 +1,8 @@
 package com.alcozone.infrastructure.persistence.revision;
 
-import com.alcozone.domain.Revision;
+import com.alcozone.domain.classes.Revision;
 
 public class RevisionMapper {
-
     public static Revision toDomain(RevisionEntity revisionEntity) {
         return new Revision(revisionEntity.getUuid(), revisionEntity.getName(), revisionEntity.getStatus());
     }
