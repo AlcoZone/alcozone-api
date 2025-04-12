@@ -1,4 +1,4 @@
-package com.alcozone.domain.classes;
+package com.alcozone.domain.models;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Accident {
+    private int Id;
     private String uuid;
     private String date;
     private String hour;

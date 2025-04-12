@@ -1,6 +1,6 @@
 package com.alcozone.infrastructure.persistence.accident;
 
-import com.alcozone.domain.classes.Accident;
+import com.alcozone.domain.models.Accident;
 import com.alcozone.domain.repository.AccidentRepository;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;

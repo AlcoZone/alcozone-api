@@ -1,6 +1,6 @@
 package com.alcozone.application.service;
 
-import com.alcozone.domain.classes.Revision;
+import com.alcozone.domain.models.Revision;
 import com.alcozone.domain.repository.RevisionRepository;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import jakarta.enterprise.context.ApplicationScoped;

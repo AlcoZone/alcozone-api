@@ -1,6 +1,6 @@
 package com.alcozone.infrastructure.persistence.revision;
 
-import com.alcozone.domain.classes.Revision;
+import com.alcozone.domain.models.Revision;
 import com.alcozone.domain.repository.RevisionRepository;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -13,7 +13,7 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
     @Transactional
     public RevisionEntity saveRevision(Revision revision) {
         RevisionEntity revisionEntity = RevisionMapper.toEntity(revision);
-        persist(revisionEntity);
+        revisionEntity.persist();
         return revisionEntity;
     }
 }

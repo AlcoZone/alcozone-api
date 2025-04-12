@@ -1,10 +1,11 @@
 package com.alcozone.infrastructure.persistence.accident;
 
-import com.alcozone.domain.classes.Accident;
+import com.alcozone.domain.models.Accident;
 
 public class AccidentMapper {
         public static Accident toDomain(AccidentEntity accidentEntity) {
         return new Accident(
+                accidentEntity.getId(),
                 accidentEntity.getUuid(),
                 accidentEntity.getDate(),
                 accidentEntity.getHour(),

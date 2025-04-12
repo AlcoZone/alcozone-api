@@ -1,6 +1,6 @@
 package com.alcozone.domain.repository;
 
-import com.alcozone.domain.classes.Accident;
+import com.alcozone.domain.models.Accident;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
 import java.util.List;

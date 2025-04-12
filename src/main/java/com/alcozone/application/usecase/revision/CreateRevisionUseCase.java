@@ -1,6 +1,8 @@
-package com.alcozone.application.usecase.accident;
+package com.alcozone.application.usecase.revision;
 
 import com.alcozone.application.service.AccidentService;
+import com.alcozone.application.service.RevisionService;
+import com.alcozone.infrastructure.dto.revision.CreatedRevisionResultDTO;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -13,12 +15,17 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 @ApplicationScoped
-public class SaveAccidentsUseCase {
+public class CreateRevisionUseCase {
+    //TODO Migrate HEADERS into other part
 
+    @Inject
+    RevisionService revisionService;
     @Inject
     AccidentService accidentService;
 
-    public void execute(RevisionEntity revisionEntity, InputStream csvFile) throws IOException {
+    public CreatedRevisionResultDTO execute(String name, InputStream csvFile) throws IOException {
+        RevisionEntity revisionEntity = revisionService.saveRevision(name);
+
         String[] HEADERS = {"Fecha", "Hora", "Tipo", "SubTipo", "Reportado Por", "Alcaldia", "Colonia", "Latitud", "Longitud"};
         Reader reader = new InputStreamReader(csvFile);
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
@@ -26,8 +33,8 @@ public class SaveAccidentsUseCase {
                 .setSkipHeaderRecord(true)
                 .build();
 
+        Integer accidents = 0;
         Iterable<CSVRecord> records = csvFormat.parse(reader);
-
         for (CSVRecord record : records) {
             accidentService.saveAccident(
                     revisionEntity,
@@ -41,6 +48,14 @@ public class SaveAccidentsUseCase {
                     Double.parseDouble(record.get("Latitud")),
                     Double.parseDouble(record.get("Longitud"))
             );
+            accidents++;
         }
+
+        CreatedRevisionResultDTO createdRevisionResultDTO = new CreatedRevisionResultDTO();
+        createdRevisionResultDTO.setUuid(revisionEntity.getUuid());
+        createdRevisionResultDTO.setName(revisionEntity.getName());
+        createdRevisionResultDTO.setAccidents(accidents);
+
+        return createdRevisionResultDTO;
     }
 }

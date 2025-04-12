@@ -1,7 +1,7 @@
 package com.alcozone.infrastructure.rest;
 
 import com.alcozone.application.usecase.accident.GetAccidentsByRevisionUuidUseCase;
-import com.alcozone.domain.classes.Accident;
+import com.alcozone.domain.models.Accident;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;

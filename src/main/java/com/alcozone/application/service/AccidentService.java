@@ -1,6 +1,6 @@
 package com.alcozone.application.service;
 
-import com.alcozone.domain.classes.Accident;
+import com.alcozone.domain.models.Accident;
 import com.alcozone.domain.repository.AccidentRepository;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import jakarta.enterprise.context.ApplicationScoped;
