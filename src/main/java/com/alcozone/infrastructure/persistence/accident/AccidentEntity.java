@@ -1,21 +1,25 @@
 package com.alcozone.infrastructure.persistence.accident;
 
-import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
+import java.time.LocalDateTime;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.*;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
 @Entity
 @Table(name = "Accidents")
-@Data
 @Getter
 @Setter
-public class AccidentEntity {
+@NoArgsConstructor
+@AllArgsConstructor
+public class AccidentEntity extends PanacheEntityBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -38,8 +42,6 @@ public class AccidentEntity {
     private LocalDateTime created_at;
     @UpdateTimestamp
     private LocalDateTime updated_at;
-
-    public AccidentEntity() {}
 
     public AccidentEntity(String uuid, String date, String hour, String type, String subType, String reportedBy, String town, String neighbourhood, Double latitude, Double longitude) {
         this.uuid = uuid;

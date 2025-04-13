@@ -1,25 +1,31 @@
 package com.alcozone.application.service;
 
+import java.util.UUID;
+
+import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+
 import com.alcozone.domain.models.Revision;
 import com.alcozone.domain.repository.RevisionRepository;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
-import jakarta.enterprise.context.ApplicationScoped;
-
-import jakarta.inject.Inject;
-
-import java.util.UUID;
 
 @ApplicationScoped
 public class RevisionService {
 
-    @Inject
-    RevisionRepository revisionRepository;
+    @Inject RevisionRepository revisionRepository;
 
-    public RevisionEntity saveRevision(String name){
+    public Revision getRevision(String uuid) {
+        return revisionRepository.getRevision(uuid);
+    }
+
+    public RevisionEntity getRevisionEntity(String uuid) {
+        return revisionRepository.getRevisionEntity(uuid);
+    }
+
+    public Revision saveRevision(String name){
         Revision revision = new Revision();
         revision.setUuid(UUID.randomUUID().toString());
         revision.setName(name);
-
         return revisionRepository.saveRevision(revision);
     }
 }

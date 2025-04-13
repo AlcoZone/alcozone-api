@@ -1,8 +1,10 @@
 package com.alcozone.domain.models;
 
+import java.util.List;
+
 import lombok.Data;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -11,4 +13,6 @@ public class Revision {
     private int id;
     private String uuid;
     private String name;
+
+    private List<Accident> accidents;
 }

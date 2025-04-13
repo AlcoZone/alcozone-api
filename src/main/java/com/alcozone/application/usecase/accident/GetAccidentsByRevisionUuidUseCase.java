@@ -1,18 +1,25 @@
 package com.alcozone.application.usecase.accident;
 
-import com.alcozone.application.service.AccidentService;
-import com.alcozone.domain.models.Accident;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-
 import java.util.List;
+
+import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+
+import com.alcozone.domain.models.Accident;
+import com.alcozone.application.service.AccidentService;
+import com.alcozone.infrastructure.dto.accident.DefaultAccidentsResponseDTO;
+
 
 @ApplicationScoped
 public class GetAccidentsByRevisionUuidUseCase {
-    @Inject
-    AccidentService accidentService;
+    @Inject AccidentService accidentService;
 
-    public List<Accident> execute(String name){
-        return accidentService.getAccidentsByRevisionUuid(name);
+    public DefaultAccidentsResponseDTO execute(String name){
+        List<Accident> accidents = accidentService.getAccidentsByRevisionUuid(name);
+
+        DefaultAccidentsResponseDTO dto = new DefaultAccidentsResponseDTO();
+        dto.setCount(accidents.size());
+        dto.setData(accidents);
+        return dto;
     }
 }

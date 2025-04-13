@@ -1,61 +1,59 @@
 package com.alcozone.application.usecase.revision;
 
-import com.alcozone.application.service.AccidentService;
-import com.alcozone.application.service.RevisionService;
-import com.alcozone.infrastructure.dto.revision.CreatedRevisionResultDTO;
-import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.List;
 import java.io.Reader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.stream.StreamSupport;
+
+import org.apache.commons.csv.CSVFormat;
+
+import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+
+import com.alcozone.domain.models.Accident;
+import com.alcozone.domain.models.Revision;
+import com.alcozone.application.service.RevisionService;
+import com.alcozone.infrastructure.persistence.accident.AccidentMapper;
+import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
+import com.alcozone.application.usecase.accident.CreateAccidentUseCase;
+import com.alcozone.infrastructure.dto.revision.CreateRevisionRequestDTO;
+import com.alcozone.infrastructure.dto.revision.DefaultRevisionResponseDTO;
+import com.alcozone.infrastructure.dto.accident.DefaultAccidentsResponseDTO;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class CreateRevisionUseCase {
-    //TODO Migrate HEADERS into other part
 
-    @Inject
-    RevisionService revisionService;
-    @Inject
-    AccidentService accidentService;
+    @ConfigProperty(name = "csv.headers")
+    String[] headers;
 
-    public CreatedRevisionResultDTO execute(String name, InputStream csvFile) throws IOException {
-        RevisionEntity revisionEntity = revisionService.saveRevision(name);
+    @Inject RevisionService revisionService;
+    @Inject CreateAccidentUseCase createAccidentUseCase;
 
-        String[] HEADERS = {"Fecha", "Hora", "Tipo", "SubTipo", "Reportado Por", "Alcaldia", "Colonia", "Latitud", "Longitud"};
-        Reader reader = new InputStreamReader(csvFile);
+    public DefaultRevisionResponseDTO execute(CreateRevisionRequestDTO requestDTO) throws IOException {
+        Revision revision = revisionService.saveRevision(requestDTO.getRevisionName());
+        RevisionEntity revisionEntity = revisionService.getRevisionEntity(revision.getUuid());
+
+        Reader reader = new InputStreamReader(requestDTO.getCsvFile());
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
-                .setHeader(HEADERS)
+                .setHeader(headers)
                 .setSkipHeaderRecord(true)
                 .build();
 
-        Integer accidents = 0;
-        Iterable<CSVRecord> records = csvFormat.parse(reader);
-        for (CSVRecord record : records) {
-            accidentService.saveAccident(
-                    revisionEntity,
-                    record.get("Fecha"),
-                    record.get("Hora"),
-                    record.get("Tipo"),
-                    record.get("SubTipo"),
-                    record.get("Reportado Por"),
-                    record.get("Alcaldia"),
-                    record.get("Colonia"),
-                    Double.parseDouble(record.get("Latitud")),
-                    Double.parseDouble(record.get("Longitud"))
-            );
-            accidents++;
-        }
+        List<Accident> accidents = StreamSupport.stream(csvFormat.parse(reader).spliterator(), true)
+            .map(record -> AccidentMapper.toCreateAccidentDTO(record, revisionEntity))
+            .map(createAccidentUseCase::execute)
+            .toList();
 
-        CreatedRevisionResultDTO createdRevisionResultDTO = new CreatedRevisionResultDTO();
-        createdRevisionResultDTO.setUuid(revisionEntity.getUuid());
-        createdRevisionResultDTO.setName(revisionEntity.getName());
-        createdRevisionResultDTO.setAccidents(accidents);
+        DefaultAccidentsResponseDTO wrapperDTO = new DefaultAccidentsResponseDTO();
+        wrapperDTO.setCount(accidents.size());
 
-        return createdRevisionResultDTO;
+        DefaultRevisionResponseDTO defaultRevisionResponseDTO = new DefaultRevisionResponseDTO();
+        defaultRevisionResponseDTO.setUuid(revisionEntity.getUuid());
+        defaultRevisionResponseDTO.setName(revisionEntity.getName());
+        defaultRevisionResponseDTO.setAccidents(wrapperDTO);
+
+        return defaultRevisionResponseDTO;
     }
 }
