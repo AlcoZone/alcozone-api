@@ -14,8 +14,8 @@ import com.alcozone.infrastructure.dto.accident.DefaultAccidentsResponseDTO;
 public class GetAccidentsByRevisionUuidUseCase {
     @Inject AccidentService accidentService;
 
-    public DefaultAccidentsResponseDTO execute(String name){
-        List<Accident> accidents = accidentService.getAccidentsByRevisionUuid(name);
+    public DefaultAccidentsResponseDTO execute(String uuid){
+        List<Accident> accidents = accidentService.getAccidentsByRevisionUuid(uuid);
 
         DefaultAccidentsResponseDTO dto = new DefaultAccidentsResponseDTO();
         dto.setCount(accidents.size());

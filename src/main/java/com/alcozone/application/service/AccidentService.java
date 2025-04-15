@@ -9,6 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import com.alcozone.domain.models.Accident;
 import com.alcozone.domain.repository.AccidentRepository;
 import com.alcozone.application.dto.accident.CreateAccidentDTO;
+//TODO Refactor -> Infra Layer
 
 @ApplicationScoped
 public class AccidentService {

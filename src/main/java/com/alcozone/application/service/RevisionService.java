@@ -1,10 +1,13 @@
 package com.alcozone.application.service;
 
-import java.util.UUID;
+import java.util.*;
+
+import com.alcozone.utils.DbscanRunner;
 
 import jakarta.inject.Inject;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import com.alcozone.domain.models.GeoPoint;
 import com.alcozone.domain.models.Revision;
 import com.alcozone.domain.repository.RevisionRepository;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
@@ -27,5 +30,9 @@ public class RevisionService {
         revision.setUuid(UUID.randomUUID().toString());
         revision.setName(name);
         return revisionRepository.saveRevision(revision);
+    }
+
+    public Map<Integer, List<GeoPoint>> clusterizeRevision(List<GeoPoint> crashes, double epsilonMeters, int minPoints) {
+        return DbscanRunner.generateClusters(crashes, epsilonMeters, minPoints);
     }
 }

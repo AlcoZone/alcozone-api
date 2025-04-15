@@ -1,4 +1,4 @@
-package com.alcozone.infrastructure.dto.revision;
+package com.alcozone.infrastructure.dto.revision.response;
 
 import lombok.Data;
 

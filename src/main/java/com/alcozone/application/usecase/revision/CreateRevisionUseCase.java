@@ -17,8 +17,8 @@ import com.alcozone.application.service.RevisionService;
 import com.alcozone.infrastructure.persistence.accident.AccidentMapper;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import com.alcozone.application.usecase.accident.CreateAccidentUseCase;
-import com.alcozone.infrastructure.dto.revision.CreateRevisionRequestDTO;
-import com.alcozone.infrastructure.dto.revision.DefaultRevisionResponseDTO;
+import com.alcozone.infrastructure.dto.revision.request.CreateRevisionRequestDTO;
+import com.alcozone.infrastructure.dto.revision.response.DefaultRevisionResponseDTO;
 import com.alcozone.infrastructure.dto.accident.DefaultAccidentsResponseDTO;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 

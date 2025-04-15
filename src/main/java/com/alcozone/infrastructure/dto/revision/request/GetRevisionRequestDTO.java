@@ -1,4 +1,4 @@
-package com.alcozone.infrastructure.dto.revision;
+package com.alcozone.infrastructure.dto.revision.request;
 
 import lombok.Getter;
 import lombok.Setter;

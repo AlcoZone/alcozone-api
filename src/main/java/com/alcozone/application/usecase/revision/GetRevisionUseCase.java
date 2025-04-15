@@ -5,8 +5,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import com.alcozone.domain.models.Revision;
 import com.alcozone.application.service.RevisionService;
-import com.alcozone.infrastructure.dto.revision.GetRevisionRequestDTO;
-import com.alcozone.infrastructure.dto.revision.DefaultRevisionResponseDTO;
+import com.alcozone.infrastructure.dto.revision.request.GetRevisionRequestDTO;
+import com.alcozone.infrastructure.dto.revision.response.DefaultRevisionResponseDTO;
 import com.alcozone.infrastructure.dto.accident.DefaultAccidentsResponseDTO;
 
 @ApplicationScoped
