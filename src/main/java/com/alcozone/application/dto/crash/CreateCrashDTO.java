@@ -8,8 +8,7 @@ import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 @Data
 public class CreateCrashDTO {
     private String uuid;
-    private String date;
-    private String hour;
+    private String datetime;
     private String type;
     private String subType;
     private String reportedBy;
@@ -21,8 +20,7 @@ public class CreateCrashDTO {
 
     public Crash toDomain() {
         Crash crash = new Crash();
-        crash.setDate(date);
-        crash.setHour(hour);
+        crash.setDatetime(datetime);
         crash.setType(type);
         crash.setSubType(subType);
         crash.setReportedBy(reportedBy);

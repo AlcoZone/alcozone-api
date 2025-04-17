@@ -2,13 +2,13 @@ package com.alcozone.utils;
 
 import smile.math.distance.Distance;
 
-import com.alcozone.domain.models.GeoPoint;
+import com.alcozone.domain.models.Crash;
 
-public class HaversineDistance implements Distance<GeoPoint> {
+public class HaversineDistance implements Distance<Crash> {
     private static final double EARTH_RADIUS = 6371e3;
 
     @Override
-    public double d(GeoPoint a, GeoPoint b) {
+    public double d(Crash a, Crash b) {
         double latitudePoint1 = Math.toRadians(a.getLatitude());
         double longitudePoint1 = Math.toRadians(a.getLongitude());
         double latitudePoint2 = Math.toRadians(b.getLatitude());
