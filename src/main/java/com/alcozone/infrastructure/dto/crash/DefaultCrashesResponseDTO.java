@@ -1,4 +1,4 @@
-package com.alcozone.infrastructure.dto.accident;
+package com.alcozone.infrastructure.dto.crash;
 
 import java.util.List;
 
@@ -6,11 +6,11 @@ import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import com.alcozone.domain.models.Accident;
+import com.alcozone.domain.models.Crash;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DefaultAccidentsResponseDTO {
+public class DefaultCrashesResponseDTO {
     private Integer count;
-    private List<Accident> data;
+    private List<Crash> data;
 }

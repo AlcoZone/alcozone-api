@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Accident {
+public class Crash {
     private int Id;
     private String uuid;
     private String date;

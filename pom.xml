@@ -71,6 +71,15 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-jdbc-mysql</artifactId>
         </dependency>
+        <dependency>
+          <groupId>com.github.haifengl</groupId>
+          <artifactId>smile-core</artifactId>
+          <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-hibernate-validator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

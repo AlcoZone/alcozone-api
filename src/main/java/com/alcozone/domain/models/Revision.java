@@ -14,5 +14,5 @@ public class Revision {
     private String uuid;
     private String name;
 
-    private List<Accident> accidents;
+    private List<Crash> crashes;
 }

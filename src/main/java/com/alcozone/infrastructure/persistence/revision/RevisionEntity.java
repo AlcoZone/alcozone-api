@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.alcozone.infrastructure.persistence.accident.AccidentEntity;
+import com.alcozone.infrastructure.persistence.crash.CrashEntity;
 
 @Entity
 @Table(name = "Revisions")
@@ -29,7 +29,7 @@ public class RevisionEntity extends PanacheEntityBase {
     private String name;
 
     @OneToMany(mappedBy = "revisionEntity")
-    private List<AccidentEntity> accidents;
+    private List<CrashEntity> crashes;
 
     @CreationTimestamp
     private LocalDateTime created_at;

@@ -1,4 +1,4 @@
-package com.alcozone.infrastructure.persistence.accident;
+package com.alcozone.infrastructure.persistence.crash;
 
 import java.time.LocalDateTime;
 
@@ -14,12 +14,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
 @Entity
-@Table(name = "Accidents")
+@Table(name = "Crashes")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccidentEntity extends PanacheEntityBase{
+public class CrashEntity extends PanacheEntityBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -43,7 +43,7 @@ public class AccidentEntity extends PanacheEntityBase{
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
-    public AccidentEntity(String uuid, String date, String hour, String type, String subType, String reportedBy, String town, String neighbourhood, Double latitude, Double longitude) {
+    public CrashEntity(String uuid, String date, String hour, String type, String subType, String reportedBy, String town, String neighbourhood, Double latitude, Double longitude) {
         this.uuid = uuid;
         this.date = date;
         this.hour = hour;
