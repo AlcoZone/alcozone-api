@@ -32,4 +32,9 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
         }
         return crashes;
     }
+
+    @Override
+    public List<Crash> getCrashesForClustering(String revisionUuid) {
+        return List.of();
+    }
 }

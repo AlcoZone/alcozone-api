@@ -16,7 +16,6 @@ import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
 @ApplicationScoped
 public class RevisionService {
-    //TODO Move all processing logic for Crashes to Revision
 
     @Inject RevisionRepository revisionRepository;
 
@@ -44,14 +43,17 @@ public class RevisionService {
     public List<Cluster> clusterizeRevision(List<Crash> crashes, double epsilonMeters, int minPoints){
         Map<Integer, List<Crash>> unprocessedClusters = DbscanRunner.generateClusters(crashes, epsilonMeters, minPoints);
 
-        return unprocessedClusters.entrySet().stream()
-            .map(entry -> new Cluster(entry.getKey(), calculateCentroid(entry.getValue())))
-            .toList();
+        return unprocessedClusters.values().stream()
+            .map(cluster -> {
+                Double[] centroid = calculateCentroid(cluster);
+                return new Cluster(centroid[0], centroid[1], cluster.size());
+            })
+        .toList();
     }
 
-    public Map<String, List<Roadblock>> predictRoadblocks(List<Crash> crashes, double epsilonMeters, int minPoints, int startHour, int endHour) {
+    public Map<String, List<Cluster>> predictRoadblocks(List<Crash> crashes, double epsilonMeters, int minPoints, int startHour, int endHour) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        Map<String, List<Roadblock>> roadblocksPerDay = new HashMap<>();
+        Map<String, List<Cluster>> roadblocksPerDay = new HashMap<>();
 
         for (DayOfWeek day : DayOfWeek.values()) {
             List<Crash> filtered = crashes.stream()
@@ -68,14 +70,13 @@ public class RevisionService {
 
             Map<Integer, List<Crash>> clusters = DbscanRunner.generateClusters(filtered, epsilonMeters, minPoints);
 
-            List<Roadblock> dailySummaries = new ArrayList<>();
+            List<Cluster> roadblocks = new ArrayList<>();
             for (List<Crash> clusterPoints : clusters.values()) {
-                double avgLat = clusterPoints.stream().mapToDouble(Crash::getLatitude).average().orElse(0);
-                double avgLon = clusterPoints.stream().mapToDouble(Crash::getLongitude).average().orElse(0);
-                dailySummaries.add(new Roadblock(avgLat, avgLon, clusterPoints.size()));
+                Double[] centroid = calculateCentroid(clusterPoints);
+                roadblocks.add(new Cluster(centroid[0], centroid[1], clusterPoints.size()));
             }
 
-            roadblocksPerDay.put(day.toString().toLowerCase(), dailySummaries);
+            roadblocksPerDay.put(day.toString().toLowerCase(), roadblocks);
         }
 
         return roadblocksPerDay;

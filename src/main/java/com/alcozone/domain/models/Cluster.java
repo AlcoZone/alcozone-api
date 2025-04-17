@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cluster {
-    //TODO New Cluster should have: latitude, longitude, count
-    private int id;
-    private Double[] centroid;
+    private Double latitude;
+    private Double longitude;
+    private int count;
 }
