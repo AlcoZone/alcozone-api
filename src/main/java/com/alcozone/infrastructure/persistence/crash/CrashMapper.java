@@ -11,8 +11,7 @@ public class CrashMapper {
         return new Crash(
                 crashEntity.getId(),
                 crashEntity.getUuid(),
-                crashEntity.getDate(),
-                crashEntity.getHour(),
+                crashEntity.getDatetime(),
                 crashEntity.getType(),
                 crashEntity.getSubType(),
                 crashEntity.getReportedBy(),
@@ -26,8 +25,7 @@ public class CrashMapper {
     public static CrashEntity toEntity(Crash crash) {
         return new CrashEntity(
                 crash.getUuid(),
-                crash.getDate(),
-                crash.getHour(),
+                crash.getDatetime(),
                 crash.getType(),
                 crash.getSubType(),
                 crash.getReportedBy(),
@@ -40,8 +38,7 @@ public class CrashMapper {
 
     public static CreateCrashDTO toCreateCrashDTO(CSVRecord record, RevisionEntity revisionEntity) {
         CreateCrashDTO dto = new CreateCrashDTO();
-        dto.setDate(record.get("Fecha"));
-        dto.setHour(record.get("Hora"));
+        dto.setDatetime(record.get("Fecha") + " " + record.get("Hora"));
         dto.setType(record.get("Tipo"));
         dto.setSubType(record.get("SubTipo"));
         dto.setReportedBy(record.get("Reportado Por"));

@@ -6,20 +6,20 @@ import jakarta.inject.Inject;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import com.alcozone.domain.models.Cluster;
+import com.alcozone.domain.models.Revision;
 import com.alcozone.application.service.RevisionService;
-import com.alcozone.application.usecase.crash.GenerateGeoPointsUseCase;
-import com.alcozone.infrastructure.dto.revision.response.ClusterizeRevisionResponseDTO;
 import com.alcozone.infrastructure.dto.revision.request.ClusterizeRevisionRequestDTO;
+import com.alcozone.infrastructure.dto.revision.response.ClusterizeRevisionResponseDTO;
 
 @ApplicationScoped
 public class ClusterizeRevisionUseCase {
 
     @Inject RevisionService revisionService;
-    @Inject GenerateGeoPointsUseCase generateGeoPointsUseCase;
 
     public ClusterizeRevisionResponseDTO execute(ClusterizeRevisionRequestDTO dto) {
+        Revision revision = revisionService.getRevision(dto.getUuid());
         List<Cluster> clusters = revisionService.clusterizeRevision(
-                generateGeoPointsUseCase.execute(dto.getUuid()),
+                revision.getCrashes(),
                 dto.getEpsilonMeters(),
                 dto.getMinCrashes()
         );

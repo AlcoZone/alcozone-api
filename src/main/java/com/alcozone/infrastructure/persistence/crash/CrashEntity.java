@@ -24,8 +24,7 @@ public class CrashEntity extends PanacheEntityBase{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String uuid;
-    private String date;
-    private String hour;
+    private String datetime;
     private String type;
     private String subType;
     private String reportedBy;
@@ -43,10 +42,9 @@ public class CrashEntity extends PanacheEntityBase{
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
-    public CrashEntity(String uuid, String date, String hour, String type, String subType, String reportedBy, String town, String neighbourhood, Double latitude, Double longitude) {
+    public CrashEntity(String uuid, String datetime, String type, String subType, String reportedBy, String town, String neighbourhood, Double latitude, Double longitude) {
         this.uuid = uuid;
-        this.date = date;
-        this.hour = hour;
+        this.datetime = datetime;
         this.type = type;
         this.subType = subType;
         this.reportedBy = reportedBy;

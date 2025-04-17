@@ -10,8 +10,7 @@ import lombok.AllArgsConstructor;
 public class Crash {
     private int Id;
     private String uuid;
-    private String date;
-    private String hour;
+    private String datetime;
     private String type;
     private String subType;
     private String reportedBy;
