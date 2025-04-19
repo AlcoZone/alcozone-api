@@ -38,6 +38,7 @@ nb-configuration.xml
 
 # Local environment
 .env
+src/main/resources/alcozone-e21b0-firebase-adminsdk-fbsvc-30bb64b4c3.json
 
 # Plugin directory
 /.quarkus/cli/plugins/
