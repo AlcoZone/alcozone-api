@@ -8,8 +8,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.FileInputStream;
 
-
-
 @ApplicationScoped
 @Startup
 public class FirebaseInitializer {

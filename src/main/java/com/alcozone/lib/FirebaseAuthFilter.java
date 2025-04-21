@@ -19,31 +19,31 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
-        String path = requestContext.getUriInfo().getPath();
-        if (path.contains("auth/login")) {
-            return;
-        }
-
-        String authHeader = requestContext.getHeaderString("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("Authorization header must be provided")
-                    .build());
-            return;
-        }
-        String token = authHeader.substring("Bearer".length()).trim();
-        try {
-            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-            requestContext.setProperty("userId", decodedToken.getUid());
-            System.out.println(decodedToken.getUid());
-        } catch (FirebaseAuthException e) {
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("Invalid token")
-                    .build());
-        } catch (Exception e) {
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("Invalid firebase token")
-                    .build());
-        }
+//        String path = requestContext.getUriInfo().getPath();
+//        if (path.contains("auth/login")) {
+//            return;
+//        }
+//
+//        String authHeader = requestContext.getHeaderString("Authorization");
+//        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+//            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+//                    .entity("Authorization header must be provided")
+//                    .build());
+//            return;
+//        }
+//        String token = authHeader.substring("Bearer".length()).trim();
+//        try {
+//            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
+//            requestContext.setProperty("userId", decodedToken.getUid());
+//            System.out.println(decodedToken.getUid());
+//        } catch (FirebaseAuthException e) {
+//            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+//                    .entity("Invalid token")
+//                    .build());
+//        } catch (Exception e) {
+//            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+//                    .entity("Invalid firebase token")
+//                    .build());
+//        }
     }
 }
