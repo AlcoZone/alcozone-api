@@ -10,11 +10,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class UserRepositoryImpl implements UserRepository {
 
     @Override
-    public User findByEmail(String email) {
-        UserEntity entity = UserEntity.find("email", email).firstResult();
-        if(entity == null) {
+    public User findUserByFireBaseId(String fireBaseId) {
+        UserEntity entity = UserEntity.find("uuid", fireBaseId).firstResult();
+        if (entity == null) {
             return null;
         }
         return UserMapper.toDomain(entity);
     }
 }
+
+
