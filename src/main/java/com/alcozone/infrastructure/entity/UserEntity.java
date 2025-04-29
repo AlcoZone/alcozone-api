@@ -21,12 +21,6 @@ public class UserEntity extends PanacheEntityBase {
     @Column(nullable = false, unique = true)
     private String uuid;
 
-    @Column(name = "username")
-    private String username;
-
-    @Column(name = "email")
-    private String email;
-
     @Column(name = "deleted")
     private boolean deleted;
 
@@ -37,6 +31,6 @@ public class UserEntity extends PanacheEntityBase {
     private LocalDateTime updatedAt;
 
     @OneToOne
-    @JoinColumn(name = "role_id") // FK hacia la tabla de roles
+    @JoinColumn(name = "role_id")
     private RoleEntity role;
 }

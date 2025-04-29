@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 public class User {
     private int id;
     private String uuid;
-    private String username;
-    private String email;
     private boolean deleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

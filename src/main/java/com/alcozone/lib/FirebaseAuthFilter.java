@@ -1,6 +1,7 @@
 package com.alcozone.lib;
 
 import com.alcozone.application.service.UserService;
+import com.alcozone.infrastructure.dto.user.UserDTO;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -12,6 +13,8 @@ import jakarta.ws.rs.ext.Provider;
 import javax.annotation.Priority;
 import jakarta.inject.Inject;
 
+import java.io.IOException;
+
 
 @Provider
 @Priority(Priorities.AUTHENTICATION)
@@ -21,10 +24,7 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
     UserService userService;
 
     @Override
-    public void filter(ContainerRequestContext requestContext) {
-        String path = requestContext.getUriInfo().getPath();
-        if (path.equals("auth/check")) return;
-
+    public void filter(ContainerRequestContext requestContext) throws IOException {
         String authHeader = requestContext.getHeaderString("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
@@ -39,8 +39,8 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
             String firebaseUid = decodedToken.getUid();
 
             // here I use the service
-            var user = userService.findUserByFirebaseUid(firebaseUid);
-            requestContext.setProperty("user", user);
+            UserDTO user = userService.findUserByFirebaseUid(firebaseUid);
+            requestContext.setProperty("userUuid", user.getUuid());
 
         } catch (FirebaseAuthException e) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)

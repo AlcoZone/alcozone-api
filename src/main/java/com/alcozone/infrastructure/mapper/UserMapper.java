@@ -10,8 +10,6 @@ public class UserMapper {
         User user = new User();
         user.setId(entity.getId());
         user.setUuid(entity.getUuid());
-        user.setUsername(entity.getUsername());
-        user.setEmail(entity.getEmail());
         user.setDeleted(entity.isDeleted());
         user.setCreatedAt(entity.getCreatedAt());
         user.setUpdatedAt(entity.getUpdatedAt());
@@ -23,8 +21,6 @@ public class UserMapper {
         UserEntity entity = new UserEntity();
         entity.setId(user.getId());
         entity.setUuid(user.getUuid());
-        entity.setUsername(user.getUsername());
-        entity.setEmail(user.getEmail());
         entity.setDeleted(user.isDeleted());
         entity.setCreatedAt(user.getCreatedAt());
         entity.setUpdatedAt(user.getUpdatedAt());
@@ -34,8 +30,6 @@ public class UserMapper {
 
     public static UserDTO toDTO(User user) {
         UserDTO dto = new UserDTO();
-        dto.setUsername(user.getUsername());
-        dto.setEmail(user.getEmail());
         dto.setRole(user.getRole().getName());
         return dto;
     }
