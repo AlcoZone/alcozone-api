@@ -17,17 +17,6 @@ public class UserMapper {
         return user;
     }
 
-    public static UserEntity toEntity(User user) {
-        UserEntity entity = new UserEntity();
-        entity.setId(user.getId());
-        entity.setUuid(user.getUuid());
-        entity.setDeleted(user.isDeleted());
-        entity.setCreatedAt(user.getCreatedAt());
-        entity.setUpdatedAt(user.getUpdatedAt());
-        entity.setRole(RoleMapper.toEntity(user.getRole()));
-        return entity;
-    }
-
     public static UserDTO toDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setRole(user.getRole().getName());

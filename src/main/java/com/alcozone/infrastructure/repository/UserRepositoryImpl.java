@@ -18,5 +18,3 @@ public class UserRepositoryImpl implements UserRepository {
         return UserMapper.toDomain(entity);
     }
 }
-
-
