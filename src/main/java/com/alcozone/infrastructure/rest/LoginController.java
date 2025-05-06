@@ -11,8 +11,6 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 @Path("/auth")
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginController {
-
-
     @GET
     @Path("/login")
     public Response me(@Context ContainerRequestContext ctx) {
