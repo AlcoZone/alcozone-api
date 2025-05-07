@@ -17,7 +17,7 @@ public class GenerateRoadblockPredictionUseCase {
     @Inject RevisionService revisionService;
 
     public Map<String, List<Cluster>> execute(){
-        Revision revision = revisionService.getRevision("ad2ce437-3d9b-4296-a266-530411e1dc83");
+        Revision revision = revisionService.getRevision("3e4c8076-3626-406f-8dd2-72d7e1103118");
         return revisionService.predictRoadblocks(revision.getCrashes(), 100, 3, 0, 23);
     }
 }
