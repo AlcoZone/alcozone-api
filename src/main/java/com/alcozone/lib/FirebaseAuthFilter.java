@@ -1,6 +1,7 @@
 package com.alcozone.lib;
 
 import com.alcozone.application.service.UserService;
+import com.alcozone.domain.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -39,13 +40,14 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token, true);
             String firebaseUid = decodedToken.getUid();
 
-            var user = userService.findUserByFirebaseUid(firebaseUid);
+            var user = userService.findByFirebaseUidRaw(firebaseUid);
             if (user == null) {
-                requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("User not found in local database")
-                        .build());
-                return;
+                User newUser = new User();
+                newUser.setUuid(firebaseUid);
+                userService.createUser(newUser);
             }
+
+
 
             requestContext.setProperty("userUuid", firebaseUid);
 

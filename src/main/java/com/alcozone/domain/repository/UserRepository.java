@@ -3,4 +3,5 @@ import com.alcozone.domain.model.User;
 
 public interface UserRepository {
     User findUserByFireBaseId(String fireBaseId);
+    void createUser(User user);
 }

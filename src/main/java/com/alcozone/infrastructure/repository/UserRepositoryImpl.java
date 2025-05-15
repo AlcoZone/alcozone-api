@@ -6,6 +6,7 @@ import com.alcozone.infrastructure.entity.UserEntity;
 import com.alcozone.infrastructure.mapper.UserMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 
+
 @ApplicationScoped
 public class UserRepositoryImpl implements UserRepository {
 
@@ -16,5 +17,11 @@ public class UserRepositoryImpl implements UserRepository {
             return null;
         }
         return UserMapper.toDomain(entity);
+    }
+
+    @Override
+    public void createUser(User user) {
+        UserEntity entity = UserMapper.toEntity(user);
+        entity.persist();
     }
 }
