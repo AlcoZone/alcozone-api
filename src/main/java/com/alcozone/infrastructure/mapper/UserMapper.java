@@ -17,8 +17,14 @@ public class UserMapper {
     public static UserEntity toEntity(User user) {
         UserEntity entity = new UserEntity();
         entity.setUuid(user.getUuid());
-        return entity;
+
+        if (user.getRole() != null) {
+            entity.setRole(RoleMapper.toEntity(user.getRole()));
+        }
+
+            return entity;
     }
+
 }
 
 

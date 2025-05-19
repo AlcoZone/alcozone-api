@@ -1,7 +1,8 @@
 package com.alcozone.lib;
-
 import com.alcozone.application.service.UserService;
+import com.alcozone.domain.model.Role;
 import com.alcozone.domain.model.User;
+import com.alcozone.domain.repository.RoleRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -24,6 +25,9 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
     @Inject
     UserService userService;
 
+    @Inject
+    RoleRepository roleRepository;
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         String authHeader = requestContext.getHeaderString("Authorization");
@@ -44,10 +48,15 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
             if (user == null) {
                 User newUser = new User();
                 newUser.setUuid(firebaseUid);
+
+                Role datavisualizerRole = roleRepository.findRoleById(1);
+                if (datavisualizerRole == null) {
+                    throw new IllegalStateException("No existe el rol datavisualizer (id=1)");
+                }
+                newUser.setRole(datavisualizerRole);
+
                 userService.createUser(newUser);
             }
-
-
 
             requestContext.setProperty("userUuid", firebaseUid);
 
