@@ -19,10 +19,17 @@ public class UserEntity extends PanacheEntityBase {
     private Integer id;
 
     @Column(nullable = false, unique = true)
+    public String username;
+
+
+    @Column(nullable = false, unique = true)
+    public String email;
+
+    @Column(nullable = false, unique = true)
     private String uuid;
 
     @Column(name = "deleted")
-    private boolean deleted;
+    public boolean deleted;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

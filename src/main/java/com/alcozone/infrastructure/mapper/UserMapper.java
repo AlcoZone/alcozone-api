@@ -9,6 +9,9 @@ public class UserMapper {
     public static User toDomain(UserEntity entity) {
         User user = new User();
         user.setId(entity.getId());
+        user.setUsername(entity.getUsername());
+
+        user.setEmail(entity.getEmail());
         user.setUuid(entity.getUuid());
         user.setDeleted(entity.isDeleted());
         user.setCreatedAt(entity.getCreatedAt());
@@ -22,6 +25,8 @@ public class UserMapper {
         dto.setRole(user.getRole().getName());
         return dto;
     }
+
+
 }
 
 
