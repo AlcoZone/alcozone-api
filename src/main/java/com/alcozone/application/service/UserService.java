@@ -2,10 +2,9 @@ package com.alcozone.application.service;
 
 import com.alcozone.domain.model.User;
 import com.alcozone.domain.repository.UserRepository;
-import com.alcozone.infrastructure.mapper.UserMapper;
-import com.alcozone.infrastructure.dto.user.UserDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class UserService {
@@ -13,11 +12,13 @@ public class UserService {
     @Inject
     UserRepository userRepository;
 
-    public UserDTO findUserByFirebaseUid(String firebaseUid) {
-        User user = userRepository.findUserByFireBaseId(firebaseUid);
-        if (user == null) {
-            throw new RuntimeException("User not found");
-        }
-        return UserMapper.toDTO(user);
+    public User findByFirebaseUidRaw(String firebaseUid) {
+        return userRepository.findUserByFireBaseId(firebaseUid);
+    }
+
+    @Transactional
+    public void createUser(User user) {
+        userRepository.createUser(user);
     }
 }
+

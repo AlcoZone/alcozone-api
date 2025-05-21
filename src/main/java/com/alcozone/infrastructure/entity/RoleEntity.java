@@ -18,10 +18,10 @@ public class RoleEntity extends PanacheEntityBase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name="uuid",nullable = false, unique = true)
     private String uuid;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "name",nullable = false, unique = true)
     private String name;
 
     @Column(name = "created_at", nullable = false)

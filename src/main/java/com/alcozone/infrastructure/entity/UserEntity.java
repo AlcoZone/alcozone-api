@@ -24,7 +24,7 @@ public class UserEntity extends PanacheEntityBase {
     @Column(name = "deleted")
     private boolean deleted;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
@@ -33,4 +33,9 @@ public class UserEntity extends PanacheEntityBase {
     @OneToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;
+
+    @PrePersist
+    public void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }
