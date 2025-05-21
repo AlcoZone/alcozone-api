@@ -20,8 +20,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void createUser(User user) {
+    public User createUser(User user) {
         UserEntity entity = UserMapper.toEntity(user);
         entity.persist();
+        return user;
     }
 }
