@@ -37,4 +37,13 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
     public List<Crash> getCrashesForClustering(String revisionUuid) {
         return List.of();
     }
+
+    @Override
+    public List<Crash> findCrashesByTown(String town) {
+        List<Crash> crashes = new ArrayList<>();
+        for(CrashEntity crashEntity : list("town", town)){
+            crashes.add(CrashMapper.toDomain(crashEntity));
+        }
+        return crashes;
+    }
 }

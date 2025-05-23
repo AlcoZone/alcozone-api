@@ -1,5 +1,6 @@
 package com.alcozone.infrastructure.rest;
 
+import com.alcozone.application.usecase.crash.GetCrashesByTownUseCase;
 import jakarta.ws.rs.*;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
@@ -15,8 +16,12 @@ public class CrashController {
     @Inject
     GetCrashesByRevisionUuidUseCase getCrashesByRevisionUuidUseCase;
 
+    @Inject
+    GetCrashesByTownUseCase getCrashesByTownUseCase;
+
     @GET
-    public Response getCrashesByRevisionUuid(@QueryParam("revision") String uuid) {
-        return Response.ok(getCrashesByRevisionUuidUseCase.execute(uuid)).build();
+    public Response getCrashesByTown(@QueryParam("town") String town){
+        return Response.ok(getCrashesByTownUseCase.execute(town)).build();
     }
+
 }
