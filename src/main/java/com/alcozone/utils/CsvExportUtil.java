@@ -24,9 +24,9 @@ public class CsvExportUtil {
         List<Crash> crashes = revision.getCrashes().getData();
 
         for (Crash c : crashes) {
-            String[] fechaHora = c.getDatetime() != null ? c.getDatetime().split(" ") : new String[]{"", ""};
-            String fecha = fechaHora.length > 0 ? fechaHora[0] : "";
-            String hora = fechaHora.length > 1 ? fechaHora[1] : "";
+            String[] datehour = c.getDatetime() != null ? c.getDatetime().split(" ") : new String[]{"", ""};
+            String fecha = datehour.length > 0 ? datehour[0] : "";
+            String hora = datehour.length > 1 ? datehour[1] : "";
 
             sb.append(String.format(
                     "%s,%s,%s,%s,%s,%s,%s,%f,%f\n",
