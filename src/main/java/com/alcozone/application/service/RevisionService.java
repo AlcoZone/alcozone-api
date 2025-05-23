@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.alcozone.domain.models.*;
 import com.alcozone.infrastructure.dto.revision.response.RevisionListItemDTO;
+import com.alcozone.infrastructure.persistence.revision.RevisionMapper;
 import com.alcozone.utils.DbscanRunner;
 
 import jakarta.inject.Inject;
@@ -54,14 +55,7 @@ public class RevisionService {
     }
 
     public List<RevisionListItemDTO> getAllRevisions() {
-        return revisionRepository.getAllRevisions().stream().map(rev -> {
-            RevisionListItemDTO dto = new RevisionListItemDTO();
-            dto.setUuid(rev.getUuid());
-            dto.setName(rev.getName());
-            dto.setDate(rev.getCreated_at().toLocalDate().toString()); // convierte a YYYY-MM-DD
-            dto.setDataQuantity(rev.getCrashes() != null ? rev.getCrashes().size() : 0);
-            return dto;
-        }).collect(Collectors.toList());
+        return RevisionMapper.toListItemDTOList(revisionRepository.getAllRevisions());
     }
 
     public Map<String, List<Cluster>> predictRoadblocks(List<Crash> crashes, double epsilonMeters, int minPoints, int startHour, int endHour) {
