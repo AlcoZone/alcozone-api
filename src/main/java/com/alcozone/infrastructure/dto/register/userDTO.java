@@ -1,23 +1,19 @@
-package com.alcozone.domain.model;
+package com.alcozone.infrastructure.dto.register;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-    private int id;
+public class userDTO {
     private String uuid;
-    private boolean deleted;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private Role role;
+    private Integer role_id;
     private String username;
     private String password;
     private String email;
+    private String role;
 }

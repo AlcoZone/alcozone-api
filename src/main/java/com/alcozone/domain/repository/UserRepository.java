@@ -1,7 +1,12 @@
 package com.alcozone.domain.repository;
 import com.alcozone.domain.model.User;
 
+import java.util.List;
+
 public interface UserRepository {
     User findUserByFireBaseId(String fireBaseId);
     User createUser(User user);
+    User save(User user, int roleId);
+
+    List<User> findAll();
 }
