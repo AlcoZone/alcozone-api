@@ -32,7 +32,7 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-       /* String authHeader = requestContext.getHeaderString("Authorization");
+        String authHeader = requestContext.getHeaderString("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
@@ -66,6 +66,6 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
                     .entity("Invalid token")
                     .build());
-        }*/
+        }
     }
 }
