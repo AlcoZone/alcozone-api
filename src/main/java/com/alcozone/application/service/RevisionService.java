@@ -1,8 +1,5 @@
 package com.alcozone.application.service;
 
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.alcozone.domain.models.*;
@@ -49,36 +46,5 @@ public class RevisionService {
                 return new Cluster(centroid[0], centroid[1], cluster.size());
             })
         .toList();
-    }
-
-    public Map<String, List<Cluster>> predictRoadblocks(List<Crash> crashes, double epsilonMeters, int minPoints, int startHour, int endHour) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        Map<String, List<Cluster>> roadblocksPerDay = new HashMap<>();
-
-        for (DayOfWeek day : DayOfWeek.values()) {
-            List<Crash> filtered = crashes.stream()
-                    .map(point -> new AbstractMap.SimpleEntry<>(point, LocalDateTime.parse(point.getDatetime(), formatter)))
-                    .filter(entry -> entry.getValue().getDayOfWeek() == day)
-                    .filter(entry -> {
-                        int hour = entry.getValue().getHour();
-                        return hour >= startHour && hour <= endHour;
-                    })
-                    .map(Map.Entry::getKey)
-                    .toList();
-
-            if (filtered.size() < minPoints) continue;
-
-            Map<Integer, List<Crash>> clusters = DbscanRunner.generateClusters(filtered, epsilonMeters, minPoints);
-
-            List<Cluster> roadblocks = new ArrayList<>();
-            for (List<Crash> clusterPoints : clusters.values()) {
-                Double[] centroid = calculateCentroid(clusterPoints);
-                roadblocks.add(new Cluster(centroid[0], centroid[1], clusterPoints.size()));
-            }
-
-            roadblocksPerDay.put(day.toString().toLowerCase(), roadblocks);
-        }
-
-        return roadblocksPerDay;
     }
 }
