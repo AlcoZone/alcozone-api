@@ -31,6 +31,12 @@ public class UserEntity extends PanacheEntityBase {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "email")
+    private String email;
+
     @OneToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;

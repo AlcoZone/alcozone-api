@@ -10,6 +10,7 @@ public class UserMapper {
         User user = new User();
         user.setId(entity.getId());
         user.setUuid(entity.getUuid());
+        user.setEmail(entity.getEmail());
         user.setDeleted(entity.isDeleted());
         user.setCreatedAt(entity.getCreatedAt());
         user.setUpdatedAt(entity.getUpdatedAt());

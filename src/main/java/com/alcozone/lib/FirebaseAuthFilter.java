@@ -48,8 +48,11 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
             var user = userService.findByFirebaseUidRaw(firebaseUid);
             if (user == null) {
+                System.out.println("[DEBUG] UID: " + firebaseUid);
+                System.out.println("[DEBUG] Email desde token: " + decodedToken.getEmail());
                 User newUser = new User();
                 newUser.setUuid(firebaseUid);
+                newUser.setEmail(decodedToken.getEmail());
 
                 Role datavisualizerRole = roleRepository.findRoleById(RoleType.DATA_VISUALIZER.getId());
                 if (datavisualizerRole == null) {

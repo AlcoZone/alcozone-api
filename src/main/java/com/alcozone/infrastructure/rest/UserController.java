@@ -28,7 +28,6 @@ public class UserController {
 
     @GET
     public Response getUser(@Context ContainerRequestContext requestContext) {
-        // Recupera el uuid que puso el filtro en la request
         String uuid = (String) requestContext.getProperty("userUuid");
         if (uuid == null) {
             return Response.status(Response.Status.UNAUTHORIZED)
@@ -44,7 +43,7 @@ public class UserController {
         }
 
         Integer roleId = user.getRole() != null ? user.getRole().getId() : null;
-        UserDTO dto = new UserDTO(user.getUuid(), roleId);
+        UserDTO dto = new UserDTO(user.getUuid(), roleId, user.getEmail());
 
         return Response.ok(dto).build();
     }
