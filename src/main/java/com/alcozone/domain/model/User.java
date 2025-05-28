@@ -19,4 +19,7 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Role role;
+    private String username;
+    private String password;
+    private String email;
 }
