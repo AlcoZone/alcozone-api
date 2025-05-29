@@ -29,7 +29,7 @@ public class UserEntity extends PanacheEntityBase {
     private String uuid;
 
     @Column(name = "deleted")
-    public boolean deleted;
+    private boolean deleted;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;

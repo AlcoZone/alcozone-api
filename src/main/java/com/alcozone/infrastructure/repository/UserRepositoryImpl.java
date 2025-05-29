@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
             return null;
         }
 
-        entity.deleted = true;
+        entity.setDeleted(true);
         return UserMapper.toDomain(entity);
     }
 }

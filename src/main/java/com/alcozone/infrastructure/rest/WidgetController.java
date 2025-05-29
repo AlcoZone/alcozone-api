@@ -7,10 +7,12 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
 @Path("/widgets")
+@Produces(MediaType.APPLICATION_JSON)
 public class WidgetController {
 
     @Inject
@@ -28,47 +30,45 @@ public class WidgetController {
     @Inject
     DangerousTownMonthUseCase dangerousTownMonthUseCase;
 
-
-    //porcentaje de accidentes
+    // porcentaje de accidentes
     @GET
     @Path("/accidents-percentage")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<AccidentPercentageDTO> getAccidentsPercentage() {
-        return accidentPercentageUseCase.getAccidentPercentage();
+    public Response getAccidentsPercentage() {
+        List<AccidentPercentageDTO> result = accidentPercentageUseCase.getAccidentPercentage();
+        return Response.ok(result).build();
     }
 
-    //número de accidentes
+    // número de accidentes
     @GET
     @Path("/accidents-count")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<AccidentNumberDTO> getAccidentsNumber() {
-        return accidentNumberUseCase.getAccidentsNumber();
-
+    public Response getAccidentsNumber() {
+        List<AccidentNumberDTO> result = accidentNumberUseCase.getAccidentsNumber();
+        return Response.ok(result).build();
     }
 
-    //delegaciones más peligrosas
+    // delegaciones más peligrosas
     @GET
     @Path("/dangerous-town")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<DangerousTownDTO> getDangerousTown() {
-        return dangerousTownUseCase.getDangerousTown();
+    public Response getDangerousTown() {
+        List<DangerousTownDTO> result = dangerousTownUseCase.getDangerousTown();
+        return Response.ok(result).build();
     }
 
-    //accidentes mensuales
+    // accidentes mensuales
     @GET
     @Path("/monthly-accidents")
-    public List<MonthlyAccidentsDTO> getMonthlyAccident() {
-        return monthlyAccidentUseCase.getMonthlyAccident();
+    public Response getMonthlyAccident() {
+        List<MonthlyAccidentsDTO> result = monthlyAccidentUseCase.getMonthlyAccident();
+        return Response.ok(result).build();
     }
 
-    //delegaciones peligrosas por mes
+    // delegaciones peligrosas por mes
     @GET
     @Path("/dangerous-town-month")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<DangerousTownMonthDTO> getDangerousTownMonth() {
-        return dangerousTownMonthUseCase.getDangerousTownMonth();
+    public Response getDangerousTownMonth() {
+        List<DangerousTownMonthDTO> result = dangerousTownMonthUseCase.getDangerousTownMonth();
+        return Response.ok(result).build();
     }
-
-
 }
+
 
