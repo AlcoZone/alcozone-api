@@ -1,7 +1,6 @@
 package com.alcozone.infrastructure.mapper;
 
 import com.alcozone.domain.model.User;
-import com.alcozone.infrastructure.dto.user.UserDTO;
 import com.alcozone.infrastructure.entity.UserEntity;
 
 public class UserMapper {
@@ -16,17 +15,18 @@ public class UserMapper {
         user.setDeleted(entity.isDeleted());
         user.setCreatedAt(entity.getCreatedAt());
         user.setUpdatedAt(entity.getUpdatedAt());
-        user.setRole(RoleMapper.toDomain(entity.getRole()));
+        if (entity.getRole() != null) {
+            user.setRole(RoleMapper.toDomain(entity.getRole()));
+        }
         return user;
     }
 
-    public static UserDTO toDTO(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setRole(user.getRole().getName());
-        return dto;
+    public static UserEntity toEntity(User user) {
+        UserEntity entity = new UserEntity();
+        entity.setUuid(user.getUuid());
+        if (user.getRole() != null) {
+            entity.setRole(RoleMapper.toEntity(user.getRole()));
+        }
+        return entity;
     }
-
-
 }
-
-

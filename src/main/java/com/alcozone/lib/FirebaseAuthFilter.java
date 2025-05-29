@@ -1,13 +1,22 @@
 package com.alcozone.lib;
 
 import com.alcozone.application.service.UserService;
-import io.smallrye.common.annotation.Blocking;
+import com.alcozone.domain.model.Role;
+import com.alcozone.domain.model.User;
+import com.alcozone.domain.repository.RoleRepository;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
+
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.ext.Provider;
 import jakarta.annotation.Priority;
+import com.alcozone.domain.model.RoleType;
+
+import io.smallrye.common.annotation.Blocking;
 
 import java.io.IOException;
 
@@ -19,9 +28,12 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
     @Inject
     UserService userService;
 
+    @Inject
+    RoleRepository roleRepository;
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        /*String authHeader = requestContext.getHeaderString("Authorization");
+        String authHeader = requestContext.getHeaderString("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
@@ -35,12 +47,18 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token, true);
             String firebaseUid = decodedToken.getUid();
 
-            var user = userService.findUserByFirebaseUid(firebaseUid);
+            var user = userService.findByFirebaseUidRaw(firebaseUid);
             if (user == null) {
-                requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                        .entity("User not found in local database")
-                        .build());
-                return;
+                User newUser = new User();
+                newUser.setUuid(firebaseUid);
+
+                Role datavisualizerRole = roleRepository.findRoleById(RoleType.DATA_VISUALIZER.getId());
+                if (datavisualizerRole == null) {
+                    throw new IllegalStateException("No existe el rol datavisualizer (id=3)");
+                }
+                newUser.setRole(datavisualizerRole);
+
+                userService.createUser(newUser);
             }
 
             requestContext.setProperty("userUuid", firebaseUid);
@@ -49,6 +67,6 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
                     .entity("Invalid token")
                     .build());
-        }*/
+        }
     }
 }

@@ -7,6 +7,7 @@ import com.google.firebase.auth.UserRecord;
 import jakarta.enterprise.context.ApplicationScoped;
 import com. google.firebase.auth.UserRecord.UpdateRequest;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class UserService {
@@ -96,5 +97,12 @@ public class UserService {
         }
     }
 
+    public User findByFirebaseUidRaw(String firebaseUid) {
+        return userRepository.findUserByFireBaseId(firebaseUid);
+    }
 
+    @Transactional
+    public void createUser(User user) {
+        userRepository.createUser(user);
+    }
 }
