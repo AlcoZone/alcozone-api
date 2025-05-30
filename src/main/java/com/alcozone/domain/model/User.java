@@ -16,7 +16,12 @@ public class User {
     private String username;
     private String email;
     private boolean deleted;
+    private String email;
+    private String username;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Role role;
+    private String username;
+    private String password;
+    private String email;
 }

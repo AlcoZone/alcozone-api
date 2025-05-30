@@ -4,8 +4,11 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.alcozone.domain.models.*;
+import com.alcozone.infrastructure.dto.revision.response.RevisionListItemDTO;
+import com.alcozone.infrastructure.persistence.revision.RevisionMapper;
 import com.alcozone.utils.DbscanRunner;
 
 import jakarta.inject.Inject;
@@ -49,6 +52,10 @@ public class RevisionService {
                 return new Cluster(centroid[0], centroid[1], cluster.size());
             })
         .toList();
+    }
+
+    public List<RevisionListItemDTO> getAllRevisions() {
+        return RevisionMapper.toListItemDTOList(revisionRepository.getAllRevisions());
     }
 
     public Map<String, List<Cluster>> predictRoadblocks(List<Crash> crashes, double epsilonMeters, int minPoints, int startHour, int endHour) {

@@ -8,6 +8,8 @@ import jakarta.transaction.Transactional;
 import com.alcozone.domain.models.Revision;
 import com.alcozone.domain.repository.RevisionRepository;
 
+import java.util.List;
+
 @ApplicationScoped
 public class RevisionRepositoryImpl implements RevisionRepository, PanacheRepositoryBase<RevisionEntity, Integer> {
 
@@ -28,5 +30,10 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
         RevisionEntity revisionEntity = RevisionMapper.toEntity(revision);
         revisionEntity.persist();
         return RevisionMapper.toDomain(revisionEntity);
+    }
+
+    @Override
+    public List<RevisionEntity> getAllRevisions() {
+        return findAll().list();
     }
 }

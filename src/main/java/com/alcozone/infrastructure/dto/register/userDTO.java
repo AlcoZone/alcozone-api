@@ -1,4 +1,4 @@
-package com.alcozone.infrastructure.dto.login;
+package com.alcozone.infrastructure.dto.register;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
+public class userDTO {
     private String uuid;
     private Integer role_id;
+    private String username;
+    private String password;
     private String email;
+    private String role;
 }
