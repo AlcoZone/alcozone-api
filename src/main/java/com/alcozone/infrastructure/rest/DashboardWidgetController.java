@@ -32,7 +32,7 @@ public class DashboardWidgetController {
     public Response saveOrUpdateLayout(@PathParam("dashboardUuid") String dashboardUuid,
                                        @Valid List<DashboardWidget> widgets) {
         widgets.forEach(w -> w.setDashboardUuid(dashboardUuid));
-        List<DashboardWidget> saved = updateDashboardWidgetLayoutUseCase.execute(widgets);
+        List<DashboardWidget> saved = updateDashboardWidgetLayoutUseCase.execute(dashboardUuid, widgets);
         return Response.ok(saved).build();
     }
 

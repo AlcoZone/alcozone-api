@@ -5,7 +5,7 @@ import com.alcozone.domain.models.DashboardWidget;
 
 public interface DashboardWidgetRepository {
 
-    List<DashboardWidget> saveWidgets(List<DashboardWidget> widgets);
+    List<DashboardWidget> saveWidgets(String dashboardUuid, List<DashboardWidget> widgets);
 
     List<DashboardWidget> findByDashboardUuid(String dashboardUuid);
 

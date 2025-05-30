@@ -1,5 +1,6 @@
 package com.alcozone.application.usecase.dashboardwidget;
 
+import com.alcozone.application.service.DashboardWidgetService;
 import com.alcozone.domain.models.DashboardWidget;
 import com.alcozone.domain.repository.DashboardWidgetRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -11,9 +12,9 @@ import java.util.List;
 public class GetWidgetsForDashboardUseCase {
 
     @Inject
-    DashboardWidgetRepository dashboardWidgetRepository;
+    DashboardWidgetService dashboardWidgetService;
 
     public List<DashboardWidget> execute(String dashboardUuid) {
-        return dashboardWidgetRepository.findByDashboardUuid(dashboardUuid);
+        return dashboardWidgetService.findByDashboardUuid(dashboardUuid);
     }
 }

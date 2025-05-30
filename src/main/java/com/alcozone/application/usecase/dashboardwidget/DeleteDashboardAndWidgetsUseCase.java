@@ -1,6 +1,6 @@
 package com.alcozone.application.usecase.dashboardwidget;
 
-import com.alcozone.domain.repository.DashboardWidgetRepository;
+import com.alcozone.application.service.DashboardWidgetService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -9,10 +9,10 @@ import jakarta.transaction.Transactional;
 public class DeleteDashboardAndWidgetsUseCase {
 
     @Inject
-    DashboardWidgetRepository dashboardWidgetRepository;
+    DashboardWidgetService dashboardWidgetService;
 
     @Transactional
     public void execute(String dashboardUuid) {
-        dashboardWidgetRepository.deleteByDashboardUuid(dashboardUuid);
+        dashboardWidgetService.deleteByDashboardUuid(dashboardUuid);
     }
 }

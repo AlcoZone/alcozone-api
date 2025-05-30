@@ -8,7 +8,6 @@ public class DashboardWidgetMapper {
 
     public static DashboardWidget toDomain(DashboardWidgetEntity entity) {
         DashboardWidget widget = new DashboardWidget();
-        widget.setId(entity.getId());
         widget.setUuid(entity.getUuid());
         widget.setWidgetUuid(entity.getWidgetUuid());
         widget.setDashboardUuid(entity.getDashboardUuid());

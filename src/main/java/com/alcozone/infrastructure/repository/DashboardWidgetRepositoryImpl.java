@@ -17,31 +17,33 @@ public class DashboardWidgetRepositoryImpl implements DashboardWidgetRepository 
 
     @Override
     @Transactional
-    public List<DashboardWidget> saveWidgets(List<DashboardWidget> widgets) {
-        List<DashboardWidgetEntity> entities = widgets.stream()
-                .map(widget -> {
-                    WidgetEntity widgetEntity = WidgetEntity.find("uuid", widget.getWidgetUuid())
+    public List<DashboardWidget> saveWidgets(String dashboardUuid,
+                                             List<DashboardWidget> widgets) {
+
+        DashboardWidgetEntity.delete("dashboardUuid", dashboardUuid);
+
+        List<DashboardWidgetEntity> persisted = widgets.stream()
+                .map(w -> {
+
+                    w.setDashboardUuid(dashboardUuid);
+
+                    WidgetEntity we = WidgetEntity.find("uuid", w.getWidgetUuid())
                             .firstResult();
-                    return DashboardWidgetMapper.toEntity(widget, widgetEntity);
+
+                    DashboardWidgetEntity e = DashboardWidgetMapper.toEntity(w, we);
+                    e.setId(null);
+                    e.setCreatedAt(LocalDateTime.now());
+                    e.setUpdatedAt(LocalDateTime.now());
+                    e.persist();
+                    return e;
                 })
                 .collect(Collectors.toList());
 
-
-        for (DashboardWidgetEntity entity : entities) {
-            entity.setUpdatedAt(LocalDateTime.now());
-
-            if (entity.getId() == null) {
-                entity.setCreatedAt(LocalDateTime.now());
-                entity.persist();
-            } else {
-                entity = DashboardWidgetEntity.getEntityManager().merge(entity);
-            }
-        }
-
-        return entities.stream()
+        return persisted.stream()
                 .map(DashboardWidgetMapper::toDomain)
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public List<DashboardWidget> findByDashboardUuid(String dashboardUuid) {

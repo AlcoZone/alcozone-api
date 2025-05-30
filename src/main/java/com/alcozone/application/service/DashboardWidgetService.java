@@ -13,8 +13,8 @@ public class DashboardWidgetService {
     @Inject
     DashboardWidgetRepository dashboardWidgetRepository;
 
-    public List<DashboardWidget> saveWidgets(List<DashboardWidget> widgets) {
-        return dashboardWidgetRepository.saveWidgets(widgets);
+    public List<DashboardWidget> saveWidgets(String dashboardUuid, List<DashboardWidget> widgets) {
+        return dashboardWidgetRepository.saveWidgets(dashboardUuid, widgets);
     }
 
     public List<DashboardWidget> findByDashboardUuid(String dashboardUuid) {
