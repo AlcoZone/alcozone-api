@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Dashboard {
-    private int id;
+    private Integer id;
     private String uuid;
     private String userUuid;
     private String name;
