@@ -1,14 +1,13 @@
 package com.alcozone.domain.repository;
 
 import java.util.List;
-import java.util.Optional;
 import com.alcozone.domain.models.Widget;
 
 public interface WidgetRepository {
 
-    List<Widget> saveWidgets(List<Widget> widgets);
+    List<Widget> findAll();
 
-    List<Widget> findWidgetsByDashboardUuid(String dashboardUuid);
+    Widget save(Widget widget);
 
-    void deleteWidgetsByDashboardUuid(String dashboardUuid);
+    void deleteByUuid(String uuid);
 }

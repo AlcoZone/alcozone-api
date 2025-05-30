@@ -1,4 +1,4 @@
-package com.alcozone.application.service;
+package com.alcozone.application.usecase.widget;
 
 import com.alcozone.domain.models.Widget;
 import com.alcozone.domain.repository.WidgetRepository;
@@ -8,20 +8,12 @@ import jakarta.inject.Inject;
 import java.util.List;
 
 @ApplicationScoped
-public class WidgetService {
+public class GetAllWidgetDefinitionsUseCase {
 
     @Inject
     WidgetRepository widgetRepository;
 
-    public List<Widget> findAll() {
+    public List<Widget> execute() {
         return widgetRepository.findAll();
-    }
-
-    public Widget save(Widget widget) {
-        return widgetRepository.save(widget);
-    }
-
-    public void deleteByUuid(String uuid) {
-        widgetRepository.deleteByUuid(uuid);
     }
 }

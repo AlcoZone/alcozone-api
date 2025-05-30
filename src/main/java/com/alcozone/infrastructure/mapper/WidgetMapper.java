@@ -9,12 +9,8 @@ public class WidgetMapper {
         Widget widget = new Widget();
         widget.setId(entity.getId());
         widget.setUuid(entity.getUuid());
-        widget.setDashboardUuid(entity.getDashboardUuid());
         widget.setName(entity.getName());
-        widget.setGridPositionX(entity.getGridPositionX());
-        widget.setGridPositionY(entity.getGridPositionY());
-        widget.setGridWidth(entity.getGridWidth());
-        widget.setGridHeight(entity.getGridHeight());
+        widget.setDescription(entity.getDescription()); // NEW
         widget.setMinWidth(entity.getMinWidth());
         widget.setMinHeight(entity.getMinHeight());
         widget.setCreatedAt(entity.getCreatedAt());
@@ -26,12 +22,8 @@ public class WidgetMapper {
         WidgetEntity entity = new WidgetEntity();
         entity.setId(widget.getId());
         entity.setUuid(widget.getUuid());
-        entity.setDashboardUuid(widget.getDashboardUuid());
         entity.setName(widget.getName());
-        entity.setGridPositionX(widget.getGridPositionX());
-        entity.setGridPositionY(widget.getGridPositionY());
-        entity.setGridWidth(widget.getGridWidth());
-        entity.setGridHeight(widget.getGridHeight());
+        entity.setDescription(widget.getDescription()); // NEW
         entity.setMinWidth(widget.getMinWidth());
         entity.setMinHeight(widget.getMinHeight());
         entity.setCreatedAt(widget.getCreatedAt());

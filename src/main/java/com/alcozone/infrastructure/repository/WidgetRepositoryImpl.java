@@ -16,39 +16,31 @@ import java.util.stream.Collectors;
 public class WidgetRepositoryImpl implements WidgetRepository {
 
     @Override
-    @Transactional
-    public List<Widget> saveWidgets(List<Widget> widgets) {
-        List<WidgetEntity> entities = widgets.stream()
-                .map(WidgetMapper::toEntity)
-                .collect(Collectors.toList());
-
-        for (WidgetEntity entity : entities) {
-            entity.setUpdatedAt(LocalDateTime.now());
-
-            if (entity.getId() == null) {
-                entity.setCreatedAt(LocalDateTime.now());
-                entity.persist();
-            } else {
-                entity = WidgetEntity.getEntityManager().merge(entity);
-            }
-        }
-
-
-        return entities.stream()
-                .map(WidgetMapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Widget> findWidgetsByDashboardUuid(String dashboardUuid) {
-        return WidgetEntity.find("dashboardUuid", dashboardUuid).list().stream()
+    public List<Widget> findAll() {
+        return WidgetEntity.listAll().stream()
                 .map(e -> WidgetMapper.toDomain((WidgetEntity) e))
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public void deleteWidgetsByDashboardUuid(String dashboardUuid) {
-        WidgetEntity.delete("dashboardUuid", dashboardUuid);
+    public Widget save(Widget widget) {
+        WidgetEntity entity = WidgetMapper.toEntity(widget);
+        entity.setUpdatedAt(LocalDateTime.now());
+
+        if (entity.getId() == null) {
+            entity.setCreatedAt(LocalDateTime.now());
+            entity.persist();
+        } else {
+            entity = WidgetEntity.getEntityManager().merge(entity);
+        }
+
+        return WidgetMapper.toDomain(entity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByUuid(String uuid) {
+        WidgetEntity.delete("uuid", uuid);
     }
 }

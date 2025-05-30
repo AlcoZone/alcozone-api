@@ -7,7 +7,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Widgets")
+@Table(name = "Widget")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,33 +21,21 @@ public class WidgetEntity extends PanacheEntityBase {
     @Column(name = "uuid", nullable = false, unique = true)
     private String uuid;
 
-    @Column(name = "dashboard_id", nullable = false)
-    private String dashboardUuid;
-
     @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "grid_position_x", nullable = false)
-    private Integer gridPositionX;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "grid_position_y", nullable = false)
-    private Integer gridPositionY;
+    @Column(name = "min_width", nullable = false)
+    private Integer minWidth;
 
-    @Column(name = "grid_width", nullable = false)
-    private Integer gridWidth;
-
-    @Column(name = "grid_height", nullable = false)
-    private Integer gridHeight;
+    @Column(name = "min_height", nullable = false)
+    private Integer minHeight;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-
-    @Column(name = "min_width")
-    private Integer minWidth;
-
-    @Column(name = "min_height")
-    private Integer minHeight;
 }

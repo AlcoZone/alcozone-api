@@ -9,11 +9,16 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Widget {
+public class DashboardWidget {
     private int id;
     private String uuid;
+    private String dashboardUuid;
+    private String widgetUuid;
     private String name;
-    private String description;
+    private int gridPositionX;
+    private int gridPositionY;
+    private int gridWidth;
+    private int gridHeight;
     private int minWidth;
     private int minHeight;
     private LocalDateTime createdAt;
