@@ -72,7 +72,7 @@ public class WidgetController {
         return Response.ok(result).build();
     }
 
-
+    @GET
     @Path("/monthly-accidents")
     public Response getMonthlyAccident() {
         List<MonthlyAccidentsDTO> result = monthlyAccidentUseCase.getMonthlyAccident();
