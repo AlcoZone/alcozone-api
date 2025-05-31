@@ -1,5 +1,6 @@
 package com.alcozone.infrastructure.entity;
 
+import com.alcozone.domain.model.User;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +30,7 @@ public class UserEntity extends PanacheEntityBase {
     private String uuid;
 
     @Column(name = "deleted")
-    public boolean deleted;
+    private boolean deleted;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -37,12 +38,24 @@ public class UserEntity extends PanacheEntityBase {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+
     @OneToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;
 
+
+
     @PrePersist
     public void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = now;
     }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
 }
+

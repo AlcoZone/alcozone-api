@@ -1,5 +1,8 @@
 package com.alcozone.domain.model;
 
+import lombok.Getter;
+
+@Getter
 public enum RoleType {
     ADMIN(1),
     DATA_MANAGER(2),
@@ -11,7 +14,4 @@ public enum RoleType {
         this.id = id;
     }
 
-    public int getId() {
-        return id;
-    }
 }

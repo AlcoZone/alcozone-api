@@ -12,6 +12,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 import jakarta.annotation.Priority;
 import com.alcozone.domain.model.RoleType;
@@ -49,15 +50,19 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
             var user = userService.findByFirebaseUidRaw(firebaseUid);
             if (user == null) {
+                System.out.println("[DEBUG] UID: " + firebaseUid);
+                System.out.println("[DEBUG] Email desde token: " + decodedToken.getEmail());
                 User newUser = new User();
                 newUser.setUuid(firebaseUid);
+                newUser.setEmail(decodedToken.getEmail());
+                newUser.setUsername(decodedToken.getName());
 
                 Role datavisualizerRole = roleRepository.findRoleById(RoleType.DATA_VISUALIZER.getId());
                 if (datavisualizerRole == null) {
                     throw new IllegalStateException("No existe el rol datavisualizer (id=3)");
                 }
                 newUser.setRole(datavisualizerRole);
-
+                System.out.println("[DEBUG] New user: " + newUser);
                 userService.createUser(newUser);
             }
 

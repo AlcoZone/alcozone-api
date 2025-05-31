@@ -7,14 +7,12 @@ import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+
 @ApplicationScoped
 public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepositoryBase<CrashEntity, Integer> {
 
@@ -59,7 +57,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           subType,
           COUNT(*) AS accidentCount
-        FROM proyecto.crashes
+        FROM alcozone.crashes
         WHERE subType IN ('Choque con lesionados', 'Motociclista', 'Ciclista', 'Atropellado')
         GROUP BY subType
         ORDER BY accidentCount DESC
@@ -93,7 +91,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           town,
           COUNT(*) AS total_accidents
-        FROM proyecto.crashes
+        FROM alcozone.crashes
         WHERE town IS NOT NULL AND town != ''
         GROUP BY town
         ORDER BY total_accidents DESC
@@ -125,7 +123,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           MONTHNAME(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS month_name,
           COUNT(*) AS accidents
-        FROM proyecto.crashes
+        FROM alcozone.crashes
         WHERE MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) BETWEEN 1 AND 6
         GROUP BY MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')), MONTHNAME(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s'))
         ORDER BY MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s'))
@@ -163,7 +161,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
             MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS month_number,
             town,
             COUNT(*) AS total_accidents
-          FROM proyecto.crashes
+          FROM alcozone.crashes
           WHERE town IS NOT NULL AND town != ''
           GROUP BY month_number, month_name, town
         ) AS sub
@@ -173,7 +171,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
               SELECT 
                 town,
                 COUNT(*) AS total
-              FROM proyecto.crashes
+              FROM alcozone.crashes
               WHERE 
                 MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) = sub.month_number AND
                 town IS NOT NULL AND town != ''
