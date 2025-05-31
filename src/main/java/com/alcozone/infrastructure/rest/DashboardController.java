@@ -41,7 +41,7 @@ public class DashboardController {
     }
 
     @GET
-    public Response getDashboards(@QueryParam("userUuid") String userUuid) { // TODO: Change to JWT claim
+    public Response getDashboards(@QueryParam("userUuid") String userUuid) {
         List<Dashboard> dashboards = getDashboardsForUserUseCase.execute(userUuid);
         return Response.ok(dashboards).build();
     }

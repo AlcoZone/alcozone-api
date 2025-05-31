@@ -1,5 +1,7 @@
 package com.alcozone.application.service;
 
+import com.alcozone.application.dto.dashboard.CreateDashboardDTO;
+import com.alcozone.application.mapper.DashboardDTOMapper;
 import com.alcozone.domain.models.Dashboard;
 import com.alcozone.domain.repository.DashboardRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -14,7 +16,8 @@ public class DashboardService {
     @Inject
     DashboardRepository dashboardRepository;
 
-    public Dashboard createDashboard(Dashboard dashboard) {
+    public Dashboard createDashboard(CreateDashboardDTO dto) {
+        Dashboard dashboard = DashboardDTOMapper.fromCreateDTO(dto);
         return dashboardRepository.saveDashboard(dashboard);
     }
 
