@@ -4,8 +4,12 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.alcozone.domain.models.*;
+import com.alcozone.infrastructure.dto.revision.response.RevisionListItemDTO;
+import com.alcozone.infrastructure.persistence.revision.RevisionListEntity;
+import com.alcozone.infrastructure.persistence.revision.RevisionMapper;
 import com.alcozone.utils.DbscanRunner;
 
 import jakarta.inject.Inject;
@@ -51,6 +55,13 @@ public class RevisionService {
         .toList();
     }
 
+    public List<RevisionListItemDTO> getAllRevisions() {
+        List<RevisionListEntity> entities = revisionRepository.getLightweightRevisions();
+        return entities.stream()
+                .map(RevisionMapper::toListItemDTO)
+                .collect(Collectors.toList());
+    }
+
     public Map<String, List<Cluster>> predictRoadblocks(List<Crash> crashes, double epsilonMeters, int minPoints, int startHour, int endHour) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         Map<String, List<Cluster>> roadblocksPerDay = new HashMap<>();
@@ -75,10 +86,8 @@ public class RevisionService {
                 Double[] centroid = calculateCentroid(clusterPoints);
                 roadblocks.add(new Cluster(centroid[0], centroid[1], clusterPoints.size()));
             }
-
             roadblocksPerDay.put(day.toString().toLowerCase(), roadblocks);
         }
-
         return roadblocksPerDay;
     }
 }

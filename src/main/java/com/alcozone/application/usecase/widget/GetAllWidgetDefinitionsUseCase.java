@@ -14,6 +14,6 @@ public class GetAllWidgetDefinitionsUseCase {
     WidgetRepository widgetRepository;
 
     public List<Widget> execute() {
-        return widgetRepository.findAll();
+        return widgetRepository.findAllWidgets();
     }
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.alcozone.domain.models.Crash;
 import com.alcozone.domain.models.Revision;
+import com.alcozone.infrastructure.dto.revision.response.RevisionListItemDTO;
 import com.alcozone.infrastructure.persistence.crash.CrashEntity;
 import com.alcozone.infrastructure.persistence.crash.CrashMapper;
 
@@ -37,7 +38,15 @@ public class RevisionMapper {
             }
             revisionEntity.setCrashes(crashEntities);
         }
-
         return revisionEntity;
+    }
+
+    public static RevisionListItemDTO toListItemDTO(RevisionListEntity entity) {
+        RevisionListItemDTO dto = new RevisionListItemDTO();
+        dto.setUuid(entity.getUuid());
+        dto.setName(entity.getName());
+        dto.setDataQuantity(entity.getDataQuantity());
+        dto.setDate(entity.getCreated_at().toLocalDate().toString());
+        return dto;
     }
 }
