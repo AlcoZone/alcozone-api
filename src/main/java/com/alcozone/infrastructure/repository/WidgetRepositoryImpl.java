@@ -33,10 +33,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
     @Transactional
     public Widget save(Widget widget) {
         WidgetEntity entity = WidgetMapper.toEntity(widget);
-        entity.setUpdatedAt(LocalDateTime.now());
 
         if (entity.getId() == null) {
-            entity.setCreatedAt(LocalDateTime.now());
             entity.persist();
         } else {
             entity = WidgetEntity.getEntityManager().merge(entity);

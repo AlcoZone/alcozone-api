@@ -1,5 +1,6 @@
 package com.alcozone.infrastructure.rest;
 
+import com.alcozone.application.dto.widget.CreateWidgetDTO;
 import com.alcozone.application.usecase.widget.*;
 import com.alcozone.infrastructure.dto.widget.*;
 import com.alcozone.domain.models.Widget;
@@ -39,8 +40,8 @@ public class WidgetController {
     }
 
     @POST
-    public Response createWidget(@Valid Widget widget) {
-        Widget saved = saveWidgetUseCase.execute(widget);
+    public Response saveWidget(@Valid CreateWidgetDTO dto) {
+        Widget saved = saveWidgetUseCase.execute(dto);
         return Response.ok(saved).build();
     }
 

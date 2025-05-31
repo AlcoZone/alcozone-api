@@ -1,5 +1,7 @@
 package com.alcozone.application.service;
 
+import com.alcozone.application.dto.widget.CreateWidgetDTO;
+import com.alcozone.application.mapper.WidgetDTOMapper;
 import com.alcozone.domain.models.Widget;
 import com.alcozone.domain.repository.WidgetRepository;
 import com.alcozone.infrastructure.dto.widget.*;
@@ -18,7 +20,8 @@ public class WidgetService {
         return widgetRepository.findAllWidgets();
     }
 
-    public Widget save(Widget widget) {
+    public Widget save(CreateWidgetDTO dto) {
+        Widget widget = WidgetDTOMapper.fromCreateDTO(dto);
         return widgetRepository.save(widget);
     }
 
