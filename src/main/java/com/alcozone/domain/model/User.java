@@ -12,14 +12,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class User {
     private int id;
-    private String uuid;
+    private String uuid; //firebase id
+    private String username;
     private boolean deleted;
     private String email;
-    private String username;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Role role;
-    private String username;
     private String password;
-    private String email;
 }
