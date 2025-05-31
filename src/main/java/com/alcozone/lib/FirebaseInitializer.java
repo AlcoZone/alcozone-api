@@ -15,7 +15,7 @@ public class FirebaseInitializer {
     public void init() {
         if(FirebaseApp.getApps().isEmpty()){
             try {
-                FileInputStream serviceAccount = new FileInputStream("src/main/resources/alcozone-e21b0-firebase-adminsdk-fbsvc-23105318fc.json");
+                FileInputStream serviceAccount = new FileInputStream("src/main/resources/alcozone-e21b0-firebase-adminsdk-fbsvc-30bb64b4c3.json");
                 FirebaseOptions options= FirebaseOptions.builder()
                         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                         .build();
