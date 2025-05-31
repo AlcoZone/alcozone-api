@@ -66,7 +66,7 @@ public class RevisionController {
     }
 
     @GET
-    @Path("csv/list")
+    @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listRevisions() {
         List<RevisionListItemDTO> result = listRevisionsUseCase.execute();
