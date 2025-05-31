@@ -11,8 +11,8 @@ import org.apache.commons.csv.CSVFormat;
 import jakarta.inject.Inject;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import com.alcozone.domain.models.Crash;
-import com.alcozone.domain.models.Revision;
+import com.alcozone.domain.model.Crash;
+import com.alcozone.domain.model.Revision;
 import com.alcozone.application.service.RevisionService;
 import com.alcozone.infrastructure.persistence.crash.CrashMapper;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;

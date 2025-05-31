@@ -1,4 +1,4 @@
-package com.alcozone.domain.models;
+package com.alcozone.domain.model;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;

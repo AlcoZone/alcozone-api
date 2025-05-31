@@ -32,43 +32,43 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        String authHeader = requestContext.getHeaderString("Authorization");
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("Authorization header must be provided")
-                    .build());
-            return;
-        }
-
-        String token = authHeader.substring("Bearer".length()).trim();
-        try {
-            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token, true);
-            String firebaseUid = decodedToken.getUid();
-
-            var user = userService.findByFirebaseUidRaw(firebaseUid);
-            if (user == null) {
-                System.out.println("[DEBUG] UID: " + firebaseUid);
-                System.out.println("[DEBUG] Email desde token: " + decodedToken.getEmail());
-                User newUser = new User();
-                newUser.setUuid(firebaseUid);
-                newUser.setEmail(decodedToken.getEmail());
-
-                Role datavisualizerRole = roleRepository.findRoleById(RoleType.DATA_VISUALIZER.getId());
-                if (datavisualizerRole == null) {
-                    throw new IllegalStateException("No existe el rol datavisualizer (id=3)");
-                }
-                newUser.setRole(datavisualizerRole);
-
-                userService.createUser(newUser);
-            }
-
-            requestContext.setProperty("userUuid", firebaseUid);
-
-        } catch (FirebaseAuthException e) {
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                    .entity("Invalid token")
-                    .build());
-        }
+//        String authHeader = requestContext.getHeaderString("Authorization");
+//
+//        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+//            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+//                    .entity("Authorization header must be provided")
+//                    .build());
+//            return;
+//        }
+//
+//        String token = authHeader.substring("Bearer".length()).trim();
+//        try {
+//            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token, true);
+//            String firebaseUid = decodedToken.getUid();
+//
+//            var user = userService.findByFirebaseUidRaw(firebaseUid);
+//            if (user == null) {
+//                System.out.println("[DEBUG] UID: " + firebaseUid);
+//                System.out.println("[DEBUG] Email desde token: " + decodedToken.getEmail());
+//                User newUser = new User();
+//                newUser.setRevision(firebaseUid);
+//                newUser.setEmail(decodedToken.getEmail());
+//
+//                Role datavisualizerRole = roleRepository.findRoleById(RoleType.DATA_VISUALIZER.getId());
+//                if (datavisualizerRole == null) {
+//                    throw new IllegalStateException("No existe el rol datavisualizer (id=3)");
+//                }
+//                newUser.setRole(datavisualizerRole);
+//
+//                userService.createUser(newUser);
+//            }
+//
+//            requestContext.setProperty("userUuid", firebaseUid);
+//
+//        } catch (FirebaseAuthException e) {
+//            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+//                    .entity("Invalid token")
+//                    .build());
+//        }
     }
 }

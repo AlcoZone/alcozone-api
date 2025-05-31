@@ -1,7 +1,8 @@
 package com.alcozone.application.service;
 
-import com.alcozone.domain.models.Crash;
-import com.alcozone.domain.models.Roadblock;
+import com.alcozone.domain.model.Crash;
+import com.alcozone.domain.model.MinifiedCrash;
+import com.alcozone.domain.model.Roadblock;
 import com.alcozone.utils.DbscanRunner;
 import com.alcozone.utils.SimpleLinearRegression;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -22,10 +23,10 @@ public class PredictionService {
         return Math.min(10, Math.max(1, (int)Math.round((count / 20.0) * 10)));
     }
 
-    private Double[] calculateCentroid(List<Crash> crashes) {
+    private Double[] calculateCentroid(List<MinifiedCrash> crashes) {
         double sumLat = 0;
         double sumLon = 0;
-        for (Crash crash : crashes) {
+        for (MinifiedCrash crash : crashes) {
             sumLat += crash.getLatitude();
             sumLon += crash.getLongitude();
         }
@@ -33,7 +34,7 @@ public class PredictionService {
     }
 
     public Map<String, List<Roadblock>> predictRoadblocks(
-            List<Crash> crashes,
+            List<MinifiedCrash> crashes,
             double epsilonMeters,
             int minPoints,
             int startHour,
@@ -42,7 +43,7 @@ public class PredictionService {
         Map<String, List<Roadblock>> predictionsPerDay = new HashMap<>();
 
         for (DayOfWeek day : DayOfWeek.values()) {
-            List<Crash> filtered = crashes.stream()
+            List<MinifiedCrash> filtered = crashes.stream()
                     .map(c -> new AbstractMap.SimpleEntry<>(c, LocalDateTime.parse(c.getDatetime(), FORMATTER)))
                     .filter(entry -> entry.getValue().getDayOfWeek() == day)
                     .filter(entry -> {
@@ -54,15 +55,15 @@ public class PredictionService {
 
             if (filtered.size() < minPoints) continue;
 
-            Map<Integer, List<Crash>> clusters = DbscanRunner.generateClusters(filtered, epsilonMeters, minPoints);
+            Map<Integer, List<MinifiedCrash>> clusters = DbscanRunner.generateClusters(filtered, epsilonMeters, minPoints);
 
             List<Roadblock> dayPredictions = new ArrayList<>();
 
-            for (List<Crash> clusterPoints : clusters.values()) {
+            for (List<MinifiedCrash> clusterPoints : clusters.values()) {
                 Double[] centroid = calculateCentroid(clusterPoints);
 
                 Map<Integer, Integer> crashCountsByWeek = new TreeMap<>();
-                for (Crash crash : clusterPoints) {
+                for (MinifiedCrash crash : clusterPoints) {
                     LocalDateTime dt = LocalDateTime.parse(crash.getDatetime(), FORMATTER);
                     int weekNum = dt.get(java.time.temporal.IsoFields.WEEK_OF_WEEK_BASED_YEAR);
                     crashCountsByWeek.put(weekNum, crashCountsByWeek.getOrDefault(weekNum, 0) + 1);

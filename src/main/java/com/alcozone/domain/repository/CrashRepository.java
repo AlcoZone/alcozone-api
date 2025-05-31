@@ -2,7 +2,7 @@ package com.alcozone.domain.repository;
 
 import java.util.List;
 
-import com.alcozone.domain.models.Crash;
+import com.alcozone.domain.model.Crash;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
 public interface CrashRepository {

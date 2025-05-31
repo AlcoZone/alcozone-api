@@ -1,4 +1,4 @@
-package com.alcozone.infrastructure.dto.revision.request;
+package com.alcozone.infrastructure.dto.clusterize;
 
 import jakarta.ws.rs.QueryParam;
 import jakarta.validation.constraints.NotNull;
@@ -8,9 +8,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClusterizeRevisionRequestDTO {
+public class ClusterizeRequestDTO {
     @NotNull
-    @QueryParam("uuid")
+    @QueryParam("revision")
     private String uuid;
 
     @NotNull

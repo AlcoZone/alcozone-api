@@ -41,12 +41,6 @@ public class UserEntity extends PanacheEntityBase {
     @JoinColumn(name = "role_id")
     private RoleEntity role;
 
-    @Column (name = "email")
-    private String email;
-
-    @Column(name = "username")
-    private String username;
-
     @PrePersist
     public void onCreate() {
         LocalDateTime now = LocalDateTime.now();

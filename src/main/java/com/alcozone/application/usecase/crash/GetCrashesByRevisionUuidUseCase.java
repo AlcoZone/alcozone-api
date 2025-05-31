@@ -5,7 +5,7 @@ import java.util.List;
 import jakarta.inject.Inject;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import com.alcozone.domain.models.Crash;
+import com.alcozone.domain.model.Crash;
 import com.alcozone.application.service.CrashService;
 import com.alcozone.infrastructure.dto.crash.DefaultCrashesResponseDTO;
 

@@ -1,6 +1,6 @@
 package com.alcozone.utils;
 
-import com.alcozone.domain.models.Crash;
+import com.alcozone.domain.model.Crash;
 import com.alcozone.infrastructure.dto.revision.response.DefaultRevisionResponseDTO;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import jakarta.enterprise.context.ApplicationScoped;

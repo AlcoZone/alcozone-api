@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.util.List;
 
 import com.alcozone.application.usecase.revision.*;
-import com.alcozone.infrastructure.dto.revision.request.ClusterizeRevisionRequestDTO;
 import com.alcozone.infrastructure.dto.revision.request.CreateRevisionRequestDTO;
 
 import com.alcozone.infrastructure.dto.revision.response.DefaultRevisionResponseDTO;
 import com.alcozone.infrastructure.dto.revision.response.RevisionListItemDTO;
 import com.alcozone.utils.CsvExportUtil;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.MediaType;
@@ -24,8 +22,6 @@ public class RevisionController {
 
     @Inject CreateRevisionUseCase createRevisionUseCase;
     @Inject GetRevisionUseCase getRevisionUseCase;
-    @Inject ClusterizeRevisionUseCase clusterizeRevisionUseCase;
-    @Inject GenerateRoadblockPredictionUseCase generateRoadblockPredictionUseCase;
     @Inject CsvExportUtil csvExportUtil;
     @Inject ListRevisionsUseCase listRevisionsUseCase;
 
@@ -41,19 +37,6 @@ public class RevisionController {
     }
 
     @GET
-    @Path("/clusterize")
-    public Response clusterize(@Valid @BeanParam ClusterizeRevisionRequestDTO requestDTO) {
-        return Response.ok(clusterizeRevisionUseCase.execute(requestDTO)).build();
-    }
-
-    @GET
-    @Path("/predict")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getPredictions() {
-        return Response.ok(generateRoadblockPredictionUseCase.execute()).build();
-    }
-
-    @GET
     @Path("/csv")
     @Produces("text/csv")
     public Response downloadRevisionCsv(@BeanParam GetRevisionRequestDTO requestDTO) {
@@ -66,7 +49,7 @@ public class RevisionController {
     }
 
     @GET
-    @Path("csv/list")
+    @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     public Response listRevisions() {
         List<RevisionListItemDTO> result = listRevisionsUseCase.execute();

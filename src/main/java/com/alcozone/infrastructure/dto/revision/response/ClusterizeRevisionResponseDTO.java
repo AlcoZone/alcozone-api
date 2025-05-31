@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import com.alcozone.domain.models.Cluster;
+import com.alcozone.domain.model.Cluster;
 import lombok.NoArgsConstructor;
 
 @Data

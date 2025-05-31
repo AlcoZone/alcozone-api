@@ -2,7 +2,7 @@ package com.alcozone.application.dto.crash;
 
 import lombok.Data;
 
-import com.alcozone.domain.models.Crash;
+import com.alcozone.domain.model.Crash;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
 @Data

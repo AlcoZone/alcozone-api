@@ -8,7 +8,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
-import com.alcozone.domain.models.Crash;
+import com.alcozone.domain.model.Crash;
 import com.alcozone.domain.repository.CrashRepository;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
@@ -27,7 +27,7 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
     @Override
     public List<Crash> findCrashesByRevisionUuid(String revisionUuid) {
         List<Crash> crashes = new ArrayList<>();
-        for (CrashEntity crashEntity : list("revisionEntity.uuid", revisionUuid)) {
+        for (CrashEntity crashEntity : list("revisionEntity.revision", revisionUuid)) {
             crashes.add(CrashMapper.toDomain(crashEntity));
         }
         return crashes;

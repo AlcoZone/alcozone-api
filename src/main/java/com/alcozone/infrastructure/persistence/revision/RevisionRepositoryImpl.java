@@ -5,7 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
-import com.alcozone.domain.models.Revision;
+import com.alcozone.domain.model.Revision;
 import com.alcozone.domain.repository.RevisionRepository;
 
 import java.util.List;
@@ -36,4 +36,5 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
     public List<RevisionEntity> getAllRevisions() {
         return findAll().list();
     }
+
 }

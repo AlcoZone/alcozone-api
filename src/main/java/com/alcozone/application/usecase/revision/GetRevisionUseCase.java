@@ -3,7 +3,7 @@ package com.alcozone.application.usecase.revision;
 import jakarta.inject.Inject;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import com.alcozone.domain.models.Revision;
+import com.alcozone.domain.model.Revision;
 import com.alcozone.application.service.RevisionService;
 import com.alcozone.infrastructure.dto.crash.DefaultCrashesResponseDTO;
 import com.alcozone.infrastructure.dto.revision.request.GetRevisionRequestDTO;
