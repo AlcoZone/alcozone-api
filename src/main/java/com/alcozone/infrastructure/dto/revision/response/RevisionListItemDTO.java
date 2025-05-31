@@ -13,4 +13,3 @@ public class RevisionListItemDTO {
     private int dataQuantity;
     private String date;
 }
-

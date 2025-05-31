@@ -1,10 +1,14 @@
 package com.alcozone.application.service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
-import com.alcozone.domain.model.*;
-import com.alcozone.domain.repository.MinifiedRevisionRepository;
+import com.alcozone.domain.models.*;
 import com.alcozone.infrastructure.dto.revision.response.RevisionListItemDTO;
+import com.alcozone.infrastructure.persistence.revision.RevisionListEntity;
 import com.alcozone.infrastructure.persistence.revision.RevisionMapper;
 import com.alcozone.utils.DbscanRunner;
 
@@ -18,7 +22,6 @@ import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 public class RevisionService {
 
     @Inject RevisionRepository revisionRepository;
-    @Inject MinifiedRevisionRepository minifiedRevisionRepository;
 
     private Double[] calculateCentroid(List<Crash> crashes) {
         double averageLatitude = crashes.stream().mapToDouble(Crash::getLatitude).average().orElse(0);
@@ -28,14 +31,6 @@ public class RevisionService {
 
     public Revision getRevision(String uuid) {
         return revisionRepository.getRevision(uuid);
-    }
-
-    public  MinifiedRevision getMinifiedRevision(String uuid) {
-        return minifiedRevisionRepository.getMinifiedRevision(uuid);
-    }
-
-    public MinifiedRevision getLatestMinifiedRevision() {
-        return minifiedRevisionRepository.getLatestMinifiedRevision();
     }
 
     public RevisionEntity getRevisionEntity(String uuid) {
@@ -49,13 +44,8 @@ public class RevisionService {
         return revisionRepository.saveRevision(revision);
     }
 
-    public List<RevisionListItemDTO> getAllRevisions() {
-        return RevisionMapper.toListItemDTOList(revisionRepository.getAllRevisions());
-    }
-
     public List<Cluster> clusterizeRevision(List<Crash> crashes, double epsilonMeters, int minPoints){
-        //Map<Integer, List<Crash>> unprocessedClusters = DbscanRunner.generateClusters(crashes, epsilonMeters, minPoints);
-        Map<Integer, List<Crash>> unprocessedClusters = new HashMap<>();
+        Map<Integer, List<Crash>> unprocessedClusters = DbscanRunner.generateClusters(crashes, epsilonMeters, minPoints);
 
         return unprocessedClusters.values().stream()
             .map(cluster -> {
@@ -63,5 +53,41 @@ public class RevisionService {
                 return new Cluster(centroid[0], centroid[1], cluster.size());
             })
         .toList();
+    }
+
+    public List<RevisionListItemDTO> getAllRevisions() {
+        List<RevisionListEntity> entities = revisionRepository.getLightweightRevisions();
+        return entities.stream()
+                .map(RevisionMapper::toListItemDTO)
+                .collect(Collectors.toList());
+    }
+
+    public Map<String, List<Cluster>> predictRoadblocks(List<Crash> crashes, double epsilonMeters, int minPoints, int startHour, int endHour) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        Map<String, List<Cluster>> roadblocksPerDay = new HashMap<>();
+
+        for (DayOfWeek day : DayOfWeek.values()) {
+            List<Crash> filtered = crashes.stream()
+                    .map(point -> new AbstractMap.SimpleEntry<>(point, LocalDateTime.parse(point.getDatetime(), formatter)))
+                    .filter(entry -> entry.getValue().getDayOfWeek() == day)
+                    .filter(entry -> {
+                        int hour = entry.getValue().getHour();
+                        return hour >= startHour && hour <= endHour;
+                    })
+                    .map(Map.Entry::getKey)
+                    .toList();
+
+            if (filtered.size() < minPoints) continue;
+
+            Map<Integer, List<Crash>> clusters = DbscanRunner.generateClusters(filtered, epsilonMeters, minPoints);
+
+            List<Cluster> roadblocks = new ArrayList<>();
+            for (List<Crash> clusterPoints : clusters.values()) {
+                Double[] centroid = calculateCentroid(clusterPoints);
+                roadblocks.add(new Cluster(centroid[0], centroid[1], clusterPoints.size()));
+            }
+            roadblocksPerDay.put(day.toString().toLowerCase(), roadblocks);
+        }
+        return roadblocksPerDay;
     }
 }

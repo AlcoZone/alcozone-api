@@ -2,7 +2,6 @@ package com.alcozone.infrastructure.persistence.revision;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import com.alcozone.domain.model.Crash;
 import com.alcozone.domain.model.MinifiedCrash;
@@ -55,22 +54,15 @@ public class RevisionMapper {
             }
             revisionEntity.setCrashes(crashEntities);
         }
-
         return revisionEntity;
     }
 
-    public static RevisionListItemDTO toListItemDTO(RevisionEntity entity) {
-        return new RevisionListItemDTO(
-                entity.getUuid(),
-                entity.getName(),
-                entity.getCrashes() != null ? entity.getCrashes().size() : 0,
-                entity.getCreated_at().toLocalDate().toString()
-        );
-    }
-
-    public static List<RevisionListItemDTO> toListItemDTOList(List<RevisionEntity> entities) {
-        return entities.stream()
-                .map(RevisionMapper::toListItemDTO)
-                .collect(Collectors.toList());
+    public static RevisionListItemDTO toListItemDTO(RevisionListEntity entity) {
+        RevisionListItemDTO dto = new RevisionListItemDTO();
+        dto.setUuid(entity.getUuid());
+        dto.setName(entity.getName());
+        dto.setDataQuantity(entity.getDataQuantity());
+        dto.setDate(entity.getCreated_at().toLocalDate().toString());
+        return dto;
     }
 }
