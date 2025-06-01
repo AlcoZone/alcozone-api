@@ -1,6 +1,7 @@
 package com.alcozone.application.service;
 
 import com.alcozone.application.dto.dashboard.CreateDashboardDTO;
+import com.alcozone.application.dto.dashboard.UpdateDashboardDTO;
 import com.alcozone.application.mapper.DashboardDTOMapper;
 import com.alcozone.domain.models.Dashboard;
 import com.alcozone.domain.repository.DashboardRepository;
@@ -26,8 +27,14 @@ public class DashboardService {
         return dashboardRepository.saveDashboard(dashboard);
     }
 
-    public Dashboard updateDashboard(Dashboard dashboard) {
-        return dashboardRepository.saveDashboard(dashboard);
+    public Dashboard updateDashboard(UpdateDashboardDTO dto) {
+        Dashboard existing = getDashboardByUuid(dto.getUuid())
+                .orElseThrow(() -> new RuntimeException("Dashboard not found"));
+
+        existing.setName(dto.getName());
+        existing.setUpdatedAt(LocalDateTime.now());
+
+        return dashboardRepository.saveDashboard(existing);
     }
 
     public Optional<Dashboard> getDashboardByUuid(String uuid) {
