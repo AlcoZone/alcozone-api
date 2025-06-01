@@ -3,7 +3,6 @@ package com.alcozone.infrastructure.rest;
 import com.alcozone.application.usecase.clusterize.ClusterizeRevisionUseCase;
 import com.alcozone.infrastructure.dto.clusterize.ClusterizeRequestDTO;
 import jakarta.inject.Inject;
-import jakarta.validation.Valid;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -18,7 +17,7 @@ public class ClusterizeController {
     @Inject ClusterizeRevisionUseCase clusterizeRevisionUseCase;
 
     @GET
-    public Response clusterize(@Valid @BeanParam ClusterizeRequestDTO requestDTO) {
+    public Response clusterize(@BeanParam ClusterizeRequestDTO requestDTO) {
         return Response.ok(clusterizeRevisionUseCase.execute(requestDTO)).build();
     }
 

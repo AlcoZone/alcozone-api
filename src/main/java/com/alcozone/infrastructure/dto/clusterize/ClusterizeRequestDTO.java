@@ -12,15 +12,4 @@ public class ClusterizeRequestDTO {
     @NotNull
     @QueryParam("revision")
     private String uuid;
-
-    @NotNull
-    @QueryParam("epsilonMeters")
-    private Double epsilonMeters;
-
-    @NotNull
-    @QueryParam("minCrashes")
-    private Integer minCrashes;
-
-    @QueryParam("withData")
-    private boolean withData;
 }

@@ -1,11 +1,13 @@
 package com.alcozone.application.service;
 
-import com.alcozone.domain.model.Crash;
 import com.alcozone.domain.model.MinifiedCrash;
 import com.alcozone.domain.model.Roadblock;
+import com.alcozone.utils.CalculateCentroid;
 import com.alcozone.utils.DbscanRunner;
 import com.alcozone.utils.SimpleLinearRegression;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -15,6 +17,20 @@ import java.util.*;
 @ApplicationScoped
 public class PredictionService {
 
+    @Inject DbscanRunner dbscanRunner;
+
+    @ConfigProperty(name = "prediction.epsilonMeters")
+    int epsilonMeters;
+
+    @ConfigProperty(name = "prediction.minPoints")
+    int minPoints;
+
+    @ConfigProperty(name = "prediction.startHour")
+    int startHour;
+
+    @ConfigProperty(name = "prediction.endHour")
+    int endHour;
+
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
     private int scoreFromCount(int count) {
@@ -23,22 +39,7 @@ public class PredictionService {
         return Math.min(10, Math.max(1, (int)Math.round((count / 20.0) * 10)));
     }
 
-    private Double[] calculateCentroid(List<MinifiedCrash> crashes) {
-        double sumLat = 0;
-        double sumLon = 0;
-        for (MinifiedCrash crash : crashes) {
-            sumLat += crash.getLatitude();
-            sumLon += crash.getLongitude();
-        }
-        return new Double[]{sumLat / crashes.size(), sumLon / crashes.size()};
-    }
-
-    public Map<String, List<Roadblock>> predictRoadblocks(
-            List<MinifiedCrash> crashes,
-            double epsilonMeters,
-            int minPoints,
-            int startHour,
-            int endHour) {
+    public Map<String, List<Roadblock>> predictRoadblocks(List<MinifiedCrash> crashes) {
 
         Map<String, List<Roadblock>> predictionsPerDay = new HashMap<>();
 
@@ -55,12 +56,12 @@ public class PredictionService {
 
             if (filtered.size() < minPoints) continue;
 
-            Map<Integer, List<MinifiedCrash>> clusters = DbscanRunner.generateClusters(filtered, epsilonMeters, minPoints);
+            Map<Integer, List<MinifiedCrash>> clusters = dbscanRunner.generateClusters(filtered, epsilonMeters, minPoints);
 
             List<Roadblock> dayPredictions = new ArrayList<>();
 
             for (List<MinifiedCrash> clusterPoints : clusters.values()) {
-                Double[] centroid = calculateCentroid(clusterPoints);
+                Double[] centroid = CalculateCentroid.execute(clusterPoints);
 
                 Map<Integer, Integer> crashCountsByWeek = new TreeMap<>();
                 for (MinifiedCrash crash : clusterPoints) {
@@ -90,10 +91,13 @@ public class PredictionService {
                 SimpleLinearRegression regression = new SimpleLinearRegression();
                 regression.fit(weeks, counts);
                 double predictedCrashes = regression.predict(maxWeek + 1);
-                int expectedCrashes = (int) Math.max(0, Math.round(predictedCrashes));
-                int score = scoreFromCount(expectedCrashes);
 
-                dayPredictions.add(new Roadblock(centroid[0], centroid[1], expectedCrashes, score));
+                if(predictedCrashes > 1){
+                    int expectedCrashes = (int) Math.max(0, Math.round(predictedCrashes));
+                    int score = scoreFromCount(expectedCrashes);
+
+                    dayPredictions.add(new Roadblock(centroid[0], centroid[1], expectedCrashes, score));
+                }
             }
 
             predictionsPerDay.put(day.toString().toLowerCase(), dayPredictions);
