@@ -1,11 +1,16 @@
 package com.alcozone.application.service;
 
+import com.alcozone.application.dto.widget.CreateWidgetDTO;
+import com.alcozone.application.mapper.WidgetDTOMapper;
+import com.alcozone.domain.models.Widget;
 import com.alcozone.domain.repository.WidgetRepository;
 import com.alcozone.infrastructure.dto.widget.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @ApplicationScoped
 public class WidgetService {
@@ -13,7 +18,22 @@ public class WidgetService {
     @Inject
     WidgetRepository widgetRepository;
 
-    //widget 1 - Accident Number
+    public List<Widget> findAllWidgets() {
+        return widgetRepository.findAllWidgets();
+    }
+
+    public Widget save(CreateWidgetDTO dto) {
+        Widget widget = WidgetDTOMapper.fromCreateDTO(dto);
+        widget.setUuid(UUID.randomUUID().toString());
+        widget.setCreatedAt(LocalDateTime.now());
+        widget.setUpdatedAt(LocalDateTime.now());
+        return widgetRepository.save(widget);
+    }
+
+    public void deleteByUuid(String uuid) {
+        widgetRepository.deleteByUuid(uuid);
+    }
+
     public List <AccidentNumberDTO> getAccidentsNumber (){
         return widgetRepository.getAccidentsNumber();
     }
@@ -28,7 +48,6 @@ public class WidgetService {
     public List<DangerousTownDTO> getDangerousTown(){
         return widgetRepository.getDangerousTown();
     }
-
 
     //widget 4 - Monthly Accident
     public List<MonthlyAccidentsDTO> getMonthlyAccident(){
