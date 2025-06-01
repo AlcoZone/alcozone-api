@@ -39,6 +39,8 @@ public class UserMapper {
         dto.setUsername(user.getUsername());
         dto.setPassword(user.getPassword());
         dto.setEmail(user.getEmail());
+        dto.setDeleted(user.isDeleted());
+        dto.setId(user.getId());
         if (user.getRole() != null) {
             dto.setRole_id(user.getRole().getId());
             dto.setRole(user.getRole().getName());

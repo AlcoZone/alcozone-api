@@ -20,4 +20,5 @@ public class User {
     private LocalDateTime updatedAt;
     private Role role;
     private String password;
+
 }
