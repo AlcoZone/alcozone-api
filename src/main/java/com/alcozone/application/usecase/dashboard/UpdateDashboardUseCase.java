@@ -7,6 +7,8 @@ import com.alcozone.domain.models.Dashboard;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.LocalDateTime;
+
 @ApplicationScoped
 public class UpdateDashboardUseCase {
 
@@ -17,7 +19,9 @@ public class UpdateDashboardUseCase {
         Dashboard existing = dashboardService.getDashboardByUuid(dto.getUuid())
                 .orElseThrow(() -> new RuntimeException("Dashboard not found"));
 
-        Dashboard updated = DashboardDTOMapper.fromUpdateDTO(dto, existing);
-        return dashboardService.updateDashboard(updated);
+        existing.setName(dto.getName());
+        existing.setUpdatedAt(LocalDateTime.now());
+
+        return dashboardService.updateDashboard(existing);
     }
 }
