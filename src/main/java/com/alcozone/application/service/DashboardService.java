@@ -7,8 +7,10 @@ import com.alcozone.domain.repository.DashboardRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @ApplicationScoped
 public class DashboardService {
@@ -18,6 +20,9 @@ public class DashboardService {
 
     public Dashboard createDashboard(CreateDashboardDTO dto) {
         Dashboard dashboard = DashboardDTOMapper.fromCreateDTO(dto);
+        dashboard.setUuid(UUID.randomUUID().toString().replace("-", ""));
+        dashboard.setCreatedAt(LocalDateTime.now());
+        dashboard.setUpdatedAt(LocalDateTime.now());
         return dashboardRepository.saveDashboard(dashboard);
     }
 

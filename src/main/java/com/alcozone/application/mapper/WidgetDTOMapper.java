@@ -11,13 +11,13 @@ public class WidgetDTOMapper {
     public static Widget fromCreateDTO(CreateWidgetDTO dto) {
         return new Widget(
                 null,
-                UUID.randomUUID().toString(),
+                null,
                 dto.getName(),
                 dto.getDescription(),
                 dto.getMinWidth(),
                 dto.getMinHeight(),
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                null,
+                null
         );
     }
 }

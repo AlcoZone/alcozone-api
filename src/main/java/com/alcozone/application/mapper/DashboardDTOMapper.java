@@ -12,11 +12,11 @@ public class DashboardDTOMapper {
     public static Dashboard fromCreateDTO(CreateDashboardDTO dto) {
         return new Dashboard(
                 null,
-                UUID.randomUUID().toString().replace("-", ""),
+                null,
                 dto.getUserUuid(),
                 dto.getName(),
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                null,
+                null
         );
     }
 
