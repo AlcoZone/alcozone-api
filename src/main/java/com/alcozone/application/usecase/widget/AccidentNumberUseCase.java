@@ -1,5 +1,6 @@
 package com.alcozone.application.usecase.widget;
 
+import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.application.service.WidgetService;
 import com.alcozone.infrastructure.dto.widget.AccidentNumberDTO;
 
@@ -15,8 +16,8 @@ public class AccidentNumberUseCase {
     WidgetService widgetService;
 
 
-    public List<AccidentNumberDTO> getAccidentsNumber(){
-        return widgetService.getAccidentsNumber();
+    public List<AccidentNumberDTO> getAccidentsNumber(WidgetFiltersDTO filters){
+        return widgetService.getAccidentsNumber(filters);
     }
 
 }

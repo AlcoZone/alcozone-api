@@ -1,6 +1,7 @@
 package com.alcozone.infrastructure.rest;
 
 import com.alcozone.application.dto.widget.CreateWidgetDTO;
+import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.application.usecase.widget.*;
 import com.alcozone.infrastructure.dto.widget.*;
 import com.alcozone.domain.models.Widget;
@@ -32,6 +33,8 @@ public class WidgetController {
     @Inject DangerousTownUseCase dangerousTownUseCase;
     @Inject MonthlyAccidentsUseCase monthlyAccidentUseCase;
     @Inject DangerousTownMonthUseCase dangerousTownMonthUseCase;
+    @Inject DailyAccidentsUseCase dailyAccidentsUseCase;
+    @Inject AccidentsByReportSourceUseCase accidentsByReportSourceUseCase;
 
     @GET
     public Response getAllWidgets() {
@@ -54,36 +57,60 @@ public class WidgetController {
 
     @GET
     @Path("/accidents-percentage")
-    public Response getAccidentsPercentage() {
-        List<AccidentPercentageDTO> result = accidentPercentageUseCase.getAccidentPercentage();
+    public Response getAccidentsPercentage(@QueryParam("town") String town) {
+        WidgetFiltersDTO dto = new WidgetFiltersDTO();
+        dto.setTown(town);
+        List<AccidentPercentageDTO> result = accidentPercentageUseCase.getAccidentPercentage(dto);
         return Response.ok(result).build();
     }
 
     @GET
     @Path("/accidents-count")
-    public Response getAccidentsNumber() {
-        List<AccidentNumberDTO> result = accidentNumberUseCase.getAccidentsNumber();
+    public Response getAccidentsNumber(@QueryParam("town") String town) {
+        WidgetFiltersDTO dto = new WidgetFiltersDTO();
+        dto.setTown(town);
+        List<AccidentNumberDTO> result = accidentNumberUseCase.getAccidentsNumber(dto);
         return Response.ok(result).build();
     }
 
     @GET
     @Path("/dangerous-town")
-    public Response getDangerousTown() {
-        List<DangerousTownDTO> result = dangerousTownUseCase.getDangerousTown();
+    public Response getDangerousTown( WidgetFiltersDTO dto) {
+        List<DangerousTownDTO> result = dangerousTownUseCase.getDangerousTown(dto);
         return Response.ok(result).build();
     }
 
     @GET
     @Path("/monthly-accidents")
-    public Response getMonthlyAccident() {
-        List<MonthlyAccidentsDTO> result = monthlyAccidentUseCase.getMonthlyAccident();
+    public Response getMonthlyAccident(@QueryParam("town") String town) {
+        WidgetFiltersDTO dto = new WidgetFiltersDTO();
+        dto.setTown(town);
+        List<MonthlyAccidentsDTO> result = monthlyAccidentUseCase.getMonthlyAccident(dto);
         return Response.ok(result).build();
     }
 
     @GET
     @Path("/dangerous-town-month")
-    public Response getDangerousTownMonth() {
-        List<DangerousTownMonthDTO> result = dangerousTownMonthUseCase.getDangerousTownMonth();
+    public Response getDangerousTownMonth(WidgetFiltersDTO dto) {
+        List<DangerousTownMonthDTO> result = dangerousTownMonthUseCase.getDangerousTownMonth(dto);
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("/daily-accidents")
+    public Response getDailyAccidents(@QueryParam("town") String town) {
+        WidgetFiltersDTO dto = new WidgetFiltersDTO();
+        dto.setTown(town);
+        List<DailyAccidentsDTO> result = dailyAccidentsUseCase.getDailyAccidents(dto);
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("/accidents-by-report-source")
+    public Response getAccidentsByReportSource(@QueryParam("town") String town) {
+        WidgetFiltersDTO dto = new WidgetFiltersDTO();
+        dto.setTown(town);
+        List<AccidentsByReportSourceDTO> result = accidentsByReportSourceUseCase.getAccidentsByReportSource(dto);
         return Response.ok(result).build();
     }
 }

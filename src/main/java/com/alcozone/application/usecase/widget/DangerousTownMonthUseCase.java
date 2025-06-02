@@ -1,5 +1,6 @@
 package com.alcozone.application.usecase.widget;
 
+import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.application.service.WidgetService;
 import com.alcozone.infrastructure.dto.widget.DangerousTownMonthDTO;
 import com.alcozone.infrastructure.dto.widget.MonthlyAccidentsDTO;
@@ -13,8 +14,8 @@ public class DangerousTownMonthUseCase {
     @Inject
     WidgetService widgetService;
 
-    public List<DangerousTownMonthDTO> getDangerousTownMonth(){
-        return widgetService.getDangerousTownMonth();
+    public List<DangerousTownMonthDTO> getDangerousTownMonth(WidgetFiltersDTO filters){
+        return widgetService.getDangerousTownMonth(filters);
     }
 
 }

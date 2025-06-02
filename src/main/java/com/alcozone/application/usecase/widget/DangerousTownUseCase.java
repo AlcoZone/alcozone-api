@@ -1,5 +1,6 @@
 package com.alcozone.application.usecase.widget;
 
+import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.application.service.WidgetService;
 import com.alcozone.infrastructure.dto.widget.DangerousTownDTO;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,7 +13,7 @@ public class DangerousTownUseCase {
     @Inject
     WidgetService widgetService;
 
-    public List<DangerousTownDTO> getDangerousTown(){
-        return widgetService.getDangerousTown();
+    public List<DangerousTownDTO> getDangerousTown(WidgetFiltersDTO filters){
+        return widgetService.getDangerousTown(filters);
     }
 }
