@@ -16,12 +16,8 @@ public class GetCrashesBetweenDatesUseCase {
     @Inject
     CrashService crashService;
 
-    public DefaultCrashesResponseDTO execute(LocalDateTime startDate, LocalDateTime endDate) {
-        List<Crash> crashes = crashService.getCrashesBetweenDates(startDate, endDate);
-
-        DefaultCrashesResponseDTO dto = new DefaultCrashesResponseDTO();
-        dto.setCount(crashes.size());
-        dto.setData(crashes);
-        return dto;
+    public List<Crash> execute(LocalDateTime startDate, LocalDateTime endDate) {
+        return crashService.getCrashesBetweenDates(startDate, endDate);
     }
 }
+
