@@ -24,5 +24,6 @@ public class UpdateUserUseCase {
     public void updateDisplayName(String firebaseUid, String newDisplayName) {
         userService.updateDisplayName(firebaseUid, newDisplayName);
     }
+
 }
 

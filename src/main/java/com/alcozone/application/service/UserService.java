@@ -56,18 +56,22 @@ public class UserService {
     //actualizar displayName
     public void updateDisplayName(String firebaseUid, String newDisplayName) {
         try {
-            findUserByFirebaseUid(firebaseUid);
-            UserRecord userRecord;
-
+            // Actualizar en Firebase
             UpdateRequest request = new UpdateRequest(firebaseUid)
                     .setDisplayName(newDisplayName);
+            FirebaseAuth.getInstance().updateUser(request);
+            System.out.println("Display name updated in Firebase for user: " + firebaseUid);
 
-            userRecord = FirebaseAuth.getInstance().updateUser(request);
-            System.out.println("Display name successfully updated for user: " + userRecord.getUid());
+            // Actualizar en base de datos
+            userRepository.updateDisplayName(firebaseUid, newDisplayName);
+            System.out.println("Display name updated in DB for user: " + firebaseUid);
         } catch (Exception e) {
-            throw new RuntimeException("Error updating display name in Firebase: " + e.getMessage());
+            throw new RuntimeException("Error updating display name: " + e.getMessage());
         }
     }
+
+
+
 
 
     public void deleteUser(String id) {

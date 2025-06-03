@@ -46,7 +46,8 @@ public class UpdateController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                     .entity("Error updating display name: " + e.getMessage()).build();
         }
+
+
     }
+
 }
-
-
