@@ -4,7 +4,7 @@ import com.alcozone.application.service.UserService;
 import com.alcozone.application.usecase.register.RegisterUserUseCase;
 import com.alcozone.domain.model.User;
 import com.alcozone.infrastructure.dto.register.userDTO;
-import com.alcozone.infrastructure.dto.login.UserDTO;
+import com.alcozone.infrastructure.dto.login.LoginUserDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -21,7 +21,6 @@ public class UserController {
     UserService userService;
     @Inject
     RegisterUserUseCase registerUserUseCase;
-
 
     @GET
     public Response getUser(@Context ContainerRequestContext requestContext) {
@@ -40,7 +39,7 @@ public class UserController {
         }
 
         Integer roleId = user.getRole() != null ? user.getRole().getId() : null;
-        UserDTO dto = new UserDTO(
+        LoginUserDTO dto = new LoginUserDTO(
                 user.getUuid(),
                 roleId,
                 user.getEmail(),
