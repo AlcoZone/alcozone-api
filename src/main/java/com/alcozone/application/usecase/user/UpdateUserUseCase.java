@@ -13,17 +13,13 @@ public class UpdateUserUseCase {
     @Inject
     UserService userService;
 
-    // contraseña
     @Transactional
     public void updatePassword(String firebaseUid, String newPassword) {
         userService.updatePassword(firebaseUid, newPassword);
     }
 
-    // displayName
     @Transactional
     public void updateDisplayName(String firebaseUid, String newDisplayName) {
         userService.updateDisplayName(firebaseUid, newDisplayName);
     }
-
 }
-

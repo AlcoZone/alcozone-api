@@ -11,6 +11,5 @@ public interface UserRepository {
     User save(User user, int roleId);
     User updateDisplayName(String firebaseUid, String newDisplayName);
 
-
     List<User> findAll();
 }
