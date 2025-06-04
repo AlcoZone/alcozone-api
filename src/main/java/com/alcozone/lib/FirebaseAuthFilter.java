@@ -67,7 +67,6 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
             }
             String path = requestContext.getUriInfo().getPath();
             if (path.startsWith("/user/register")) {
-                System.out.println("[DEBUG] Role ID del usuario: " + user.getRole().getId());
                 if (user.getRole().getId() != 1) {
                     requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
                             .entity("Access denied: only ADMINISTRATOR can access this endpoint")
