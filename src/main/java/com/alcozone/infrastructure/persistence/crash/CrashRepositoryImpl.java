@@ -1,5 +1,7 @@
 package com.alcozone.infrastructure.persistence.crash;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -37,4 +39,20 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
     public List<Crash> getCrashesForClustering(String revisionUuid) {
         return List.of();
     }
+
+    @Override
+    public List<Crash> findCrashesBetweenDates(LocalDateTime start, LocalDateTime end){
+        List<Crash> crashes = new ArrayList<>();
+        DateTimeFormatter dbFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        String startStr = start.format(dbFormatter);
+        String endStr = end.format(dbFormatter);
+
+        for (CrashEntity entity : list("datetime BETWEEN ?1 AND ?2", startStr, endStr)) {
+            crashes.add(CrashMapper.toDomain(entity));
+        }
+        return crashes;
+    }
+
+
 }

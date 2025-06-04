@@ -1,8 +1,16 @@
 package com.alcozone.infrastructure.rest;
 
+import com.alcozone.application.dto.widget.CreateWidgetDTO;
 import com.alcozone.application.usecase.widget.*;
 import com.alcozone.infrastructure.dto.widget.*;
+import com.alcozone.domain.models.Widget;
+import com.alcozone.application.usecase.widget.GetAllWidgetDefinitionsUseCase;
+import com.alcozone.application.usecase.widget.SaveWidgetUseCase;
+import com.alcozone.application.usecase.widget.DeleteWidgetUseCase;
+
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -13,24 +21,37 @@ import java.util.List;
 
 @Path("/widgets")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class WidgetController {
 
-    @Inject
-    AccidentPercentageUseCase accidentPercentageUseCase;
+    @Inject GetAllWidgetDefinitionsUseCase getAllWidgetDefinitionsUseCase;
+    @Inject SaveWidgetUseCase saveWidgetUseCase;
+    @Inject DeleteWidgetUseCase deleteWidgetUseCase;
+    @Inject AccidentPercentageUseCase accidentPercentageUseCase;
+    @Inject AccidentNumberUseCase accidentNumberUseCase;
+    @Inject DangerousTownUseCase dangerousTownUseCase;
+    @Inject MonthlyAccidentsUseCase monthlyAccidentUseCase;
+    @Inject DangerousTownMonthUseCase dangerousTownMonthUseCase;
 
-    @Inject
-    AccidentNumberUseCase accidentNumberUseCase;
+    @GET
+    public Response getAllWidgets() {
+        List<Widget> widgets = getAllWidgetDefinitionsUseCase.execute();
+        return Response.ok(widgets).build();
+    }
 
-    @Inject
-    DangerousTownUseCase dangerousTownUseCase;
+    @POST
+    public Response saveWidget(@Valid CreateWidgetDTO dto) {
+        Widget saved = saveWidgetUseCase.execute(dto);
+        return Response.ok(saved).build();
+    }
 
-    @Inject
-    MonthlyAccidentsUseCase monthlyAccidentUseCase;
+    @DELETE
+    @Path("/{uuid}")
+    public Response deleteWidget(@PathParam("uuid") String uuid) {
+        deleteWidgetUseCase.execute(uuid);
+        return Response.noContent().build();
+    }
 
-    @Inject
-    DangerousTownMonthUseCase dangerousTownMonthUseCase;
-
-    // porcentaje de accidentes
     @GET
     @Path("/accidents-percentage")
     public Response getAccidentsPercentage() {
@@ -38,7 +59,6 @@ public class WidgetController {
         return Response.ok(result).build();
     }
 
-    // número de accidentes
     @GET
     @Path("/accidents-count")
     public Response getAccidentsNumber() {
@@ -46,7 +66,6 @@ public class WidgetController {
         return Response.ok(result).build();
     }
 
-    // delegaciones más peligrosas
     @GET
     @Path("/dangerous-town")
     public Response getDangerousTown() {
@@ -54,7 +73,6 @@ public class WidgetController {
         return Response.ok(result).build();
     }
 
-    // accidentes mensuales
     @GET
     @Path("/monthly-accidents")
     public Response getMonthlyAccident() {
@@ -62,7 +80,6 @@ public class WidgetController {
         return Response.ok(result).build();
     }
 
-    // delegaciones peligrosas por mes
     @GET
     @Path("/dangerous-town-month")
     public Response getDangerousTownMonth() {
@@ -70,5 +87,3 @@ public class WidgetController {
         return Response.ok(result).build();
     }
 }
-
-

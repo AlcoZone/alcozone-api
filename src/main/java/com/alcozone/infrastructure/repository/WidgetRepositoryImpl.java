@@ -1,20 +1,53 @@
 package com.alcozone.infrastructure.repository;
 
+import com.alcozone.domain.models.Widget;
 import com.alcozone.domain.repository.WidgetRepository;
+import com.alcozone.infrastructure.entity.WidgetEntity;
+import com.alcozone.infrastructure.mapper.WidgetMapper;
 import com.alcozone.infrastructure.dto.widget.*;
 import com.alcozone.infrastructure.persistence.crash.CrashEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
+import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepositoryBase<CrashEntity, Integer> {
+
+    @Override
+    public List<Widget> findAllWidgets() {
+        return WidgetEntity.listAll().stream()
+                .map(e -> WidgetMapper.toDomain((WidgetEntity) e))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public Widget save(Widget widget) {
+        WidgetEntity entity = WidgetMapper.toEntity(widget);
+
+        if (entity.getId() == null) {
+            entity.persist();
+        } else {
+            entity = WidgetEntity.getEntityManager().merge(entity);
+        }
+
+        return WidgetMapper.toDomain(entity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByUuid(String uuid) {
+        WidgetEntity.delete("uuid", uuid);
+    }
 
     @Inject
     EntityManager em;

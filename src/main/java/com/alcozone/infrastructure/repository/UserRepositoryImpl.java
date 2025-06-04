@@ -75,4 +75,8 @@ public class UserRepositoryImpl implements UserRepository {
                 .toList();
     }
 
+    @Override
+    public boolean existsByEmail(String email) {
+        return UserEntity.count("email = ?1 and deleted = false", email) > 0;
+    }
 }

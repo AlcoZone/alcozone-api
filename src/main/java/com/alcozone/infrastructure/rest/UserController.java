@@ -3,17 +3,13 @@ package com.alcozone.infrastructure.rest;
 import com.alcozone.application.service.UserService;
 import com.alcozone.application.usecase.register.RegisterUserUseCase;
 import com.alcozone.domain.model.User;
-import com.alcozone.infrastructure.dto.login.UserDTO;
 import com.alcozone.infrastructure.dto.register.userDTO;
-import com.google.firebase.auth.ExportedUserRecord;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.ListUsersPage;
+import com.alcozone.infrastructure.dto.login.LoginUserDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/user")
@@ -43,7 +39,12 @@ public class UserController {
         }
 
         Integer roleId = user.getRole() != null ? user.getRole().getId() : null;
-        UserDTO dto = new UserDTO(user.getUuid(), roleId, user.getEmail());
+        LoginUserDTO dto = new LoginUserDTO(
+                user.getUuid(),
+                roleId,
+                user.getEmail(),
+                user.getUsername()
+        );
 
         return Response.ok(dto).build();
     }
@@ -60,6 +61,7 @@ public class UserController {
                     .build();
         }
     }
+
     @GET
     @Path("/all")
     public List<userDTO> getAllUsers() {
@@ -67,5 +69,3 @@ public class UserController {
     }
 
 }
-
-
