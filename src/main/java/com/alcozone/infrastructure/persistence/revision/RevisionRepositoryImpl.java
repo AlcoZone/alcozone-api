@@ -41,11 +41,13 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
 
     @Override
     public List<RevisionListEntity> getLightweightRevisions() {
+        String sql = """
+        SELECT r.uuid, r.name, r.created_at, SIZE(r.crashes)
+        FROM RevisionEntity r
+    """;
+
         List<Object[]> rows = entityManager
-                .createQuery("""
-                SELECT r.uuid, r.name, r.created_at, SIZE(r.crashes)
-                FROM RevisionEntity r
-            """, Object[].class)
+                .createQuery(sql, Object[].class)
                 .getResultList();
 
         List<RevisionListEntity> result = new ArrayList<>();
@@ -55,7 +57,7 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
             item.setUuid((String) row[0]);
             item.setName((String) row[1]);
             item.setCreated_at((LocalDateTime) row[2]);
-            item.setDataQuantity(((Number) row[3]).intValue()); // Cast defensivo
+            item.setDataQuantity(((Number) row[3]).intValue());
 
             result.add(item);
         }

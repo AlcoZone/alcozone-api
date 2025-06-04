@@ -58,7 +58,7 @@ public class RevisionController {
     @Produces("text/csv")
     public Response downloadRevisionCsv(@BeanParam GetRevisionRequestDTO requestDTO) {
         DefaultRevisionResponseDTO revision = getRevisionUseCase.execute(requestDTO);
-        byte[] csvBytes = csvExportUtil.revisionToCsv(revision);  // CSV en bytes
+        byte[] csvBytes = csvExportUtil.revisionToCsv(revision);
         return Response.ok(csvBytes)
                 .header("Content-Disposition", "attachment; filename=\"revision.csv\"")
                 .type("application/octet-stream")
