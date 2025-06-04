@@ -34,6 +34,12 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
+        String path = requestContext.getUriInfo().getPath();
+
+        if (path != null && path.endsWith("/auth/email-exists")) {
+            return;
+        }
+
         String authHeader = requestContext.getHeaderString("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
