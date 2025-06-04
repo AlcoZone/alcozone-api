@@ -90,7 +90,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           subType,
           COUNT(*) AS accidentCount
-        FROM alcozone.crashes
+        FROM crashes
         WHERE subType IN ('Choque con lesionados', 'Motociclista', 'Ciclista', 'Atropellado')
         GROUP BY subType
         ORDER BY accidentCount DESC
