@@ -26,8 +26,4 @@ public class CrashService {
     public List<Crash> getCrashesByRevisionUuid(String revisionUuid) {
         return crashRepository.findCrashesByRevisionUuid(revisionUuid);
     }
-
-    public List<Crash> getCrashesByTown(String town){
-        return crashRepository.findCrashesByTown(town);
-    }
 }

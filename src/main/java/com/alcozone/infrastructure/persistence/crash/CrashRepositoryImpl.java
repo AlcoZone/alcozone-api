@@ -38,12 +38,4 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
         return List.of();
     }
 
-    @Override
-    public List<Crash> findCrashesByTown(String town) {
-        List<Crash> crashes = new ArrayList<>();
-        for(CrashEntity crashEntity : list("town", town)){
-            crashes.add(CrashMapper.toDomain(crashEntity));
-        }
-        return crashes;
-    }
 }
