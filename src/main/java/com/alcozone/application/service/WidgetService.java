@@ -1,21 +1,15 @@
 package com.alcozone.application.service;
 
 import com.alcozone.application.dto.widget.CreateWidgetDTO;
-import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.application.mapper.WidgetDTOMapper;
-import com.alcozone.application.usecase.widget.AccidentNumberUseCase;
-import com.alcozone.domain.models.Crash;
 import com.alcozone.domain.models.Widget;
 import com.alcozone.domain.models.widgetdata.*;
 import com.alcozone.domain.repository.WidgetRepository;
-import com.alcozone.infrastructure.dto.widget.*;
-import com.alcozone.infrastructure.mapper.widgetdata.AccidentNumberMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.UUID;
 
 @ApplicationScoped
@@ -23,8 +17,6 @@ public class WidgetService {
 
     @Inject
     WidgetRepository widgetRepository;
-    @Inject
-    AccidentNumberUseCase accidentNumberUseCase;
 
     public List<Widget> findAllWidgets() {
         return widgetRepository.findAllWidgets();

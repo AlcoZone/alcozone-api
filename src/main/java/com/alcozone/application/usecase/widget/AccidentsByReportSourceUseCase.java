@@ -4,8 +4,6 @@ import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.application.service.WidgetService;
 import com.alcozone.domain.models.widgetdata.AccidentsByReportSource;
 import com.alcozone.domain.models.widgetdata.WidgetFilters;
-import com.alcozone.infrastructure.dto.widget.AccidentsByReportSourceDTO;
-import com.alcozone.infrastructure.mapper.widgetdata.AccidentsByReportSourceMapper;
 import com.alcozone.infrastructure.mapper.widgetdata.WidgetFiltersMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
