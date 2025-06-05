@@ -1,6 +1,5 @@
 package com.alcozone.UnitTests;
 
-import com.alcozone.application.service.RevisionService;
 import com.alcozone.application.service.WidgetService;
 import com.alcozone.infrastructure.dto.widget.AccidentNumberDTO;
 import com.alcozone.infrastructure.persistence.crash.CrashEntity;
@@ -9,9 +8,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-import java.util.UUID;
 
 @QuarkusTest
 public class GetDataTest {
@@ -23,7 +20,7 @@ public class GetDataTest {
     @Transactional
     public void testInsertData() {
         RevisionEntity revision = new RevisionEntity();
-        revision.setUuid("1"); // <- usamos "1" en lugar de UUID aleatorio
+        revision.setUuid("1");
         revision.persist();
         RevisionEntity.getEntityManager().flush();
 
@@ -38,7 +35,7 @@ public class GetDataTest {
             crash.setNeighbourhood("Centro");
             crash.setLatitude(19.4326);
             crash.setLongitude(-99.1332);
-            crash.setRevisionEntity(revision); // <- relación con la revisión "1"
+            crash.setRevisionEntity(revision);
             crash.persist();
         }
 
@@ -50,9 +47,6 @@ public class GetDataTest {
         assert firstResult.getSubType().equals("Choque con lesionados");
         assert firstResult.getAccidentCount() == 25279;
     }
-
-
-
 
     @Test
     @Transactional
@@ -69,6 +63,5 @@ public class GetDataTest {
             assert false : "Were not expected data, but found data";
         }
     }
-
 }
 
