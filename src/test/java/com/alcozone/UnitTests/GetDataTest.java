@@ -1,5 +1,6 @@
 package com.alcozone.UnitTests;
 
+import com.alcozone.application.service.RevisionService;
 import com.alcozone.application.service.WidgetService;
 import com.alcozone.infrastructure.dto.widget.AccidentNumberDTO;
 import com.alcozone.infrastructure.persistence.crash.CrashEntity;
@@ -10,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 @QuarkusTest
 public class GetDataTest {
@@ -21,7 +23,9 @@ public class GetDataTest {
     @Transactional
     public void testInsertData() {
         RevisionEntity revision = new RevisionEntity();
+        revision.setUuid("1"); // <- usamos "1" en lugar de UUID aleatorio
         revision.persist();
+        RevisionEntity.getEntityManager().flush();
 
         for (int i = 0; i < 25279; i++) {
             CrashEntity crash = new CrashEntity();
@@ -34,7 +38,7 @@ public class GetDataTest {
             crash.setNeighbourhood("Centro");
             crash.setLatitude(19.4326);
             crash.setLongitude(-99.1332);
-            crash.setRevisionEntity(revision);
+            crash.setRevisionEntity(revision); // <- relación con la revisión "1"
             crash.persist();
         }
 
@@ -47,19 +51,22 @@ public class GetDataTest {
         assert firstResult.getAccidentCount() == 25279;
     }
 
+
+
+
     @Test
     @Transactional
     public void testInsertCrash_Failed_EmptyList() {
         List<AccidentNumberDTO> accidentStats = widgetService.getAccidentsNumber();
 
         if (accidentStats == null || accidentStats.isEmpty()) {
-            System.out.println("No se pudieron ingresar datos");
+            System.out.println("Could not enter data");
             assert true;
         } else {
 
             AccidentNumberDTO firstResult = accidentStats.getFirst();
-            System.out.println("Se encontraron datos inesperados: SubType: " + firstResult.getSubType() + " - Count: " + firstResult.getAccidentCount());
-            assert false : "Se esperaban cero datos, pero se encontraron datos";
+            System.out.println("Unexpected data was found: SubType: " + firstResult.getSubType() + " - Count: " + firstResult.getAccidentCount());
+            assert false : "Were not expected data, but found data";
         }
     }
 
