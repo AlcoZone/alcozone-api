@@ -1,28 +1,18 @@
 package com.alcozone.application.mapper;
 
 import com.alcozone.application.dto.dashboard.CreateDashboardDTO;
-import com.alcozone.application.dto.dashboard.UpdateDashboardDTO;
 import com.alcozone.domain.models.Dashboard;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class DashboardDTOMapper {
 
     public static Dashboard fromCreateDTO(CreateDashboardDTO dto) {
         return new Dashboard(
                 null,
-                UUID.randomUUID().toString().replace("-", ""),
+                null,
                 dto.getUserUuid(),
                 dto.getName(),
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                null,
+                null
         );
-    }
-
-    public static Dashboard fromUpdateDTO(UpdateDashboardDTO dto, Dashboard existing) {
-        existing.setName(dto.getName());
-        existing.setUpdatedAt(LocalDateTime.now());
-        return existing;
     }
 }

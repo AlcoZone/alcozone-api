@@ -9,6 +9,7 @@ public interface UserRepository {
     User deleteUser(String id);
     User createUser(User user);
     User save(User user, int roleId);
-
+    User updateDisplayName(String firebaseUid, String newDisplayName);
+    boolean existsByEmail(String email);
     List<User> findAll();
 }

@@ -13,8 +13,10 @@ import com.alcozone.infrastructure.mapper.widgetdata.AccidentNumberMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.UUID;
 
 @ApplicationScoped
 public class WidgetService {
@@ -30,6 +32,9 @@ public class WidgetService {
 
     public Widget save(CreateWidgetDTO dto) {
         Widget widget = WidgetDTOMapper.fromCreateDTO(dto);
+        widget.setUuid(UUID.randomUUID().toString());
+        widget.setCreatedAt(LocalDateTime.now());
+        widget.setUpdatedAt(LocalDateTime.now());
         return widgetRepository.save(widget);
     }
 
