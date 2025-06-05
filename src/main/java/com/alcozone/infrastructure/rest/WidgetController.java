@@ -83,7 +83,9 @@ public class WidgetController {
 
     @GET
     @Path("/dangerous-town")
-    public Response getDangerousTown( WidgetFiltersDTO dto) {
+    public Response getDangerousTown(@QueryParam("town") String town) {
+        WidgetFiltersDTO dto = new WidgetFiltersDTO();
+        dto.setTown(town);
         List<DangerousTown> result = dangerousTownUseCase.execute(dto);
         return Response.ok(result).build();
     }
@@ -102,7 +104,9 @@ public class WidgetController {
 
     @GET
     @Path("/dangerous-town-month")
-    public Response getDangerousTownMonth(WidgetFiltersDTO dto) {
+    public Response getDangerousTownMonth(@QueryParam("town") String town) {
+        WidgetFiltersDTO dto = new WidgetFiltersDTO();
+        dto.setTown(town);
         List<DangerousTownMonth> result = dangerousTownMonthUseCase.execute(dto);
         return Response.ok(result).build();
     }
