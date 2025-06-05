@@ -1,7 +1,6 @@
 package com.alcozone.domain.repository;
 
-import com.alcozone.application.dto.widget.WidgetFiltersDTO;
-import com.alcozone.infrastructure.dto.widget.*;
+import com.alcozone.domain.models.widgetdata.*;
 import java.util.List;
 import com.alcozone.domain.models.Widget;
 
@@ -10,11 +9,11 @@ public interface WidgetRepository {
     Widget save(Widget widget);
     void deleteByUuid(String uuid);
 
-    List<AccidentPercentageDTO> getAccidentsPercentage(WidgetFiltersDTO filters);
-    List<AccidentNumberDTO> getAccidentsNumber(WidgetFiltersDTO filters);
-    List<DangerousTownDTO> getDangerousTown(WidgetFiltersDTO filters);
-    List<MonthlyAccidentsDTO> getMonthlyAccident(WidgetFiltersDTO filters);
-    List<DangerousTownMonthDTO> getDangerousTownMonth(WidgetFiltersDTO filters);
-    List<DailyAccidentsDTO> getDailyAccidents(WidgetFiltersDTO filters);
-    List<AccidentsByReportSourceDTO> getAccidentsByReportSource(WidgetFiltersDTO filters);
+    List<AccidentPercentage> getAccidentsPercentage(WidgetFilters filters);
+    List<AccidentNumber> getAccidentsNumber(WidgetFilters filters);
+    List<DangerousTown> getDangerousTown(WidgetFilters filters);
+    List<MonthlyAccidents> getMonthlyAccident(WidgetFilters filters);
+    List<DangerousTownMonth> getDangerousTownMonth(WidgetFilters filters);
+    List<DailyAccidents> getDailyAccidents(WidgetFilters filters);
+    List<AccidentsByReportSource> getAccidentsByReportSource(WidgetFilters filters);
 }

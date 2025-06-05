@@ -3,12 +3,14 @@ package com.alcozone.infrastructure.rest;
 import com.alcozone.application.dto.widget.CreateWidgetDTO;
 import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.application.usecase.widget.*;
+import com.alcozone.domain.models.widgetdata.*;
 import com.alcozone.infrastructure.dto.widget.*;
 import com.alcozone.domain.models.Widget;
 import com.alcozone.application.usecase.widget.GetAllWidgetDefinitionsUseCase;
 import com.alcozone.application.usecase.widget.SaveWidgetUseCase;
 import com.alcozone.application.usecase.widget.DeleteWidgetUseCase;
 
+import com.alcozone.infrastructure.mapper.widgetdata.*;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -60,8 +62,11 @@ public class WidgetController {
     public Response getAccidentsPercentage(@QueryParam("town") String town) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
-        List<AccidentPercentageDTO> result = accidentPercentageUseCase.getAccidentPercentage(dto);
-        return Response.ok(result).build();
+        List<AccidentPercentage> accidentPercentage = accidentPercentageUseCase.execute(dto);
+        List<AccidentPercentageDTO> responseDto = accidentPercentage.stream()
+                .map(AccidentPercentageMapper::toDTO)
+                .toList();
+        return Response.ok(responseDto).build();
     }
 
     @GET
@@ -69,14 +74,17 @@ public class WidgetController {
     public Response getAccidentsNumber(@QueryParam("town") String town) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
-        List<AccidentNumberDTO> result = accidentNumberUseCase.getAccidentsNumber(dto);
-        return Response.ok(result).build();
+        List<AccidentNumber> accidentNumber = accidentNumberUseCase.execute(dto);
+        List<AccidentNumberDTO> responseDto = accidentNumber.stream()
+                .map(AccidentNumberMapper::toDTO)
+                .toList();
+        return Response.ok(responseDto).build();
     }
 
     @GET
     @Path("/dangerous-town")
     public Response getDangerousTown( WidgetFiltersDTO dto) {
-        List<DangerousTownDTO> result = dangerousTownUseCase.getDangerousTown(dto);
+        List<DangerousTown> result = dangerousTownUseCase.execute(dto);
         return Response.ok(result).build();
     }
 
@@ -85,14 +93,17 @@ public class WidgetController {
     public Response getMonthlyAccident(@QueryParam("town") String town) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
-        List<MonthlyAccidentsDTO> result = monthlyAccidentUseCase.getMonthlyAccident(dto);
-        return Response.ok(result).build();
+        List<MonthlyAccidents> monthlyAccidents = monthlyAccidentUseCase.execute(dto);
+        List<MonthlyAccidentsDTO> responseDto = monthlyAccidents.stream()
+                .map(MonthlyAccidentsMapper::toDTO)
+                .toList();
+        return Response.ok(responseDto).build();
     }
 
     @GET
     @Path("/dangerous-town-month")
     public Response getDangerousTownMonth(WidgetFiltersDTO dto) {
-        List<DangerousTownMonthDTO> result = dangerousTownMonthUseCase.getDangerousTownMonth(dto);
+        List<DangerousTownMonth> result = dangerousTownMonthUseCase.execute(dto);
         return Response.ok(result).build();
     }
 
@@ -101,8 +112,11 @@ public class WidgetController {
     public Response getDailyAccidents(@QueryParam("town") String town) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
-        List<DailyAccidentsDTO> result = dailyAccidentsUseCase.getDailyAccidents(dto);
-        return Response.ok(result).build();
+        List<DailyAccidents> dailyAccidents = dailyAccidentsUseCase.execute(dto);
+        List<DailyAccidentsDTO> responseDto = dailyAccidents.stream()
+                .map(DailyAccidentsMapper::toDTO)
+                .toList();
+        return Response.ok(responseDto).build();
     }
 
     @GET
@@ -110,7 +124,10 @@ public class WidgetController {
     public Response getAccidentsByReportSource(@QueryParam("town") String town) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
-        List<AccidentsByReportSourceDTO> result = accidentsByReportSourceUseCase.getAccidentsByReportSource(dto);
-        return Response.ok(result).build();
+        List<AccidentsByReportSource> accidentsByReportSource = accidentsByReportSourceUseCase.execute(dto);
+        List<AccidentsByReportSourceDTO> responseDto = accidentsByReportSource.stream()
+                .map(AccidentsByReportSourceMapper::toDTO)
+                .toList();
+        return Response.ok(responseDto).build();
     }
 }

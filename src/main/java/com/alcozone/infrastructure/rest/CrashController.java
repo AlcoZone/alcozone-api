@@ -14,9 +14,6 @@ import com.alcozone.application.usecase.crash.GetCrashesByRevisionUuidUseCase;
 public class CrashController {
 
     @Inject
-    GetCrashesByRevisionUuidUseCase getCrashesByRevisionUuidUseCase;
-
-    @Inject
     GetCrashesByTownUseCase getCrashesByTownUseCase;
 
     @GET

@@ -1,11 +1,10 @@
 package com.alcozone.infrastructure.repository;
 
-import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.domain.models.Widget;
+import com.alcozone.domain.models.widgetdata.*;
 import com.alcozone.domain.repository.WidgetRepository;
 import com.alcozone.infrastructure.entity.WidgetEntity;
 import com.alcozone.infrastructure.mapper.WidgetMapper;
-import com.alcozone.infrastructure.dto.widget.*;
 import com.alcozone.infrastructure.persistence.crash.CrashEntity;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -52,8 +51,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
     @Inject
     EntityManager em;
 
-    //metodo para sacar el porcentaje de accidentes
-    public List<AccidentPercentageDTO> getAccidentsPercentage(WidgetFiltersDTO filters) {
+    @Override
+    public List<AccidentPercentage> getAccidentsPercentage(WidgetFilters filters) {
         String sql = """
         SELECT
           subType,
@@ -67,16 +66,16 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
 
         Map<String, Object> params = new HashMap<>();
         String filteredSql = applyFilters(sql, filters, params);
-        List<AccidentPercentageDTO> result = new ArrayList<>();
+        List<AccidentPercentage> result = new ArrayList<>();
 
         try {
             List<Object[]> resultQuery = executeQuery(filteredSql, params);
 
             for (Object[] row : resultQuery) {
-                AccidentPercentageDTO dto = new AccidentPercentageDTO();
-                dto.setSubType((String) row[0]);
-                dto.setPercentage(((Number) row[1]).doubleValue());
-                result.add(dto);
+                AccidentPercentage accidentPercentage = new AccidentPercentage();
+                accidentPercentage.setSubType((String) row[0]);
+                accidentPercentage.setPercentage(((Number) row[1]).doubleValue());
+                result.add(accidentPercentage);
             }
         } catch (Exception e) {
             return new ArrayList<>();
@@ -85,9 +84,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         return result;
     }
 
-    //metodo para sacar el número de accidentes
-
-    public List<AccidentNumberDTO> getAccidentsNumber(WidgetFiltersDTO filters) {
+    @Override
+    public List<AccidentNumber> getAccidentsNumber(WidgetFilters filters) {
         String sql = """
         SELECT
           subType,
@@ -101,16 +99,16 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
 
         Map<String, Object> params = new HashMap<>();
         String filteredSql = applyFilters(sql, filters, params);
-        List<AccidentNumberDTO> result = new ArrayList<>();
+        List<AccidentNumber> result = new ArrayList<>();
 
         try {
             List<Object[]> resultQuery = executeQuery(filteredSql, params);
 
             for (Object[] row : resultQuery) {
-                AccidentNumberDTO dto = new AccidentNumberDTO();
-                dto.setSubType((String) row[0]);
-                dto.setAccidentCount(Integer.valueOf(row[1].toString()));
-                result.add(dto);
+                AccidentNumber accidentNumber = new AccidentNumber();
+                accidentNumber.setSubType((String) row[0]);
+                accidentNumber.setAccidentCount(Integer.valueOf(row[1].toString()));
+                result.add(accidentNumber);
             }
         } catch (Exception e) {
             return new ArrayList<>();
@@ -119,11 +117,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         return result;
     }
 
-
-    //metodo para sacar la delegacion peligrosa
-
-
-    public List<DangerousTownDTO> getDangerousTown(WidgetFiltersDTO filters) {
+    @Override
+    public List<DangerousTown> getDangerousTown(WidgetFilters filters) {
         String sql = """
         SELECT
           town,
@@ -135,17 +130,17 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         LIMIT 2
     """;
 
-        List<DangerousTownDTO> result = new ArrayList<>();
+        List<DangerousTown> result = new ArrayList<>();
 
         try {
             @SuppressWarnings("unchecked")
             List<Object[]> resultQuery = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : resultQuery) {
-                DangerousTownDTO dto = new DangerousTownDTO();
-                dto.town = (String) row[0];
-                dto.total_accidents = String.valueOf(row[1]);
-                result.add(dto);
+                DangerousTown dangerousTown = new DangerousTown();
+                dangerousTown.setTown((String) row[0]);
+                dangerousTown.setTotal_accidents(String.valueOf(row[1]));
+                result.add(dangerousTown);
             }
         } catch (Exception e) {
             return new ArrayList<>();
@@ -154,8 +149,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         return result;
     }
 
-    //metodo para obtener los accidentes por mes
-    public List<MonthlyAccidentsDTO> getMonthlyAccident(WidgetFiltersDTO filters) {
+    @Override
+    public List<MonthlyAccidents> getMonthlyAccident(WidgetFilters filters) {
         String sql = """
         SELECT
           MONTHNAME(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS month_name,
@@ -169,16 +164,16 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
 
         Map<String, Object> params = new HashMap<>();
         String filteredSql = applyFilters(sql, filters, params);
-        List<MonthlyAccidentsDTO> result = new ArrayList<>();
+        List<MonthlyAccidents> result = new ArrayList<>();
 
         try {
             List<Object[]> resultQuery = executeQuery(filteredSql, params);
 
             for (Object[] row : resultQuery) {
-                MonthlyAccidentsDTO dto = new MonthlyAccidentsDTO();
-                dto.setMonth_name((String) row[0]);
-                dto.setAccidents(row[1].toString());
-                result.add(dto);
+                MonthlyAccidents monthlyAccidents = new MonthlyAccidents();
+                monthlyAccidents.setMonth_name((String) row[0]);
+                monthlyAccidents.setAccidents(row[1].toString());
+                result.add(monthlyAccidents);
             }
         } catch (Exception e) {
             return new ArrayList<>();
@@ -187,8 +182,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         return result;
     }
 
-    //metodo para obtener las delegaciones mas peligrosas por cada mes
-    public List<DangerousTownMonthDTO> getDangerousTownMonth(WidgetFiltersDTO filters) {
+    @Override
+    public List<DangerousTownMonth> getDangerousTownMonth(WidgetFilters filters) {
         String sql = """
         SELECT 
           month_name,
@@ -221,18 +216,18 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         ORDER BY month_number, total_accidents DESC;
     """;
 
-        List<DangerousTownMonthDTO> result = new ArrayList<>();
+        List<DangerousTownMonth> result = new ArrayList<>();
 
         try {
             @SuppressWarnings("unchecked")
             List<Object[]> resultQuery = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : resultQuery) {
-                DangerousTownMonthDTO dto = new DangerousTownMonthDTO();
-                dto.setMonth_name((String) row[0]);
-                dto.setTown((String) row[1]);
-                dto.setTotal_accidents(Integer.parseInt(row[2].toString()));
-                result.add(dto);
+                DangerousTownMonth dangerousTownMonth = new DangerousTownMonth();
+                dangerousTownMonth.setMonth_name((String) row[0]);
+                dangerousTownMonth.setTown((String) row[1]);
+                dangerousTownMonth.setTotal_accidents(Integer.parseInt(row[2].toString()));
+                result.add(dangerousTownMonth);
             }
         } catch (Exception e) {
             return new ArrayList<>();
@@ -241,8 +236,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         return result;
     }
 
-    //metodo para obtener el número de accidentes por día
-    public List<DailyAccidentsDTO> getDailyAccidents(WidgetFiltersDTO filters) {
+    @Override
+    public List<DailyAccidents> getDailyAccidents(WidgetFilters filters) {
         String sql = """
         SELECT
           DATE(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS accident_date,
@@ -255,16 +250,16 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
 
         Map<String, Object> params = new HashMap<>();
         String filteredSql = applyFilters(sql, filters, params);
-        List<DailyAccidentsDTO> result = new ArrayList<>();
+        List<DailyAccidents> result = new ArrayList<>();
 
         try{
             List<Object[]> resultQuery = executeQuery(filteredSql, params);
 
             for (Object[] row : resultQuery) {
-                DailyAccidentsDTO dto = new DailyAccidentsDTO();
-                dto.setAccident_date(row[0].toString());
-                dto.setTotal_accidents(Integer.valueOf(row[1].toString()));
-                result.add(dto);
+                DailyAccidents dailyAccidents = new DailyAccidents();
+                dailyAccidents.setAccident_date(row[0].toString());
+                dailyAccidents.setTotal_accidents(Integer.valueOf(row[1].toString()));
+                result.add(dailyAccidents);
             }
         } catch (Exception e) {
             return new ArrayList<>();
@@ -273,7 +268,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         return result;
     }
 
-    public List<AccidentsByReportSourceDTO> getAccidentsByReportSource(WidgetFiltersDTO filters){
+    @Override
+    public List<AccidentsByReportSource> getAccidentsByReportSource(WidgetFilters filters){
         String sql = """
         SELECT
           reportedBy as report_source,
@@ -285,16 +281,16 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
 
         Map<String, Object> params = new HashMap<>();
         String filteredSql = applyFilters(sql, filters, params);
-        List<AccidentsByReportSourceDTO> result = new ArrayList<>();
+        List<AccidentsByReportSource> result = new ArrayList<>();
 
         try{
             List<Object[]> resultQuery = executeQuery(filteredSql, params);
 
             for(Object[] row : resultQuery) {
-                AccidentsByReportSourceDTO dto = new AccidentsByReportSourceDTO();
-                dto.setReport_source((String) row[0]);
-                dto.setTotal_accidents(Integer.valueOf(row[1].toString()));
-                result.add(dto);
+                AccidentsByReportSource accidentsByReportSource = new AccidentsByReportSource();
+                accidentsByReportSource.setReport_source((String) row[0]);
+                accidentsByReportSource.setTotal_accidents(Integer.valueOf(row[1].toString()));
+                result.add(accidentsByReportSource);
             }
         } catch (Exception e) {
             return new ArrayList<>();
@@ -303,7 +299,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         return result;
     }
 
-    private String applyFilters(String sql, WidgetFiltersDTO filters, Map<String, Object> params) {
+    private String applyFilters(String sql, WidgetFilters filters, Map<String, Object> params) {
         List<String> conditions = new ArrayList<>();
         if(filters != null) {
             if(filters.getTown() != null && !filters.getTown().isBlank()) {

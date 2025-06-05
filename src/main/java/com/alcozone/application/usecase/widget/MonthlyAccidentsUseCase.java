@@ -2,8 +2,12 @@ package com.alcozone.application.usecase.widget;
 
 import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.application.service.WidgetService;
+import com.alcozone.domain.models.widgetdata.MonthlyAccidents;
+import com.alcozone.domain.models.widgetdata.WidgetFilters;
 import com.alcozone.domain.repository.WidgetRepository;
 import com.alcozone.infrastructure.dto.widget.MonthlyAccidentsDTO;
+import com.alcozone.infrastructure.mapper.widgetdata.MonthlyAccidentsMapper;
+import com.alcozone.infrastructure.mapper.widgetdata.WidgetFiltersMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -14,7 +18,8 @@ public class MonthlyAccidentsUseCase {
     @Inject
     WidgetService widgetService;
 
-    public List<MonthlyAccidentsDTO> getMonthlyAccident(WidgetFiltersDTO filters) {
+    public List<MonthlyAccidents> execute(WidgetFiltersDTO filtersDto) {
+        WidgetFilters filters = WidgetFiltersMapper.toDomain(filtersDto);
         return widgetService.getMonthlyAccident(filters);
     }
 }

@@ -3,19 +3,26 @@ package com.alcozone.application.service;
 import com.alcozone.application.dto.widget.CreateWidgetDTO;
 import com.alcozone.application.dto.widget.WidgetFiltersDTO;
 import com.alcozone.application.mapper.WidgetDTOMapper;
+import com.alcozone.application.usecase.widget.AccidentNumberUseCase;
+import com.alcozone.domain.models.Crash;
 import com.alcozone.domain.models.Widget;
+import com.alcozone.domain.models.widgetdata.*;
 import com.alcozone.domain.repository.WidgetRepository;
 import com.alcozone.infrastructure.dto.widget.*;
+import com.alcozone.infrastructure.mapper.widgetdata.AccidentNumberMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class WidgetService {
 
     @Inject
     WidgetRepository widgetRepository;
+    @Inject
+    AccidentNumberUseCase accidentNumberUseCase;
 
     public List<Widget> findAllWidgets() {
         return widgetRepository.findAllWidgets();
@@ -30,38 +37,31 @@ public class WidgetService {
         widgetRepository.deleteByUuid(uuid);
     }
 
-    public List <AccidentNumberDTO> getAccidentsNumber (WidgetFiltersDTO filters){
+    public List <AccidentNumber> getAccidentsNumber (WidgetFilters filters){
         return widgetRepository.getAccidentsNumber(filters);
     }
 
-    //widget 2 - Accident Percentage
-    public List<AccidentPercentageDTO> getAccidentPercentage(WidgetFiltersDTO filters) {
+    public List<AccidentPercentage> getAccidentPercentage(WidgetFilters filters) {
         return widgetRepository.getAccidentsPercentage(filters);
     }
 
-    //widget 3 - Dangerous Town
-    public List<DangerousTownDTO> getDangerousTown(WidgetFiltersDTO filters){
+    public List<DangerousTown> getDangerousTown(WidgetFilters filters){
         return widgetRepository.getDangerousTown(filters);
     }
 
-    //widget 4 - Monthly Accident
-    public List<MonthlyAccidentsDTO> getMonthlyAccident(WidgetFiltersDTO filters){
+    public List<MonthlyAccidents> getMonthlyAccident(WidgetFilters filters){
         return widgetRepository.getMonthlyAccident(filters);
     }
 
-
-    //widget 5 - Dangerous Towns per month
-    public List<DangerousTownMonthDTO> getDangerousTownMonth(WidgetFiltersDTO filters){
+    public List<DangerousTownMonth> getDangerousTownMonth(WidgetFilters filters){
         return widgetRepository.getDangerousTownMonth(filters);
     }
 
-    //widget 6 - Daily Accidents
-    public List<DailyAccidentsDTO> getDailyAccidents(WidgetFiltersDTO filters){
+    public List<DailyAccidents> getDailyAccidents(WidgetFilters filters){
         return widgetRepository.getDailyAccidents(filters);
     }
 
-    //widget 7 - Accidents By Report Source
-    public List<AccidentsByReportSourceDTO> getAccidentsByReportSource(WidgetFiltersDTO filters){
+    public List<AccidentsByReportSource> getAccidentsByReportSource(WidgetFilters filters){
         return widgetRepository.getAccidentsByReportSource(filters);
     }
 
