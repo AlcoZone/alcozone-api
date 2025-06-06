@@ -13,6 +13,6 @@ public class Revision {
     private int id;
     private String uuid;
     private String name;
-
+    private boolean deleted;
     private List<Crash> crashes;
 }

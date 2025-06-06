@@ -20,7 +20,6 @@ import com.alcozone.domain.model.RoleType;
 import io.smallrye.common.annotation.Blocking;
 
 import java.io.IOException;
-import java.util.List;
 
 @Provider
 @Priority(Priorities.AUTHENTICATION)
@@ -33,18 +32,8 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
     @Inject
     RoleRepository roleRepository;
 
-    private static final List<String> adminOnlyPaths = List.of(
-            "/user/all",
-            "/users/delete",
-            "/user/register"
-    );
-
-    private static final List<String> admin_dataManagerOnlyPaths = List.of(
-            "/revision"
-    );
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-
         String path = requestContext.getUriInfo().getPath();
 
         if (path != null && path.endsWith("/auth/email-exists")) {
@@ -81,27 +70,16 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
                 newUser.setRole(datavisualizerRole);
                 System.out.println("[DEBUG] New user: " + newUser);
                 userService.createUser(newUser);
-                user = userService.findByFirebaseUidRaw(firebaseUid);
             }
-            int roleId = user.getRole().getId();
-            for (String adminPath : adminOnlyPaths) {
-                if (path.startsWith(adminPath) && roleId != 1) {
+
+            if (path.startsWith("/user/register")) {
+                if (user.getRole().getId() != 1) {
                     requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-                            .entity("Access denied: only ADMIN can access this endpoint")
+                            .entity("Access denied: only ADMINISTRATOR can access this endpoint")
                             .build());
                     return;
                 }
             }
-
-            for (String managerPath : admin_dataManagerOnlyPaths) {
-                if (path.startsWith(managerPath) && roleId != 1 && roleId != 2) {
-                    requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-                            .entity("Access denied: only ADMIN or DATA_MANAGER can access this endpoint")
-                            .build());
-                    return;
-                }
-            }
-
             requestContext.setProperty("userUuid", firebaseUid);
 
         } catch (FirebaseAuthException e) {
