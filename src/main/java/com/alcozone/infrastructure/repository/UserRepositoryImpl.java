@@ -37,6 +37,23 @@ public class UserRepositoryImpl implements UserRepository {
         return UserMapper.toDomain(entity);
     }
 
+    @Override
+    @Transactional
+    public User updateDisplayName(String firebaseUid, String newDisplayName) {
+        UserEntity entity = UserEntity.find("uuid", firebaseUid).firstResult();
+        if (entity == null) {
+            throw new RuntimeException("User not found in database with Firebase UID: " + firebaseUid);
+        }
+
+        entity.setUsername(newDisplayName);
+        entity.setUpdatedAt(java.time.LocalDateTime.now());
+        return UserMapper.toDomain(entity);
+    }
+
+
+
+
+
     public User createUser(User user) {
         UserEntity entity = UserMapper.toEntity(user);
         entity.persist();
@@ -58,4 +75,8 @@ public class UserRepositoryImpl implements UserRepository {
                 .toList();
     }
 
+    @Override
+    public boolean existsByEmail(String email) {
+        return UserEntity.count("email = ?1 and deleted = false", email) > 0;
+    }
 }

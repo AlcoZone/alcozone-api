@@ -1,4 +1,4 @@
-package com.alcozone.infrastructure.dto.widget;
+package com.alcozone.domain.models.widgetdata;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class AccidentPercentageDTO {
-    public Double percentage;
-    public String subType;
+public class DangerousTown {
+    private String town;
+    private String total_accidents;
 }

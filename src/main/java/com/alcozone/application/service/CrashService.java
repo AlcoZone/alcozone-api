@@ -1,5 +1,6 @@
 package com.alcozone.application.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,5 +26,9 @@ public class CrashService {
 
     public List<Crash> getCrashesByRevisionUuid(String revisionUuid) {
         return crashRepository.findCrashesByRevisionUuid(revisionUuid);
+    }
+
+    public List<Crash> getCrashesBetweenDates(LocalDateTime start, LocalDateTime end) {
+        return crashRepository.findCrashesBetweenDates(start, end);
     }
 }

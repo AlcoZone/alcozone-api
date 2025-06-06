@@ -1,15 +1,17 @@
 package com.alcozone.infrastructure.persistence.crash;
 
-import com.alcozone.domain.model.MinifiedCrash;
-import com.alcozone.infrastructure.persistence.minifiedCrash.MinifiedCrashEntity;
+import com.alcozone.infrastructure.dto.crash.CrashDTO;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import org.apache.commons.csv.CSVRecord;
 
-import com.alcozone.domain.model.Crash;
+import com.alcozone.domain.models.Crash;
 import com.alcozone.application.dto.crash.CreateCrashDTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CrashMapper {
-    public static Crash toDomain(CrashEntity crashEntity) {
+        public static Crash toDomain(CrashEntity crashEntity) {
         return new Crash(
                 crashEntity.getId(),
                 crashEntity.getUuid(),
@@ -59,4 +61,20 @@ public class CrashMapper {
         dto.setRevisionEntity(revisionEntity);
         return dto;
     }
+
+    public static CrashDTO toDTO(Crash crash) {
+        return new CrashDTO(
+                crash.getId(),
+                crash.getUuid(),
+                crash.getDatetime().toString(),
+                crash.getType(),
+                crash.getSubType(),
+                crash.getReportedBy(),
+                crash.getTown(),
+                crash.getNeighbourhood(),
+                crash.getLatitude(),
+                crash.getLongitude()
+        );
+    }
+
 }
