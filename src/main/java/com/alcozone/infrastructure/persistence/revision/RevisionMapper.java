@@ -15,6 +15,7 @@ public class RevisionMapper {
         revision.setId(revisionEntity.getId());
         revision.setUuid(revisionEntity.getUuid());
         revision.setName(revisionEntity.getName());
+        revision.setDeleted(revisionEntity.isDeleted());
         if (revisionEntity.getCrashes() != null) {
             List<Crash> crashes = new ArrayList<>();
             for (CrashEntity crashEntity : revisionEntity.getCrashes()) {
@@ -31,6 +32,7 @@ public class RevisionMapper {
         revisionEntity.setId(revision.getId());
         revisionEntity.setUuid(revision.getUuid());
         revisionEntity.setName(revision.getName());
+        revisionEntity.setDeleted(revision.isDeleted());
         if(revision.getCrashes() != null) {
             List<CrashEntity> crashEntities = new ArrayList<>();
             for (Crash crash : revision.getCrashes()) {

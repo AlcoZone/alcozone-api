@@ -56,9 +56,18 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         String sql = """
         SELECT
           subType,
-          ROUND(100.0 * COUNT(*) / (SELECT COUNT(*) FROM crashes {{WHERE_FILTERS}}), 2) AS percentage
+          ROUND(100.0 * COUNT(*) /
+          (SELECT COUNT(*)
+          FROM crashes
+          JOIN revisions
+          ON crashes.revision_id = revisions.id
+          WHERE revisions.deleted = false
+          {{AND_FILTERS}}), 2) AS percentage
         FROM crashes
-        WHERE subType IN ('Atropellado', 'Choque con lesionados', 'Motociclista')
+        JOIN revisions
+        ON crashes.revision_id = revisions.id
+        WHERE revisions.deleted = false
+        AND subType IN ('Atropellado', 'Choque con lesionados', 'Motociclista')
         {{AND_FILTERS}}
         GROUP BY subType
         ORDER BY percentage DESC
@@ -91,7 +100,10 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
           subType,
           COUNT(*) AS accidentCount
         FROM crashes
-        WHERE subType IN ('Choque con lesionados', 'Motociclista', 'Ciclista', 'Atropellado')
+        JOIN revisions
+        ON crashes.revision_id = revisions.id
+        WHERE revisions.deleted = false
+        AND subType IN ('Choque con lesionados', 'Motociclista', 'Ciclista', 'Atropellado')
         {{AND_FILTERS}}
         GROUP BY subType
         ORDER BY accidentCount DESC
@@ -155,8 +167,11 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           MONTHNAME(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS month_name,
           COUNT(*) AS accidents
-        FROM alcozone.crashes
-        WHERE MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) BETWEEN 1 AND 6
+        FROM crashes
+        JOIN revisions
+        ON crashes.revision_id = revisions.id
+        WHERE revisions.deleted = false
+        AND MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) BETWEEN 1 AND 6
         {{AND_FILTERS}}
         GROUP BY MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')), MONTHNAME(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s'))
         ORDER BY MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s'))
@@ -243,7 +258,9 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
           DATE(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS accident_date,
           Count(*) AS total_accidents
         FROM crashes
-        {{WHERE_FILTERS}}
+        JOIN revisions ON crashes.revision_id = revisions.id
+        WHERE revisions.deleted = false
+        {{AND_FILTERS}}
         GROUP BY accident_date
         ORDER BY accident_date
     """;
@@ -275,7 +292,10 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
           reportedBy as report_source,
           COUNT(*) AS total_accidents
         FROM crashes
-        {{WHERE_FILTERS}}
+        JOIN revisions
+        ON crashes.revision_id = revisions.id
+        WHERE revisions.deleted = false
+        {{AND_FILTERS}}
         GROUP BY reportedBy;
     """;
 
