@@ -10,4 +10,5 @@ public interface RevisionRepository {
     RevisionEntity getRevisionEntity(String uuid);
     Revision saveRevision(Revision revision);
     List<RevisionListEntity> getLightweightRevisions();
+    Revision deleteRevision(String uuid);
 }
