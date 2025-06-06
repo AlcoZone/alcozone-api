@@ -5,17 +5,22 @@ import com.google.firebase.FirebaseOptions;
 import io.quarkus.runtime.Startup;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import java.io.FileInputStream;
 
 @ApplicationScoped
 @Startup
 public class FirebaseInitializer {
+
+    @ConfigProperty(name = "firebase.sa.path")
+    String firebase_sa_path;
+
     @PostConstruct
     public void init() {
         if(FirebaseApp.getApps().isEmpty()){
             try {
-                FileInputStream serviceAccount = new FileInputStream("src/main/resources/alcozone-e21b0-firebase-adminsdk-fbsvc-23105318fc.json");
+                FileInputStream serviceAccount = new FileInputStream(firebase_sa_path);
                 FirebaseOptions options= FirebaseOptions.builder()
                         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                         .build();
