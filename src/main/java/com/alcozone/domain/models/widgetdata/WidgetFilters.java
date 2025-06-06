@@ -12,4 +12,6 @@ import lombok.Setter;
 
 public class WidgetFilters {
     private String town;
+    private String startDate;
+    private String endDate;
 }

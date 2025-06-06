@@ -321,16 +321,24 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
 
     private String applyFilters(String sql, WidgetFilters filters, Map<String, Object> params) {
         List<String> conditions = new ArrayList<>();
-        if(filters != null) {
-            if(filters.getTown() != null && !filters.getTown().isBlank()) {
-                conditions.add("town =:town");
+
+        if (filters != null) {
+            if (filters.getTown() != null && !filters.getTown().isBlank()) {
+                conditions.add("LOWER(town) = LOWER(:town)");
                 params.put("town", filters.getTown());
             }
+
+            if (filters.getStartDate() != null && !filters.getStartDate().isBlank()
+                    && filters.getEndDate() != null && !filters.getEndDate().isBlank()) {
+                conditions.add("STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s') BETWEEN STR_TO_DATE(:startDate, '%d/%m/%Y') AND DATE_ADD(STR_TO_DATE(:endDate, '%d/%m/%Y'), INTERVAL 1 DAY)");
+                params.put("startDate", filters.getStartDate());
+                params.put("endDate", filters.getEndDate());
+            }
+
         }
 
         String whereClause = conditions.isEmpty() ? "" : " WHERE " + String.join(" AND ", conditions);
         String andClause = conditions.isEmpty() ? "" : " AND " + String.join(" AND ", conditions);
-
         return sql
                 .replace("{{WHERE_FILTERS}}", whereClause)
                 .replace("{{AND_FILTERS}}", andClause);
