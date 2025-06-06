@@ -333,12 +333,6 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
                 conditions.add("STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s') BETWEEN STR_TO_DATE(:startDate, '%d/%m/%Y') AND DATE_ADD(STR_TO_DATE(:endDate, '%d/%m/%Y'), INTERVAL 1 DAY)");
                 params.put("startDate", filters.getStartDate());
                 params.put("endDate", filters.getEndDate());
-            } else if (filters.getStartDate() != null && !filters.getStartDate().isBlank()) {
-                conditions.add("STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s') >= STR_TO_DATE(:startDate, '%d/%m/%Y')");
-                params.put("startDate", filters.getStartDate());
-            } else if (filters.getEndDate() != null && !filters.getEndDate().isBlank()) {
-                conditions.add("STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s') < DATE_ADD(STR_TO_DATE(:endDate, '%d/%m/%Y'), INTERVAL 1 DAY)");
-                params.put("endDate", filters.getEndDate());
             }
 
         }
