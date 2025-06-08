@@ -23,7 +23,6 @@ public class UserService {
     @Inject
     UserRepository userRepository;
 
-    // Metodo para encontrar al usuario por firebaseUid
     public UserRecord findUserByFirebaseUid(String firebaseUid) {
         try {
             UserRecord userRecord = FirebaseAuth.getInstance().getUser(firebaseUid);
@@ -36,8 +35,6 @@ public class UserService {
         }
     }
 
-
-    //actualizar password
     public void updatePassword(String firebaseUid, String newPassword) {
         try {
             findUserByFirebaseUid(firebaseUid);
@@ -53,49 +50,36 @@ public class UserService {
         }
     }
 
-    //actualizar displayName
     public void updateDisplayName(String firebaseUid, String newDisplayName) {
         try {
-            findUserByFirebaseUid(firebaseUid);
-            UserRecord userRecord;
-
             UpdateRequest request = new UpdateRequest(firebaseUid)
                     .setDisplayName(newDisplayName);
+            FirebaseAuth.getInstance().updateUser(request);
 
-            userRecord = FirebaseAuth.getInstance().updateUser(request);
-            System.out.println("Display name successfully updated for user: " + userRecord.getUid());
+            userRepository.updateDisplayName(firebaseUid, newDisplayName);
+            System.out.println("Display name updated in DB for user: " + firebaseUid);
         } catch (Exception e) {
-            throw new RuntimeException("Error updating display name in Firebase: " + e.getMessage());
+            throw new RuntimeException("Error updating display name: " + e.getMessage());
         }
     }
 
-
     public void deleteUser(String id) {
         try {
-            // Buscar el usuario en la base de datos por su ID interno
             User user = userRepository.findById(id);
 
             if (user == null) {
-                System.out.println("No user found with internal ID: " + id);
                 return;
             }
-
-            // Obtener el Firebase UID del usuario
             String firebaseUid = user.getUuid();
-
-            // Buscar el usuario en Firebase
             UserRecord firebaseUser = findUserByFirebaseUid(firebaseUid);
 
             if (!firebaseUser.getUid().equals(firebaseUid)) {
                 System.out.println("Firebase UID mismatch.");
                 return;
             }
-
-            // Eliminar usuario en Firebase
             FirebaseAuth.getInstance().deleteUser(firebaseUid);
             System.out.println("Successfully deleted user from Firebase.");
 
-            // Eliminar usuario en la base de datos
             userRepository.deleteUser(firebaseUid);
             System.out.println("Successfully deleted user from database.");
 
@@ -148,5 +132,4 @@ public class UserService {
                 .map(UserMapper::toDTO)
                 .toList();
     }
-
 }

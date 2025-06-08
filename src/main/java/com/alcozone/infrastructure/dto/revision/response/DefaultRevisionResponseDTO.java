@@ -9,4 +9,5 @@ public class DefaultRevisionResponseDTO {
     private String uuid;
     private String name;
     private DefaultCrashesResponseDTO crashes;
+    private boolean deleted;
 }
