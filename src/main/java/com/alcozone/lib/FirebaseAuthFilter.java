@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 
+import io.smallrye.common.annotation.Blocking;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -15,9 +16,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.Provider;
 import jakarta.annotation.Priority;
 import com.alcozone.domain.model.RoleType;
-
-
-import java.io.IOException;
 
 @Provider
 @Priority(Priorities.AUTHENTICATION)
@@ -31,7 +29,7 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
     RoleRepository roleRepository;
 
     @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext){
         String path = requestContext.getUriInfo().getPath();
 
         if (path != null && path.endsWith("/auth/email-exists")) {
@@ -70,7 +68,9 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
                 userService.createUser(newUser);
             }
 
+            assert path != null;
             if (path.startsWith("/user/register")) {
+                assert user != null;
                 if (user.getRole().getId() != 1) {
                     requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
                             .entity("Access denied: only ADMINISTRATOR can access this endpoint")

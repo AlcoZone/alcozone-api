@@ -4,9 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.alcozone.application.service.CrashService;
-import com.alcozone.domain.models.Crash;
+import com.alcozone.domain.model.Crash;
 
-import com.alcozone.infrastructure.dto.crash.DefaultCrashesResponseDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

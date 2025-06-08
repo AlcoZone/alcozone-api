@@ -15,7 +15,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findUserByFireBaseId(String fireBaseId) {
-        UserEntity entity = UserEntity.find("revision", fireBaseId).firstResult();
+        UserEntity entity = UserEntity.find("uuid", fireBaseId).firstResult();
         return entity != null ? UserMapper.toDomain(entity) : null;
     }
 

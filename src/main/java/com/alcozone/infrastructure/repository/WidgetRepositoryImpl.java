@@ -13,8 +13,6 @@ import jakarta.transaction.Transactional;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
-import java.time.LocalDateTime;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -56,8 +54,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         String sql = """
         SELECT
           subType,
-          ROUND(100.0 * COUNT(*) / (SELECT COUNT(*) FROM crashes {{WHERE_FILTERS}}), 2) AS percentage
-        FROM crashes
+          ROUND(100.0 * COUNT(*) / (SELECT COUNT(*) FROM Crashes {{WHERE_FILTERS}}), 2) AS percentage
+        FROM Crashes
         WHERE subType IN ('Atropellado', 'Choque con lesionados', 'Motociclista')
         {{AND_FILTERS}}
         GROUP BY subType
@@ -90,7 +88,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           subType,
           COUNT(*) AS accidentCount
-        FROM crashes
+        FROM Crashes
         WHERE subType IN ('Choque con lesionados', 'Motociclista', 'Ciclista', 'Atropellado')
         {{AND_FILTERS}}
         GROUP BY subType
@@ -123,7 +121,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           town,
           COUNT(*) AS total_accidents
-        FROM alcozone.crashes
+        FROM Crashes
         WHERE town IS NOT NULL AND town != ''
         GROUP BY town
         ORDER BY total_accidents DESC
@@ -155,7 +153,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           MONTHNAME(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS month_name,
           COUNT(*) AS accidents
-        FROM alcozone.crashes
+        FROM Crashes
         WHERE MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) BETWEEN 1 AND 6
         {{AND_FILTERS}}
         GROUP BY MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')), MONTHNAME(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s'))
@@ -195,7 +193,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
             MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS month_number,
             town,
             COUNT(*) AS total_accidents
-          FROM alcozone.crashes
+          FROM Crashes
           WHERE town IS NOT NULL AND town != ''
           GROUP BY month_number, month_name, town
         ) AS sub
@@ -205,7 +203,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
               SELECT 
                 town,
                 COUNT(*) AS total
-              FROM alcozone.crashes
+              FROM Crashes
               WHERE 
                 MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) = sub.month_number AND
                 town IS NOT NULL AND town != ''
@@ -242,7 +240,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           DATE(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS accident_date,
           Count(*) AS total_accidents
-        FROM crashes
+        FROM Crashes
         {{WHERE_FILTERS}}
         GROUP BY accident_date
         ORDER BY accident_date
@@ -274,7 +272,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         SELECT
           reportedBy as report_source,
           COUNT(*) AS total_accidents
-        FROM crashes
+        FROM Crashes
         {{WHERE_FILTERS}}
         GROUP BY reportedBy;
     """;

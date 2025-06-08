@@ -10,7 +10,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import com.alcozone.domain.model.Crash;
 import com.alcozone.domain.repository.CrashRepository;
 import com.alcozone.application.dto.crash.CreateCrashDTO;
-//TODO Refactor -> Infra Layer
 
 @ApplicationScoped
 public class CrashService {

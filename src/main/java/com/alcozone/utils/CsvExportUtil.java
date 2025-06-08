@@ -16,7 +16,6 @@ public class CsvExportUtil {
     @ConfigProperty(name = "csv.headers")
     String csvHeaders;
 
-
     public byte[] revisionToCsv(DefaultRevisionResponseDTO revision) {
         StringBuilder sb = new StringBuilder();
         sb.append(csvHeaders).append("\n");

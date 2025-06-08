@@ -29,8 +29,7 @@ public class CreateRevisionUseCase {
     String[] headers;
 
     @Inject RevisionService revisionService;
-    @Inject
-    CreateCrashUseCase createCrashUseCase;
+    @Inject CreateCrashUseCase createCrashUseCase;
 
     public DefaultRevisionResponseDTO execute(CreateRevisionRequestDTO requestDTO) throws IOException {
         Revision revision = revisionService.saveRevision(requestDTO.getRevisionName());

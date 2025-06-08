@@ -23,6 +23,7 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
         CrashEntity crashEntity = CrashMapper.toEntity(crash);
         crashEntity.setRevisionEntity(revisionEntity);
         crashEntity.persist();
+
         return CrashMapper.toDomain(crashEntity);
     }
 
@@ -33,11 +34,6 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
             crashes.add(CrashMapper.toDomain(crashEntity));
         }
         return crashes;
-    }
-
-    @Override
-    public List<Crash> getCrashesForClustering(String revisionUuid) {
-        return List.of();
     }
   
     @Override

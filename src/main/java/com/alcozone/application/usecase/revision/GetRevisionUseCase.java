@@ -11,8 +11,6 @@ import com.alcozone.infrastructure.dto.revision.response.DefaultRevisionResponse
 
 @ApplicationScoped
 public class GetRevisionUseCase {
-    //TODO Check if this types of UseCases can return the Domain Entity and Transform it to DTO in Controller
-
     @Inject RevisionService revisionService;
 
     public DefaultRevisionResponseDTO execute(GetRevisionRequestDTO requestDTO) {
