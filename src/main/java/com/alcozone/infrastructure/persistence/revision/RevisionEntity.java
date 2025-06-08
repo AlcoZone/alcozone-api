@@ -27,6 +27,7 @@ public class RevisionEntity extends PanacheEntityBase {
     private int id;
     private String uuid;
     private String name;
+    private boolean deleted;
 
     @OneToMany(mappedBy = "revisionEntity")
     private List<CrashEntity> crashes;

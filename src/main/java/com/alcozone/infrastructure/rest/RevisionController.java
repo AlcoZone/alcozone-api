@@ -1,7 +1,9 @@
 package com.alcozone.infrastructure.rest;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.alcozone.application.usecase.revision.*;
 import com.alcozone.infrastructure.dto.revision.request.CreateRevisionRequestDTO;
@@ -24,11 +26,27 @@ public class RevisionController {
     @Inject GetRevisionUseCase getRevisionUseCase;
     @Inject CsvExportUtil csvExportUtil;
     @Inject ListRevisionsUseCase listRevisionsUseCase;
+    @Inject DeleteRevisionUseCase deleteRevisionUseCase;
 
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response saveRevision(@BeanParam CreateRevisionRequestDTO requestDTO) throws IOException {
         return Response.ok(createRevisionUseCase.execute(requestDTO)).build();
+    }
+
+    @DELETE
+    @Path("/{uuid}")
+    public Response deleteRevision(@PathParam("uuid") String uuid) {
+        try{
+            deleteRevisionUseCase.execute(uuid);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Revision deleted successfully");
+            return Response.ok(response).build();
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", "Failed to delete revision: " + e.getMessage());
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build();
+        }
     }
 
     @GET

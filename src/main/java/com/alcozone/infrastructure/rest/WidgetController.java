@@ -59,9 +59,11 @@ public class WidgetController {
 
     @GET
     @Path("/accidents-percentage")
-    public Response getAccidentsPercentage(@QueryParam("town") String town) {
+    public Response getAccidentsPercentage(@QueryParam("town") String town, @QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
+        dto.setStartDate(startDate);
+        dto.setEndDate(endDate);
         List<AccidentPercentage> accidentPercentage = accidentPercentageUseCase.execute(dto);
         List<AccidentPercentageDTO> responseDto = accidentPercentage.stream()
                 .map(AccidentPercentageMapper::toDTO)
@@ -71,9 +73,11 @@ public class WidgetController {
 
     @GET
     @Path("/accidents-count")
-    public Response getAccidentsNumber(@QueryParam("town") String town) {
+    public Response getAccidentsNumber(@QueryParam("town") String town, @QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
+        dto.setStartDate(startDate);
+        dto.setEndDate(endDate);
         List<AccidentNumber> accidentNumber = accidentNumberUseCase.execute(dto);
         List<AccidentNumberDTO> responseDto = accidentNumber.stream()
                 .map(AccidentNumberMapper::toDTO)
@@ -83,18 +87,22 @@ public class WidgetController {
 
     @GET
     @Path("/dangerous-town")
-    public Response getDangerousTown(@QueryParam("town") String town) {
+    public Response getDangerousTown(@QueryParam("town") String town,@QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
+        dto.setStartDate(startDate);
+        dto.setEndDate(endDate);
         List<DangerousTown> result = dangerousTownUseCase.execute(dto);
         return Response.ok(result).build();
     }
 
     @GET
     @Path("/monthly-accidents")
-    public Response getMonthlyAccident(@QueryParam("town") String town) {
+    public Response getMonthlyAccident(@QueryParam("town") String town, @QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
+        dto.setStartDate(startDate);
+        dto.setEndDate(endDate);
         List<MonthlyAccidents> monthlyAccidents = monthlyAccidentUseCase.execute(dto);
         List<MonthlyAccidentsDTO> responseDto = monthlyAccidents.stream()
                 .map(MonthlyAccidentsMapper::toDTO)
@@ -104,18 +112,22 @@ public class WidgetController {
 
     @GET
     @Path("/dangerous-town-month")
-    public Response getDangerousTownMonth(@QueryParam("town") String town) {
+    public Response getDangerousTownMonth(@QueryParam("town") String town, @QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
+        dto.setStartDate(startDate);
+        dto.setEndDate(endDate);
         List<DangerousTownMonth> result = dangerousTownMonthUseCase.execute(dto);
         return Response.ok(result).build();
     }
 
     @GET
     @Path("/daily-accidents")
-    public Response getDailyAccidents(@QueryParam("town") String town) {
+    public Response getDailyAccidents(@QueryParam("town") String town, @QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
+        dto.setStartDate(startDate);
+        dto.setEndDate(endDate);
         List<DailyAccidents> dailyAccidents = dailyAccidentsUseCase.execute(dto);
         List<DailyAccidentsDTO> responseDto = dailyAccidents.stream()
                 .map(DailyAccidentsMapper::toDTO)
@@ -125,9 +137,11 @@ public class WidgetController {
 
     @GET
     @Path("/accidents-by-report-source")
-    public Response getAccidentsByReportSource(@QueryParam("town") String town) {
+    public Response getAccidentsByReportSource(@QueryParam("town") String town, @QueryParam("startDate") String startDate, @QueryParam("endDate") String endDate) {
         WidgetFiltersDTO dto = new WidgetFiltersDTO();
         dto.setTown(town);
+        dto.setStartDate(startDate);
+        dto.setEndDate(endDate);
         List<AccidentsByReportSource> accidentsByReportSource = accidentsByReportSourceUseCase.execute(dto);
         List<AccidentsByReportSourceDTO> responseDto = accidentsByReportSource.stream()
                 .map(AccidentsByReportSourceMapper::toDTO)

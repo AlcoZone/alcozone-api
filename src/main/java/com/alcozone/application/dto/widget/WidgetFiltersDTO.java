@@ -11,4 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class WidgetFiltersDTO {
     private String town;
+    private String startDate;
+    private String endDate;
 }

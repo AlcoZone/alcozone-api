@@ -25,6 +25,7 @@ public class GetRevisionUseCase {
         DefaultRevisionResponseDTO dto = new DefaultRevisionResponseDTO();
         dto.setUuid(revision.getUuid());
         dto.setName(revision.getName());
+        dto.setDeleted(revision.isDeleted());
         dto.setCrashes(wrapperDTO);
         return dto;
     }
