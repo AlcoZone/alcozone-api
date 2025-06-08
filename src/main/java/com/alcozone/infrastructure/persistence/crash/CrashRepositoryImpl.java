@@ -39,7 +39,7 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
     public List<Crash> getCrashesForClustering(String revisionUuid) {
         return List.of();
     }
-
+  
     @Override
     public List<Crash> findCrashesBetweenDates(LocalDateTime start, LocalDateTime end){
         List<Crash> crashes = new ArrayList<>();
@@ -53,6 +53,4 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
         }
         return crashes;
     }
-
-
 }

@@ -40,10 +40,23 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
     }
 
     @Override
+    @Transactional
+    public Revision deleteRevision(String uuid){
+        RevisionEntity revisionEntity = find("uuid", uuid).firstResult();
+        if (revisionEntity == null) {
+            return null;
+        }
+        revisionEntity.setDeleted(true);
+        return RevisionMapper.toDomain(revisionEntity);
+    }
+
+
+    @Override
     public List<RevisionListEntity> getLightweightRevisions() {
         String sql = """
         SELECT r.uuid, r.name, r.created_at, SIZE(r.crashes)
         FROM RevisionEntity r
+        WHERE r.deleted = false
     """;
 
         List<Object[]> rows = entityManager

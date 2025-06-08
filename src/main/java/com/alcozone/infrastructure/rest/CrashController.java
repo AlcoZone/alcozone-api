@@ -1,11 +1,13 @@
 package com.alcozone.infrastructure.rest;
 
+import com.alcozone.application.usecase.crash.GetCrashesByRevisionUuidUseCase;
 import com.alcozone.application.service.CrashService;
 import com.alcozone.application.usecase.date.GetCrashesBetweenDatesUseCase;
 import com.alcozone.domain.models.Crash;
 import com.alcozone.infrastructure.dto.crash.DefaultCrashesResponseDTO;
 import jakarta.ws.rs.*;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -22,7 +24,6 @@ import static com.arjuna.ats.arjuna.tools.osb.mbean.StateManagerWrapper.formatte
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class CrashController {
-
     @Inject
     GetCrashesByRevisionUuidUseCase getCrashesByRevisionUuidUseCase;
 
@@ -60,8 +61,5 @@ public class CrashController {
                     .build();
         }
     }
-
-
-
 }
 

@@ -74,6 +74,14 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
                 userService.createUser(newUser);
             }
 
+            if (path.startsWith("/user/register")) {
+                if (user.getRole().getId() != 1) {
+                    requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
+                            .entity("Access denied: only ADMINISTRATOR can access this endpoint")
+                            .build());
+                    return;
+                }
+            }
             requestContext.setProperty("userUuid", firebaseUid);
 
         } catch (FirebaseAuthException e) {
