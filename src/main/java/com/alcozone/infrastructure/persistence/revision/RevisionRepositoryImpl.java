@@ -27,6 +27,7 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
     }
 
     @Override
+    @Transactional
     public RevisionEntity getRevisionEntity(String uuid) {
         return find("uuid", uuid).firstResult();
     }
@@ -55,7 +56,7 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
     public List<RevisionListEntity> getLightweightRevisions() {
         List<Object[]> rows = entityManager
                 .createQuery("""
-                SELECT r.uuid, r.name, r.created_at, SIZE(r.crashes)
+                SELECT r.uuid, r.name, r.created_at, r.status, SIZE(r.crashes)
                 FROM RevisionEntity r
                 WHERE r.deleted = false
             """, Object[].class)
@@ -68,7 +69,8 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
             item.setUuid((String) row[0]);
             item.setName((String) row[1]);
             item.setCreated_at((LocalDateTime) row[2]);
-            item.setDataQuantity(((Number) row[3]).intValue());
+            item.setStatus((String) row[3]);
+            item.setDataQuantity(((Number) row[4]).intValue());
 
             result.add(item);
         }
@@ -94,6 +96,14 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
         item.setDataQuantity(((Number) row[3]).intValue());
 
         return item;
+    }
+
+    @Override
+    @Transactional
+    public void markAsSuccess(String uuid) {
+        RevisionEntity revisionEntity = find("uuid", uuid).firstResult();
+        revisionEntity.setStatus("Carga Completada");
+        revisionEntity.persist();
     }
 
 }

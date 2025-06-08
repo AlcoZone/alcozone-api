@@ -31,6 +31,7 @@ public class RevisionService {
         Revision revision = new Revision();
         revision.setUuid(UUID.randomUUID().toString());
         revision.setName(name);
+        revision.setStatus("Cargando Datos");
         return revisionRepository.saveRevision(revision);
     }
 
@@ -43,5 +44,13 @@ public class RevisionService {
         return entities.stream()
                 .map(RevisionMapper::toListItemDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Revision deleteRevision(String uuid){
+        return revisionRepository.deleteRevision(uuid);
+    }
+
+    public void markAsCompleted(String uuid){
+        revisionRepository.markAsSuccess(uuid);
     }
 }

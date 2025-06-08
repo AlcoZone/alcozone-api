@@ -14,8 +14,7 @@ import com.alcozone.application.dto.crash.CreateCrashDTO;
 @ApplicationScoped
 public class CrashService {
 
-    @Inject
-    CrashRepository crashRepository;
+    @Inject CrashRepository crashRepository;
 
     public Crash saveCrash(CreateCrashDTO createCrashDTO) {
         Crash crash = createCrashDTO.toDomain();
@@ -29,5 +28,9 @@ public class CrashService {
 
     public List<Crash> getCrashesBetweenDates(LocalDateTime start, LocalDateTime end) {
         return crashRepository.findCrashesBetweenDates(start, end);
+    }
+
+    public List<String> getAvailableDates(){
+        return crashRepository.getAvailableDates();
     }
 }

@@ -27,6 +27,7 @@ public class GetRevisionUseCase {
         dto.setName(revision.getName());
         dto.setDeleted(revision.isDeleted());
         dto.setCrashes(wrapperDTO);
+        dto.setStatus(revision.getStatus());
         return dto;
     }
 }

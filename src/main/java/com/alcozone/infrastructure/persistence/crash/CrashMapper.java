@@ -33,6 +33,14 @@ public class CrashMapper {
         );
     }
 
+    public static MinifiedCrash toMinifiedDomain(Crash crash) {
+        return new MinifiedCrash(
+                crash.getDatetime(),
+                crash.getLatitude(),
+                crash.getLongitude()
+        );
+    }
+
     public static CrashEntity toEntity(Crash crash) {
         return new CrashEntity(
                 crash.getUuid(),

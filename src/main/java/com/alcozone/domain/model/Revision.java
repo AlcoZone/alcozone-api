@@ -14,5 +14,6 @@ public class Revision {
     private String uuid;
     private String name;
     private boolean deleted;
+    private String status;
     private List<Crash> crashes;
 }

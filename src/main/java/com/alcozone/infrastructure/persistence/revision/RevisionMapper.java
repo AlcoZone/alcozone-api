@@ -20,6 +20,7 @@ public class RevisionMapper {
         revision.setUuid(revisionEntity.getUuid());
         revision.setName(revisionEntity.getName());
         revision.setDeleted(revisionEntity.isDeleted());
+        revision.setStatus(revisionEntity.getStatus());
         if (revisionEntity.getCrashes() != null) {
             List<Crash> crashes = new ArrayList<>();
             for (CrashEntity crashEntity : revisionEntity.getCrashes()) {
@@ -49,6 +50,7 @@ public class RevisionMapper {
         revisionEntity.setUuid(revision.getUuid());
         revisionEntity.setName(revision.getName());
         revisionEntity.setDeleted(revision.isDeleted());
+        revisionEntity.setStatus(revision.getStatus());
         if(revision.getCrashes() != null) {
             List<CrashEntity> crashEntities = new ArrayList<>();
             for (Crash crash : revision.getCrashes()) {
@@ -65,6 +67,7 @@ public class RevisionMapper {
         dto.setName(entity.getName());
         dto.setDataQuantity(entity.getDataQuantity());
         dto.setDate(entity.getCreated_at().toLocalDate().toString());
+        dto.setStatus(entity.getStatus());
         return dto;
     }
 }

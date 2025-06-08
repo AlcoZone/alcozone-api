@@ -7,4 +7,10 @@ import lombok.Data;
 public class PredictionRequestDTO {
     @QueryParam("revision")
     String revision;
+
+    @QueryParam("startDate")
+    String startDate;
+
+    @QueryParam("endDate")
+    String endDate;
 }

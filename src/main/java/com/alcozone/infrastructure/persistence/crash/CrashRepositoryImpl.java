@@ -49,4 +49,11 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
         }
         return crashes;
     }
+
+    @Override
+    public List<String> getAvailableDates() {
+        return getEntityManager()
+        .createNativeQuery("SELECT DISTINCT SUBSTRING(datetime, 1, 10) FROM Crashes")
+        .getResultList();
+    }
 }

@@ -54,15 +54,15 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
                       subType,
                       ROUND(100.0 * COUNT(*) /
                       (SELECT COUNT(*)
-                      FROM crashes
-                      JOIN revisions
-                      ON crashes.revision_id = revisions.id
-                      WHERE revisions.deleted = false
+                      FROM Crashes c
+                      JOIN Revisions r
+                      ON c.revision_id = r.id
+                      WHERE r.deleted = false
                       {{AND_FILTERS}}), 2) AS percentage
-                    FROM crashes
-                    JOIN revisions
-                    ON crashes.revision_id = revisions.id
-                    WHERE revisions.deleted = false
+                    FROM Crashes c
+                    JOIN Revisions r
+                    ON c.revision_id = r.id
+                    WHERE r.deleted = false
                     AND subType IN ('Atropellado', 'Choque con lesionados', 'Motociclista')
                     {{AND_FILTERS}}
                     GROUP BY subType
@@ -95,10 +95,10 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
                     SELECT
                       subType,
                       COUNT(*) AS accidentCount
-                    FROM crashes
-                    JOIN revisions
-                    ON crashes.revision_id = revisions.id
-                    WHERE revisions.deleted = false
+                    FROM Crashes c
+                    JOIN Revisions r
+                    ON c.revision_id = r.id
+                    WHERE r.deleted = false
                     AND subType IN ('Choque con lesionados', 'Motociclista', 'Ciclista', 'Atropellado')
                     {{AND_FILTERS}}
                     GROUP BY subType
@@ -131,7 +131,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
                     SELECT
                       town,
                       COUNT(*) AS total_accidents
-                    FROM crashes
+                    FROM Crashes
                     WHERE town IS NOT NULL AND town != ''
                     {{AND_FILTERS}}
                     GROUP BY town
@@ -164,10 +164,10 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
                     SELECT
                       MONTHNAME(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS month_name,
                       COUNT(*) AS accidents
-                    FROM crashes
-                    JOIN revisions
-                    ON crashes.revision_id = revisions.id
-                    WHERE revisions.deleted = false
+                    FROM Crashes c
+                    JOIN Revisions r
+                    ON c.revision_id = r.id
+                    WHERE r.deleted = false
                     AND MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) BETWEEN 1 AND 6
                     {{AND_FILTERS}}
                     GROUP BY MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')), MONTHNAME(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s'))
@@ -206,7 +206,7 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
                                                                                 COUNT(*) AS total_accidents,
                                                                                 ROW_NUMBER() OVER (PARTITION BY MONTH(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s'))\s
                                                                                                    ORDER BY COUNT(*) DESC) AS rn
-                                                                              FROM crashes
+                                                                              FROM Crashes
                                                                               WHERE town IS NOT NULL AND town != ''
                                                                                 {{AND_FILTERS}}
                                                                               GROUP BY month_number, month_name, town

@@ -8,7 +8,7 @@ import jakarta.ws.rs.QueryParam;
 @Getter
 @Setter
 public class GetRevisionRequestDTO {
-    @QueryParam("revision")
+    @QueryParam("uuid")
     private String uuid;
 
     @QueryParam("withData")

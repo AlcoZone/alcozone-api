@@ -31,7 +31,8 @@ public class RevisionController {
     @POST
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response saveRevision(@BeanParam CreateRevisionRequestDTO requestDTO) throws IOException {
-        return Response.ok(createRevisionUseCase.execute(requestDTO)).build();
+        createRevisionUseCase.execute(requestDTO);
+        return Response.accepted().build();
     }
 
     @DELETE
