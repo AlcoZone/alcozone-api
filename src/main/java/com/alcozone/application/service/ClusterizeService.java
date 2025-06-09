@@ -16,10 +16,10 @@ public class ClusterizeService {
 
     @Inject DbscanRunner dbscanRunner;
 
-    @ConfigProperty(name = "clusterize.epsilonMeters")
+    @ConfigProperty(name = "clusterize.epsilon.meters")
     int epsilonMeters;
 
-    @ConfigProperty(name = "clusterize.minPoints")
+    @ConfigProperty(name = "clusterize.points.min")
     int minPoints;
 
     public List<Cluster> clusterizeRevision(List<MinifiedCrash> crashes){
