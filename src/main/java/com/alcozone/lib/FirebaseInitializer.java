@@ -14,13 +14,13 @@ import java.io.FileInputStream;
 public class FirebaseInitializer {
 
     @ConfigProperty(name = "firebase.sa.path")
-    String firebase_sa_path;
+    String firebaseSaPath;
 
     @PostConstruct
     public void init() {
         if(FirebaseApp.getApps().isEmpty()){
             try {
-                FileInputStream serviceAccount = new FileInputStream(firebase_sa_path);
+                FileInputStream serviceAccount = new FileInputStream(firebaseSaPath);
                 FirebaseOptions options= FirebaseOptions.builder()
                         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                         .build();

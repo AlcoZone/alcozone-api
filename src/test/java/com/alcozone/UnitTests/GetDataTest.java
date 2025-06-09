@@ -1,8 +1,8 @@
-
 package com.alcozone.UnitTests;
 
 import com.alcozone.application.service.WidgetService;
-import com.alcozone.infrastructure.dto.widget.AccidentNumberDTO;
+import com.alcozone.domain.models.widgetdata.AccidentNumber;
+import com.alcozone.domain.models.widgetdata.WidgetFilters;
 import com.alcozone.infrastructure.persistence.crash.CrashEntity;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import io.quarkus.test.junit.QuarkusTest;
@@ -40,8 +40,10 @@ public class GetDataTest {
             crash.persist();
         }
 
-        List<AccidentNumberDTO> accidentStats = widgetService.getAccidentsNumber();
-        AccidentNumberDTO firstResult = accidentStats.getFirst();
+        WidgetFilters filters = new WidgetFilters();
+
+        List<AccidentNumber> accidentStats = widgetService.getAccidentsNumber(filters);
+        AccidentNumber firstResult = accidentStats.getFirst();
 
         System.out.println("SubType: " + firstResult.getSubType() + " - Count: " + firstResult.getAccidentCount());
 
@@ -52,14 +54,16 @@ public class GetDataTest {
     @Test
     @Transactional
     public void testInsertCrash_Failed_EmptyList() {
-        List<AccidentNumberDTO> accidentStats = widgetService.getAccidentsNumber();
+        WidgetFilters filters = new WidgetFilters();
+
+        List<AccidentNumber> accidentStats = widgetService.getAccidentsNumber(filters);
 
         if (accidentStats == null || accidentStats.isEmpty()) {
             System.out.println("Could not enter data");
             assert true;
         } else {
 
-            AccidentNumberDTO firstResult = accidentStats.getFirst();
+            AccidentNumber firstResult = accidentStats.getFirst();
             System.out.println("Unexpected data was found: SubType: " + firstResult.getSubType() + " - Count: " + firstResult.getAccidentCount());
             assert false : "Were not expected data, but found data";
         }
