@@ -7,10 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 
-public class AccidentPercentageDTO {
-    public Double percentage;
-    public String subType;
+public class AccidentsByReportSourceDTO {
+    private String report_source;
+    private Integer total_accidents;
 }

@@ -17,6 +17,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import com.alcozone.domain.repository.RevisionRepository;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
+import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class RevisionService {
@@ -33,6 +34,7 @@ public class RevisionService {
         return revisionRepository.getRevision(uuid);
     }
 
+
     public RevisionEntity getRevisionEntity(String uuid) {
         return revisionRepository.getRevisionEntity(uuid);
     }
@@ -42,6 +44,10 @@ public class RevisionService {
         revision.setUuid(UUID.randomUUID().toString());
         revision.setName(name);
         return revisionRepository.saveRevision(revision);
+    }
+
+    public Revision deleteRevision(String uuid){
+        return revisionRepository.deleteRevision(uuid);
     }
 
     public List<Cluster> clusterizeRevision(List<Crash> crashes, double epsilonMeters, int minPoints){
