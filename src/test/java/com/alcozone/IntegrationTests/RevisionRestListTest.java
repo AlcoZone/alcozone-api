@@ -1,7 +1,7 @@
 package com.alcozone.IntegrationTests;
 
 import com.alcozone.application.service.RevisionService;
-import com.alcozone.domain.models.Revision;
+import com.alcozone.domain.model.Revision;
 import com.google.firebase.auth.FirebaseAuthException;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;

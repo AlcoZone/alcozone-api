@@ -12,5 +12,4 @@ import lombok.Setter;
 public class roleDTO {
     private String name;
     private String uuid;
-
 }

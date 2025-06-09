@@ -1,8 +1,8 @@
-package com.alcozone.domain.models;
+package com.alcozone.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -19,3 +19,4 @@ public class Crash {
     private Double latitude;
     private Double longitude;
 }
+

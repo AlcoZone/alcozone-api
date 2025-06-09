@@ -6,7 +6,7 @@ import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import com.alcozone.domain.models.Crash;
+import com.alcozone.domain.model.Crash;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)

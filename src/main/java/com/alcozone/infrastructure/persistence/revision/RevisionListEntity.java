@@ -15,14 +15,16 @@ import java.time.LocalDateTime;
 public class RevisionListEntity {
 
     @Id
-    @Column(name = "uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     private String uuid;
-
     private String name;
-
-    @Transient
-    private int dataQuantity;
+    private String status;
 
     @CreationTimestamp
     private LocalDateTime created_at;
+
+    @Transient
+    private int dataQuantity;
 }

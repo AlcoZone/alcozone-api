@@ -3,7 +3,6 @@ package com.alcozone.UnitTests;
 import com.alcozone.application.service.WidgetService;
 import com.alcozone.domain.models.widgetdata.AccidentsByReportSource;
 import com.alcozone.domain.models.widgetdata.WidgetFilters;
-import com.alcozone.infrastructure.dto.widget.AccidentsByReportSourceDTO;
 import com.alcozone.infrastructure.persistence.crash.CrashEntity;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 import io.quarkus.test.junit.QuarkusTest;
@@ -12,8 +11,6 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
 public class GetDataByTownTest {

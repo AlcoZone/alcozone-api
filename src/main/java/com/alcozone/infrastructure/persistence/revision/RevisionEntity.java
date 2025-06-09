@@ -22,12 +22,15 @@ import com.alcozone.infrastructure.persistence.crash.CrashEntity;
 @Setter
 @NoArgsConstructor
 public class RevisionEntity extends PanacheEntityBase {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String uuid;
     private String name;
     private boolean deleted;
+    private String status;
 
     @OneToMany(mappedBy = "revisionEntity")
     private List<CrashEntity> crashes;

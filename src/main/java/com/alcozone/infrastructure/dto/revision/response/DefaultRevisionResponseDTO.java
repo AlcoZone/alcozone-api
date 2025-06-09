@@ -8,6 +8,7 @@ import com.alcozone.infrastructure.dto.crash.DefaultCrashesResponseDTO;
 public class DefaultRevisionResponseDTO {
     private String uuid;
     private String name;
-    private DefaultCrashesResponseDTO crashes;
+    private String status;
     private boolean deleted;
+    private DefaultCrashesResponseDTO crashes;
 }

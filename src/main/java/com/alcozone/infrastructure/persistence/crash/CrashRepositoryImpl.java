@@ -10,7 +10,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
-import com.alcozone.domain.models.Crash;
+import com.alcozone.domain.model.Crash;
 import com.alcozone.domain.repository.CrashRepository;
 import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
@@ -23,21 +23,17 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
         CrashEntity crashEntity = CrashMapper.toEntity(crash);
         crashEntity.setRevisionEntity(revisionEntity);
         crashEntity.persist();
+
         return CrashMapper.toDomain(crashEntity);
     }
 
     @Override
     public List<Crash> findCrashesByRevisionUuid(String revisionUuid) {
         List<Crash> crashes = new ArrayList<>();
-        for (CrashEntity crashEntity : list("revisionEntity.uuid", revisionUuid)) {
+        for (CrashEntity crashEntity : list("revisionEntity.revision", revisionUuid)) {
             crashes.add(CrashMapper.toDomain(crashEntity));
         }
         return crashes;
-    }
-
-    @Override
-    public List<Crash> getCrashesForClustering(String revisionUuid) {
-        return List.of();
     }
   
     @Override
@@ -52,5 +48,12 @@ public class CrashRepositoryImpl implements CrashRepository, PanacheRepositoryBa
             crashes.add(CrashMapper.toDomain(entity));
         }
         return crashes;
+    }
+
+    @Override
+    public List<String> getAvailableDates() {
+        return getEntityManager()
+        .createNativeQuery("SELECT DISTINCT SUBSTRING(datetime, 1, 10) FROM Crashes")
+        .getResultList();
     }
 }

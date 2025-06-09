@@ -10,8 +10,7 @@ import java.util.List;
 @ApplicationScoped
 public class ListRevisionsUseCase {
 
-    @Inject
-    RevisionService revisionService;
+    @Inject RevisionService revisionService;
 
     public List<RevisionListItemDTO> execute() {
         return revisionService.getAllRevisions();

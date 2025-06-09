@@ -7,7 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
-import com.alcozone.domain.models.Revision;
+import com.alcozone.domain.model.Revision;
 import com.alcozone.domain.repository.RevisionRepository;
 
 import java.time.LocalDateTime;
@@ -27,6 +27,7 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
     }
 
     @Override
+    @Transactional
     public RevisionEntity getRevisionEntity(String uuid) {
         return find("uuid", uuid).firstResult();
     }
@@ -54,7 +55,7 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
     @Override
     public List<RevisionListEntity> getLightweightRevisions() {
         String sql = """
-        SELECT r.uuid, r.name, r.created_at, SIZE(r.crashes)
+        SELECT r.uuid, r.name, r.created_at, r.status, SIZE(r.crashes)
         FROM RevisionEntity r
         WHERE r.deleted = false
     """;
@@ -70,11 +71,42 @@ public class RevisionRepositoryImpl implements RevisionRepository, PanacheReposi
             item.setUuid((String) row[0]);
             item.setName((String) row[1]);
             item.setCreated_at((LocalDateTime) row[2]);
-            item.setDataQuantity(((Number) row[3]).intValue());
+            item.setStatus((String) row[3]);
+            item.setDataQuantity(((Number) row[4]).intValue());
 
             result.add(item);
         }
 
         return result;
     }
+
+    @Override
+    public RevisionListEntity getLatestLightweightRevision() {
+        Object[] row = entityManager
+            .createQuery("""
+                SELECT r.uuid, r.name, r.created_at, r.status, SIZE(r.crashes)
+                FROM RevisionEntity r
+                ORDER BY r.created_at DESC
+            """, Object[].class)
+            .setMaxResults(1)
+            .getSingleResult();
+
+        RevisionListEntity item = new RevisionListEntity();
+        item.setUuid((String) row[0]);
+        item.setName((String) row[1]);
+        item.setCreated_at((LocalDateTime) row[2]);
+        item.setStatus((String) row[3]);
+        item.setDataQuantity(((Number) row[4]).intValue());
+
+        return item;
+    }
+
+    @Override
+    @Transactional
+    public void markAsSuccess(String uuid) {
+        RevisionEntity revisionEntity = find("uuid", uuid).firstResult();
+        revisionEntity.setStatus("Carga Completada");
+        revisionEntity.persist();
+    }
+
 }

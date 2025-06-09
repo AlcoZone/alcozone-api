@@ -44,3 +44,8 @@ src/main/resources/alcozone-e21b0-firebase-adminsdk-fbsvc-23105318fc.json
 /.quarkus/cli/plugins/
 # TLS Certificates
 .certs/
+
+# Properties
+*.properties
+# JSONs
+*.json
