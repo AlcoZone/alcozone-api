@@ -15,7 +15,7 @@ public class GetPredictionRestTest {
             given()
                 .header("Authorization", "Bearer testtoken")
                 .when()
-                .get("http://localhost:8080/api/v1/predict?revision=asd")
+                .get("http://localhost:8080/api/v1/predict?revision=latest")
                 .then()
                 .statusCode(200)
                 .body("$", notNullValue());
