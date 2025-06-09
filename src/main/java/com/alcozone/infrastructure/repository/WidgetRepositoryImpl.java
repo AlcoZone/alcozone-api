@@ -242,9 +242,9 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
                     SELECT
                       DATE(STR_TO_DATE(datetime, '%d/%m/%Y %H:%i:%s')) AS accident_date,
                       Count(*) AS total_accidents
-                    FROM crashes
-                    JOIN revisions ON crashes.revision_id = revisions.id
-                    WHERE revisions.deleted = false
+                    FROM Crashes c
+                    JOIN Revisions r ON c.revision_id = r.id
+                    WHERE r.deleted = false
                     {{AND_FILTERS}}
                     GROUP BY accident_date
                     ORDER BY accident_date
@@ -276,10 +276,10 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
                     SELECT
                       reportedBy as report_source,
                       COUNT(*) AS total_accidents
-                    FROM crashes
-                    JOIN revisions
-                    ON crashes.revision_id = revisions.id
-                    WHERE revisions.deleted = false
+                    FROM Crashes c
+                    JOIN Revisions r
+                    ON c.revision_id = r.id
+                    WHERE r.deleted = false
                     {{AND_FILTERS}}
                     GROUP BY reportedBy;
                 """;
@@ -287,6 +287,8 @@ public class WidgetRepositoryImpl implements WidgetRepository, PanacheRepository
         Map<String, Object> params = new HashMap<>();
         String filteredSql = applyFilters(sql, filters, params);
         List<AccidentsByReportSource> result = new ArrayList<>();
+
+        System.out.println(result);
 
         try {
             List<Object[]> resultQuery = executeQuery(filteredSql, params);
