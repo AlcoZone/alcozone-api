@@ -41,6 +41,11 @@ public class PredictionService {
 
     public Map<String, List<Roadblock>> predictRoadblocks(List<MinifiedCrash> crashes) {
 
+        System.out.println(epsilonMeters);
+        System.out.println(minPoints);
+        System.out.println(startHour);
+        System.out.println(endHour);
+
         Map<String, List<Roadblock>> predictionsPerDay = new HashMap<>();
 
         for (DayOfWeek day : DayOfWeek.values()) {
