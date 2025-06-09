@@ -7,7 +7,6 @@ import com.alcozone.domain.repository.RoleRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Priorities;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -62,8 +61,6 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
 
             var user = userService.findByFirebaseUidRaw(firebaseUid);
             if (user == null) {
-                System.out.println("[DEBUG] UID: " + firebaseUid);
-                System.out.println("[DEBUG] Email desde token: " + decodedToken.getEmail());
                 User newUser = new User();
                 newUser.setUuid(firebaseUid);
                 newUser.setEmail(decodedToken.getEmail());
@@ -74,7 +71,6 @@ public class FirebaseAuthFilter implements ContainerRequestFilter {
                     throw new IllegalStateException("No existe el rol datavisualizer (id=3)");
                 }
                 newUser.setRole(datavisualizerRole);
-                System.out.println("[DEBUG] New user: " + newUser);
                 userService.createUser(newUser);
             }
 
