@@ -19,16 +19,16 @@ public class PredictionService {
 
     @Inject DbscanRunner dbscanRunner;
 
-    @ConfigProperty(name = "prediction.epsilonMeters")
+    @ConfigProperty(name = "prediction.epsilon.meters")
     int epsilonMeters;
 
-    @ConfigProperty(name = "prediction.minPoints")
+    @ConfigProperty(name = "prediction.points.min")
     int minPoints;
 
-    @ConfigProperty(name = "prediction.startHour")
+    @ConfigProperty(name = "prediction.hour.start")
     int startHour;
 
-    @ConfigProperty(name = "prediction.endHour")
+    @ConfigProperty(name = "prediction.hour.end")
     int endHour;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
