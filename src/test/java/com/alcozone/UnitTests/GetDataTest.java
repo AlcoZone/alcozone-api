@@ -1,4 +1,4 @@
-/*
+
 package com.alcozone.UnitTests;
 
 import com.alcozone.application.service.WidgetService;
@@ -65,5 +65,3 @@ public class GetDataTest {
         }
     }
 }
-
-*/
