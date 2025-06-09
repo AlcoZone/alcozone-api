@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class RevisionListItemDTO {
     private String uuid;
     private String name;
-    private int dataQuantity;
     private String date;
+    private String status;
+    private int dataQuantity;
 }
-

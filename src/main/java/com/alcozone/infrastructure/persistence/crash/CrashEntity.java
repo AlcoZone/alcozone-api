@@ -15,10 +15,12 @@ import com.alcozone.infrastructure.persistence.revision.RevisionEntity;
 
 @Entity
 @Table(name = "Crashes")
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class CrashEntity extends PanacheEntityBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

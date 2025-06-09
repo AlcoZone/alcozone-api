@@ -1,14 +1,13 @@
 package com.alcozone.utils;
 
+import com.alcozone.domain.model.MinifiedCrash;
 import smile.math.distance.Distance;
 
-import com.alcozone.domain.models.Crash;
-
-public class HaversineDistance implements Distance<Crash> {
+public class HaversineDistance implements Distance<MinifiedCrash> {
     private static final double EARTH_RADIUS = 6371e3;
 
     @Override
-    public double d(Crash a, Crash b) {
+    public double d(MinifiedCrash a, MinifiedCrash b) {
         double latitudePoint1 = Math.toRadians(a.getLatitude());
         double longitudePoint1 = Math.toRadians(a.getLongitude());
         double latitudePoint2 = Math.toRadians(b.getLatitude());

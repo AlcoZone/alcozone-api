@@ -3,7 +3,7 @@ package com.alcozone.application.usecase.revision;
 import jakarta.inject.Inject;
 import jakarta.enterprise.context.ApplicationScoped;
 
-import com.alcozone.domain.models.Revision;
+import com.alcozone.domain.model.Revision;
 import com.alcozone.application.service.RevisionService;
 import com.alcozone.infrastructure.dto.crash.DefaultCrashesResponseDTO;
 import com.alcozone.infrastructure.dto.revision.request.GetRevisionRequestDTO;
@@ -11,8 +11,6 @@ import com.alcozone.infrastructure.dto.revision.response.DefaultRevisionResponse
 
 @ApplicationScoped
 public class GetRevisionUseCase {
-    //TODO Check if this types of UseCases can return the Domain Entity and Transform it to DTO in Controller
-
     @Inject RevisionService revisionService;
 
     public DefaultRevisionResponseDTO execute(GetRevisionRequestDTO requestDTO) {
@@ -27,7 +25,9 @@ public class GetRevisionUseCase {
         DefaultRevisionResponseDTO dto = new DefaultRevisionResponseDTO();
         dto.setUuid(revision.getUuid());
         dto.setName(revision.getName());
+        dto.setDeleted(revision.isDeleted());
         dto.setCrashes(wrapperDTO);
+        dto.setStatus(revision.getStatus());
         return dto;
     }
 }

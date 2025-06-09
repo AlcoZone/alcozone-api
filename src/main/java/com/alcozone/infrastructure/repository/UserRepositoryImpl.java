@@ -6,6 +6,7 @@ import com.alcozone.infrastructure.entity.RoleEntity;
 import com.alcozone.infrastructure.entity.UserEntity;
 import com.alcozone.infrastructure.mapper.UserMapper;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,40 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User findById(String id) {
+        UserEntity entity = UserEntity.findById(id);
+        return entity != null ? UserMapper.toDomain(entity) : null;
+    }
+
+    @Override
+    @Transactional
+    public User deleteUser(String id) {
+        UserEntity entity = UserEntity.find("uuid", id).firstResult();
+        if (entity == null) {
+            return null;
+        }
+
+        entity.setDeleted(true);
+        return UserMapper.toDomain(entity);
+    }
+
+    @Override
+    @Transactional
+    public User updateDisplayName(String firebaseUid, String newDisplayName) {
+        UserEntity entity = UserEntity.find("uuid", firebaseUid).firstResult();
+        if (entity == null) {
+            throw new RuntimeException("User not found in database with Firebase UID: " + firebaseUid);
+        }
+
+        entity.setUsername(newDisplayName);
+        entity.setUpdatedAt(java.time.LocalDateTime.now());
+        return UserMapper.toDomain(entity);
+    }
+
+
+
+
+
     public User createUser(User user) {
         UserEntity entity = UserMapper.toEntity(user);
         entity.persist();
@@ -40,4 +75,8 @@ public class UserRepositoryImpl implements UserRepository {
                 .toList();
     }
 
+    @Override
+    public boolean existsByEmail(String email) {
+        return UserEntity.count("email = ?1 and deleted = false", email) > 0;
+    }
 }
