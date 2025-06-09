@@ -1,6 +1,5 @@
 package com.alcozone.infrastructure.entity;
 
-import com.alcozone.domain.model.User;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,12 +37,9 @@ public class UserEntity extends PanacheEntityBase {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;
-
-
 
     @PrePersist
     public void onCreate() {
